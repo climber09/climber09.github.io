@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8"/>
+<title> Dynamic DOM Viewer</title>
+<style type="text/css">
+*{margin:0; padding:0;}
+body{padding: 15px; font: normal 0.75em georgia, "times new roman";}
+dt{background: #eee; margin-top: 1px; color: #336;}
+dt, div.prop{border-bottom: 1px #ddd solid;}
+dl{border: 1px #ddd solid; margin: 2px 0;}
+dd{margin-left: 1em;}
+.data_cell_r{border-left: 1px #ddd solid; padding-left: 5px; font-family: courier new;}
+.data_cell_l, .data_cell_r{display: inline-block; float: none; vertical-align: top; width: 49%;}
+.backdrop {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.5);
+}
+.codeSrcBox {
+    background-color: #fefefe;
+    border: 2px #777 solid;
+    margin: auto;
+    padding: 0 0 20px 20px;
+    spacing: 0;
+    width:600px;
+    border-radius: 8px;
+}
+.srcInputBox {
+    color:#999;
+    width:450px
+}
+#closeBtn {
+    color: #999;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    spacing: 0;
+    padding: 0;
+    line-height: 50%;
+}
+#closeBtn:hover, #closeBtn:focus {
+    color: #f00;
+    background: #eee;
+    text-decoration: none;
+    cursor: pointer;
+}
+.table {
+    display: table;
+    width:100%;
+    padding:0;
+    spacing:0;
+}
+.tablerow {
+    display: table-row;
+}
+.tablecell {
+    display: table-cell;
+    padding: 4px;
+}
+.celltext {
+    font-family: "Verdana";
+    font-size: 1em;
+}
+#loadedCodeBox {
+    color: #777;
+    spacing: 0;
+    padding: 0 0 10px 0;
+}
+</style>
+<script type="text/javascript">
+(function(myName) {
+    var expanded = [];
+    var elementCount = 0;
+    var loadedCodeSet = (window.Set)? new Set(): null;
+    var srcInputHint = "Enter Javascript URL";
+
+    function createElementHtml(currentElement, val){
+        var elementHtml = document.createElement("dl");
+        elementHtml.className = "container";
+        elementHtml.id = "d_" + elementCount;
+        elementHtml.appendChild(createElementInnerHtml(currentElement, elementCount, val));
+        elementCount++;
+        return elementHtml;
+    }
+
+    function createElementInnerHtml(currentElement, currentId, currentVal){
+        var elementLabel = currentElement.substring(currentElement.lastIndexOf(".")+1);
+        var elementHtml = document.createElement("dt");
+        elementHtml.id = currentElement;
+        elementHtml.title = currentElement;
+        elementHtml.appendChild(createButton("expand", currentId));
+        elementHtml.innerHTML += "&nbsp;<b>" + elementLabel + "</b>&nbsp;" + currentVal;
+        return elementHtml;
+    }
+
+    function createButton(operation, currentId){
+        var button = document.createElement("a");
+        button.className = "button";
+        button.href = "javascript:" + myName + "." + operation + "Element(" + currentId + ")";
+        var img = document.createElement("img");
+        var imgSrc = ("expand" == operation)? "images/dq_expand.gif": "images/dq_collapse.gif";
+        img.setAttribute("src", imgSrc);
+        img.setAttribute("border", 0);
+        button.appendChild(img);
+        return button;
+    }
+
+    function createPropertyHtml(propName, propVal){
+        var propHtml = document.createElement("div");
+        propHtml.className = "prop";
+        propHtml.onmouseover = function(){propHtml.style.background = "#ffc";};
+        propHtml.onmouseout = function(){propHtml.style.background = "#fff";};
+        var nameTag = document.createElement("span");
+        nameTag.className = "data_cell_l";
+        nameTag.innerHTML = "<img src='images/dq_prop.gif'>&nbsp;" + propName;
+        propHtml.appendChild(nameTag);
+        var valTag = document.createElement("span");
+        valTag.className = "data_cell_r";
+        if(!propVal) {propVal = "&nbsp;";}
+        valTag.innerHTML = propVal;
+        propHtml.appendChild(valTag);
+        return propHtml;
+    }
+
+    function toggleElementButton(operation, currentId){
+        var currentList = document.getElementById("d_" + currentId);
+        var button = createButton(operation, currentId);
+        currentList.firstChild.replaceChild(button, currentList.firstChild.firstChild);
+    }
+
+    function hasProperties(element){
+        if(element && typeof element == "object"){
+            try{
+                eval(element);
+                for(var i in element){
+                    if(i){
+                        return true;
+                    }
+                }
+            }catch(e){}
+        }
+        return false;
+    }
+
+    function showDialog() {
+        document.getElementById("srcInput").value = srcInputHint;
+        document.getElementById("modalPane").style.display = "block";
+    }
+
+    function hideDialog() {
+        document.getElementById("modalPane").style.display = "none";
+    }
+
+    function collapseElement(currentId){
+        document.getElementById("dd_" + currentId).style.display = "none";
+        toggleElementButton("expand", currentId);
+    }
+
+    function expandElement(currentId){
+        if(expanded[currentId]){
+            document.getElementById("dd_" + currentId).style.display = "block";
+            toggleElementButton("collapse", currentId);
+            return;
+        }
+        var currentListElement = document.getElementById("d_" + currentId);
+        if(currentId > 0){
+            currentListElement.style.borderRight = "none";
+        }
+        var currentElement = currentListElement.firstChild.id
+        var props = [];
+        var currentObject = null;
+        try{
+            currentObject = eval(currentElement);
+            for(var i in currentObject){
+                if(myName !== i ){
+                    props.push(i);
+                }
+            }
+            props.sort();
+        }catch(e){
+            alert(e.message + " (The element, " + currentElement + ", may not be accessible)")
+            return;
+        }
+        var propList = document.createElement("dd");
+        propList.className = "propList";
+        propList.id = "dd_" + currentId;
+        var val;
+        for (var i in props){
+            val = null;
+            try{
+                val = currentObject[ props[i] ];
+                if(hasProperties(val)){
+                    var objectName = (isNaN(props[i]))? currentElement + "." + props[i]: currentElement + "[" + props[i] + "]";
+                    propList.appendChild(createElementHtml(objectName, val));
+                }
+                else{
+                    propList.appendChild(createPropertyHtml(props[i], val));
+                }
+            }catch(e){
+                propList.appendChild(createPropertyHtml(props[i]));
+            }
+        }
+        currentListElement.appendChild(propList);
+        toggleElementButton("collapse", currentId)
+        expanded[currentId] = 1;
+    }
+
+    function queryElement(elementName){
+        expanded = [];
+        elementCount = 0;
+        var resultsContainer = document.getElementById("results");
+        resultsContainer.innerHTML = "";
+        resultsContainer.appendChild(createElementHtml(elementName, eval(elementName)));
+        expandElement(0);
+        document.forms[0].elements.elementName.focus();
+        return false;
+    }
+
+    // file and http(s) protocols are valid sources
+    var validSrcPat = /^(file\:\/\/\/|https?\:\/\/)[^\s\.\?\#\%\/\\]+.*$/;
+    
+    function loadCodeSrc(srcUrl) {
+        var inError = 0;
+        if (srcUrl && srcUrl.match(validSrcPat)) {
+            var scriptTag = document.createElement("script");
+            scriptTag.setAttribute("type", "text/javascript");
+            scriptTag.setAttribute("src", decodeURIComponent(srcUrl));
+            scriptTag.onerror = function(){
+                alert("Error: Could not load '" + srcUrl + "'");
+                inError = 1;
+            }
+            scriptTag.onload = function(){
+                if (!inError) {
+                    hideDialog();
+                    if (window.Set) {
+                        loadedCodeSet.add(srcUrl);
+                        var loaded = "Loaded:<br/>";
+                        loadedCodeSet.forEach(function(t){loaded += t + "<br/>"});
+                        document.getElementById("loadedCodeBox").innerHTML = loaded;
+                    }
+                }
+            }
+            document.getElementsByTagName("head")[0].appendChild(scriptTag);
+        }else{
+            document.getElementById("srcInput").value = srcInputHint;
+        }
+    }
+
+    function init() {
+        document.getElementById("openBtn").onclick = showDialog;
+        document.getElementById("closeBtn").onclick = hideDialog;
+        window.onclick = function(e){
+            if (e.target == this.modalPane) {
+                hideDialog();
+            }
+        };
+        window.onkeyup = function(e){
+            if(e.keyCode == 27){
+                hideDialog();
+            }
+        };
+    }
+
+    window[myName] = {
+        queryElement : queryElement,
+        loadCodeSrc : loadCodeSrc,
+        init : init,
+        expandElement : expandElement,
+        collapseElement : collapseElement
+    };
+})("ddv");
+</script>
+</head>
+<body>
+<button id="openBtn">Load External Code</button><br/><br/>
+<div id="loadedCodeBox"></div>
+<form accept-charset="utf-8" onsubmit="return ddv.queryElement(this.elements.elementName.value)" style="width:800px;">
+<span style="font: bold 1em tahoma,arial,helvetica; togcolor: #399">DOM Element:</span>&nbsp;<input type="text" name="elementName" value="window" size="40"/>
+<input type="submit" value="Query" />
+<hr style="margin: 1em 0; color: #ddd;" size="1"/>
+</form>
+<div style="width: expression(document.body.clientWidth < 801 ? '800px': 'auto'); min-width: 800px;" id="results"></div>
+<div id="modalPane" class="backdrop">
+  <div class="codeSrcBox">
+    <div class="table">
+      <div class="tablerow">
+        <div class="tablecell"></div>
+        <div class="tablecell"><span id="closeBtn" title="Close">&times;</span></div>
+      </div>
+      <div class="tablerow">
+        <div class="tablecell celltext">Dynamically load external Javascript code:</div>
+        <div class="tablecell"></div>
+      </div>
+      <div class="tablerow">
+        <div class="tablecell">
+          <form name="injectForm" onsubmit="javascript:ddv.loadCodeSrc(this.elements.srcInput.value); return false;" id="injectForm">
+            <input type="text" id="srcInput" name="srcInput" class="srcInputBox" onfocus="this.value=''"/>
+            <input type="submit" value="Load" />
+          </form>
+        </div>
+        <div class="tablecell"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+ddv.init();
+ddv.queryElement(document.forms[0].elements.elementName.value);
+</script>
+</body>
+</html>

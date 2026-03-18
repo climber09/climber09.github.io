@@ -1,0 +1,8 @@
+<!ELEMENT messageData (category+)>
+<!ELEMENT category (categoryName, subgroup+)>
+<!ELEMENT categoryName (#PCDATA)>
+<!ELEMENT subgroup (subgroupName, message+)>
+<!ELEMENT subgroupName (#PCDATA)>
+<!ELEMENT message (key, field?)>
+<!ELEMENT key (#PCDATA)>
+<!ELEMENT field (#PCDATA)>

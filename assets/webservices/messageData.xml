@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resume_data [
+	<!ELEMENT resume_data (#PCDATA | section)*>
+	<!ELEMENT section (block*)>
+	<!ELEMENT block (heading?, item_list?)>
+	<!ELEMENT heading (title+, subtitle*)>
+	<!ELEMENT title (#PCDATA)>
+	<!ELEMENT subtitle (#PCDATA)>
+	<!ELEMENT item_list (item+)>
+	<!ELEMENT item (#PCDATA)>
+	<!ATTLIST section
+	label CDATA #REQUIRED
+>
+	<!ATTLIST title
+	dates CDATA #IMPLIED
+>
+]>
+<!--DOCTYPE messageData SYSTEM "/home/user-web/huntrjp/htdocs/assets/webservices/messageData.dtd"-->
+<messageData>
+  <category>
+    <categoryName>General/System</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>SESSION_TIMED_OUT</key>
+      </message>
+      <message>
+        <key>SYSTEM_NOT_AVAILABLE</key>
+      </message>
+      <message>
+        <key>SECURITY_VIOLATION</key>
+      </message>
+      <message>
+        <key>AUTH_FAILED</key>
+      </message>
+      <message>
+        <key>RETRY_WARNING</key>
+      </message>
+      <message>
+        <key>USERNAME_NOT_FOUND</key>
+        <field>Achex User Name</field>
+      </message>
+      <message>
+        <key>ACCOUNT_LOCKED</key>
+      </message>
+      <message>
+        <key>ACCOUNT_DISABLED</key>
+      </message>
+      <message>
+        <key>ACCOUNT_CLOSED</key>
+      </message>
+      <message>
+        <key>PASSWORD_FAILED</key>
+        <field>Password</field>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>Consumer Signup</categoryName>
+    <subgroup>
+      <subgroupName>Required Field Errors</subgroupName>
+      <message>
+        <key>FIRSTNAME_REQ</key>
+        <field>First Name</field>
+      </message>
+      <message>
+        <key>LASTNAME_REQ</key>
+        <field>Last Name</field>
+      </message>
+      <message>
+        <key>STREET1_REQ</key>
+        <field>Home Address Line 1</field>
+      </message>
+      <message>
+        <key>CITY_REQ</key>
+        <field>City</field>
+      </message>
+      <message>
+        <key>POSTALCODE_REQ</key>
+        <field>ZIP Code</field>
+      </message>
+      <message>
+        <key>CHECKINGACCOUNTNUM_REQ</key>
+        <field>Checking Account Number</field>
+      </message>
+      <message>
+        <key>BANKNAME_REQ</key>
+        <field>Bank Name</field>
+      </message>
+      <message>
+        <key>BANKSTATE_REQ</key>
+        <field>Bank State</field>
+      </message>
+      <message>
+        <key>DAYPHONE_REQ</key>
+        <field>Contact Phone Number</field>
+      </message>
+      <message>
+        <key>EVENINGPHONE_REQ</key>
+        <field>Home Phone Number</field>
+      </message>
+      <message>
+        <key>SOCSECNUM_REQ</key>
+        <field>Social Security Number</field>
+      </message>
+      <message>
+        <key>EMAIL_REQ</key>
+        <field>Email</field>
+      </message>
+      <message>
+        <key>USERNAME_REQ</key>
+        <field>Achex User Name</field>
+      </message>
+      <message>
+        <key>PASSWORD_REQ</key>
+        <field>Password</field>
+      </message>
+      <message>
+        <key>SECRETQUESTION_REQ</key>
+        <field>Question</field>
+      </message>
+      <message>
+        <key>SECRETANSWER_REQ</key>
+        <field>Answer</field>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Invalid Field Errors</subgroupName>
+      <message>
+        <key>FIRSTNAME_INVALID</key>
+        <field>First Name</field>
+      </message>
+      <message>
+        <key>MIDDLEINITIAL_INVALID</key>
+        <field>M.I.</field>
+      </message>
+      <message>
+        <key>LASTNAME_INVALID</key>
+        <field>Last Name</field>
+      </message>
+      <message>
+        <key>STREET1_INVALID</key>
+        <field>Home Address Line 1</field>
+      </message>
+      <message>
+        <key>STREET2_INVALID</key>
+        <field>Home Address Line 2</field>
+      </message>
+      <message>
+        <key>CITY_INVALID</key>
+        <field>City</field>
+      </message>
+      <message>
+        <key>STATE_INVALID</key>
+        <field>State</field>
+      </message>
+      <message>
+        <key>POSTALCODE_INVALID</key>
+        <field>ZIP Code</field>
+      </message>
+      <message>
+        <key>ROUTINGNUMBER_INVALID</key>
+        <field>Routing Number</field>
+      </message>
+      <message>
+        <key>CHECKINGACCOUNTNUM_INVALID</key>
+        <field>Checking Account Number</field>
+      </message>
+      <message>
+        <key>BANKNAME_INVALID</key>
+        <field>Bank Name</field>
+      </message>
+      <message>
+        <key>BANKSTATE_INVALID</key>
+        <field>Bank State</field>
+      </message>
+      <message>
+        <key>SOCSECNUM_INVALID</key>
+        <field>Social Security Number</field>
+      </message>
+      <message>
+        <key>DAYPHONE_INVALID</key>
+        <field>Contact Phone</field>
+      </message>
+      <message>
+        <key>EVENINGPHONE_INVALID</key>
+        <field>Home Phone Number</field>
+      </message>
+      <message>
+        <key>EMAIL_INVALID</key>
+        <field>Email</field>
+      </message>
+      <message>
+        <key>USERNAME_INVALID</key>
+        <field>Achex User Name</field>
+      </message>
+      <message>
+        <key>PASSWORD_INVALID</key>
+        <field>Password</field>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Signup Retry Limits</subgroupName>
+      <message>
+        <key>SIGNUP_RETRY_LIMIT_EXCEEDED</key>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>Small Business Signup</categoryName>
+    <subgroup>
+      <subgroupName>Required Field Errors</subgroupName>
+      <message>
+        <key>ADMINTITLE_REQ</key>
+        <field>Administrator's Title</field>
+      </message>
+      <message>
+        <key>ADMINDEPT_REQ</key>
+        <field>Administrator's Department</field>
+      </message>
+      <message>
+        <key>BUSINESSNAME_REQ</key>
+        <field>Business Name</field>
+      </message>
+      <message>
+        <key>BUSINESSMAINPHONE_REQ</key>
+        <field>Business Main Phone Number</field>
+      </message>
+      <message>
+        <key>BUSINESSSTREET1_REQ</key>
+        <field>Business Address Line 1</field>
+      </message>
+      <message>
+        <key>BUSINESSCITY_REQ</key>
+        <field>City</field>
+      </message>
+      <message>
+        <key>BUSINESSPOSTALCODE_REQ</key>
+        <field>ZIP Code</field>
+      </message>
+      <message>
+        <key>BUSINESSCOUNTRY_REQ</key>
+        <field>Country</field>
+      </message>
+      <message>
+        <key>SICCODE_REQ</key>
+        <field>Business Type</field>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Invalid Field Errors</subgroupName>
+      <message>
+        <key>ADMINTITLE_INVALID</key>
+        <field>Administrator's Title</field>
+      </message>
+      <message>
+        <key>ADMINDEPT_INVALID</key>
+        <field>Administrator's Department</field>
+      </message>
+      <message>
+        <key>BUSINESSNAME_INVALID</key>
+        <field>Business Name</field>
+      </message>
+      <message>
+        <key>BUSINESSALIAS_INVALID</key>
+        <field>Business Alias</field>
+      </message>
+      <message>
+        <key>BUSINESSMAINPHONE_INVALID</key>
+        <field>Business Main Phone Number</field>
+      </message>
+      <message>
+        <key>BUSINESSSTREET1_INVALID</key>
+        <field>Business Address Line 1</field>
+      </message>
+      <message>
+        <key>BUSINESSSTREET2_INVALID</key>
+        <field>Business Address Line 2</field>
+      </message>
+      <message>
+        <key>BUSINESSCITY_INVALID</key>
+        <field>City</field>
+      </message>
+      <message>
+        <key>BUSINESSSTATE_INVALID</key>
+        <field>State</field>
+      </message>
+      <message>
+        <key>BUSINESSPOSTALCODE_INVALID</key>
+        <field>ZIP Code</field>
+      </message>
+      <message>
+        <key>BUSINESSCOUNTRY_INVALID</key>
+        <field>Country</field>
+      </message>
+      <message>
+        <key>DUNSNUMBER_INVALID</key>
+        <field>DUNS</field>
+      </message>
+      <message>
+        <key>EIN_INVALID</key>
+        <field>EIN/TIN</field>
+      </message>
+      <message>
+        <key>DUNS_EIN_BOTH_BLANK</key>
+      </message>
+    </subgroup>
+  </category>
+  <!--category>
+    <categoryName>EpicWare Related</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>BANK_INFO_REJECTED_OTHER</key>
+      </message>
+      <message>
+        <key>BANK_INFO_REJECTED_NOT_ACHABLE</key>
+      </message>
+      <message>
+        <key>BANK_INFO_RESUBMIT</key>
+      </message>
+      <message>
+        <key>VERIFY_PASSWORD_MISMATCH</key>
+      </message>
+      <message>
+        <key>THOMPSON_ERROR</key>
+      </message>
+      <message>
+        <key>ACCOUNT_ALREADY_REGISTERED</key>
+      </message>
+      <message>
+        <key>RISKWISE_MISKEYED_INFO</key>
+      </message>
+      <message>
+        <key>RISKWISE_VERIFY_FAILED</key>
+      </message>
+      <message>
+        <key>USER_NAME_ALREADY_EXISTS</key>
+      </message>
+      <message>
+        <key>SSN_ALREADY_EXISTS</key>
+      </message>
+    </subgroup>
+  </category-->
+  <category>
+    <categoryName>Initiate Payment Process</categoryName>
+    <subgroup>
+      <subgroupName>Required Field Errors</subgroupName>
+      <message>
+        <key>AMOUNT_REQ</key>
+        <field>Amount of Payment</field>
+      </message>
+      <message>
+        <key>RECFIRSTNAME_REQ</key>
+        <field>Recipient's First Name</field>
+      </message>
+      <message>
+        <key>RECLASTNAME_REQ</key>
+        <field>Recipient's Last Name</field>
+      </message>
+      <message>
+        <key>RECEMAIL_REQ</key>
+        <field>Recipient's Email Address</field>
+      </message>
+      <message>
+        <key>RECP_ALL_BLANK</key>
+      </message>
+      <message>
+        <key>RECP_BOTH</key>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Invalid Input Errors</subgroupName>
+      <message>
+        <key>AMOUNT_INVALID</key>
+        <field>Amount of Payment</field>
+      </message>
+      <message>
+        <key>RECEMAIL_INVALID</key>
+        <field>Recipient's Email Address</field>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Payment Limits</subgroupName>
+      <message>
+        <key>SINGLE_PAYMENT_AMOUNT_EXCEEDED</key>
+      </message>
+      <message>
+        <key>DAILY_AMOUNT_EXCEEDED</key>
+      </message>
+      <message>
+        <key>MONTHLY_AMOUNT_EXCEEDED</key>
+      </message>
+      <message>
+        <key>DAILY_PAYMENTS_EXCEEDED</key>
+      </message>
+      <message>
+        <key>AUTH_LIMIT_WARNING_1</key>
+      </message>
+      <message>
+        <key>AUTH_LIMIT_WARNING_2</key>
+      </message>
+      <message>
+        <key>MIN_PAYMENT_LIMIT</key>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>Claim Payment Process</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>CLAIM_URL_MODIFIED</key>
+      </message>
+      <message>
+        <key>CLAIM_IDENTITY_FAILURE</key>
+      </message>
+      <message>
+        <key>CHECK_ALREADY_CLAIMED</key>
+      </message>
+      <message>
+        <key>CHECK_NOT_FOUND</key>
+      </message>
+      <message>
+        <key>CHECK_EXPIRED</key>
+      </message>
+      <message>
+        <key>CHECK_VOIDED</key>
+      </message>
+      <message>
+        <key>SENDER_ACCOUNT_DISABLED</key>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Claim Payment Limits</subgroupName>
+      <message>
+        <key>DAILY_CLAIM_LIMIT_EXCEEDED</key>
+      </message>
+      <message>
+        <key>MONTHLY_CLAIM_LIMIT_EXCEEDED</key>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>EpicWare Related</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>BANK_INFO_REJECTED_OTHER</key>
+      </message>
+      <message>
+        <key>BANK_INFO_REJECTED_NOT_ACHABLE</key>
+      </message>
+      <message>
+        <key>BANK_INFO_RESUBMIT</key>
+      </message>
+      <message>
+        <key>VERIFY_PASSWORD_MISMATCH</key>
+      </message>
+      <message>
+        <key>THOMPSON_ERROR</key>
+      </message>
+      <message>
+        <key>ACCOUNT_ALREADY_REGISTERED</key>
+      </message>
+      <message>
+        <key>RISKWISE_MISKEYED_INFO</key>
+      </message>
+      <message>
+        <key>RISKWISE_VERIFY_FAILED</key>
+      </message>
+      <message>
+        <key>USER_NAME_ALREADY_EXISTS</key>
+      </message>
+      <message>
+        <key>SSN_ALREADY_EXISTS</key>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>Request Payment Process</categoryName>
+    <subgroup>
+      <subgroupName>Required Field Errors</subgroupName>
+      <message>
+        <key>RECEMAIL_REQ</key>
+        <field>Recipient's Email</field>
+      </message>
+      <message>
+        <key>AMOUNT_REQ</key>
+        <field>Amount of Payment</field>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Invalid Input Errors</subgroupName>
+      <message>
+        <key>EMAIL_ADDRESS_INVALID</key>
+        <field>Recipient's Email</field>
+      </message>
+      <message>
+        <key>AMOUNT_INVALID</key>
+        <field>Amount of Payment</field>
+      </message>
+      <message>
+        <key>EMAIL_MESSAGE_TOO_LONG</key>
+        <field>Message to Recipient</field>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Request Payment Limits</subgroupName>
+      <message>
+        <key>EXCEEDS_MAX_REQUEST_PAYMENT_LIMIT</key>
+      </message>
+    </subgroup>
+    <subgroup>
+      <subgroupName>Response To Request For Payment</subgroupName>
+      <message>
+        <key>REQUEST_PAYMENT_INFORMATION_NOT_FOUND</key>
+      </message>
+      <message>
+        <key>REQUEST_ID_INVALID</key>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>Change Password</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>SECRET_ANSWER_INVALID</key>
+        <field>Answer</field>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>Lost Password</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>OLDPASSWORD_REQ</key>
+      </message>
+      <message>
+        <key>NEWPASSWORD_REQ</key>
+      </message>
+      <message>
+        <key>NEWPASSWORDCONFIRM_REQ</key>
+      </message>
+      <message>
+        <key>NEW_PWD_ERROR</key>
+      </message>
+      <message>
+        <key>CHANGE_PWD_ERROR</key>
+      </message>
+      <message>
+        <key>CHANGE_PWD_CONFIRM_ERROR</key>
+      </message>
+      <message>
+        <key>CHANGE_PWD_LIMIT_WARNING_1</key>
+      </message>
+      <message>
+        <key>CHANGE_PWD_LIMIT_WARNING_2</key>
+      </message>
+      <message>
+        <key>FORCE_PASSWORD_CHANGE</key>
+      </message>
+      <message>
+        <key>FORCE_PASSWORD_CHANGE_ISSUE_PAYMENT</key>
+      </message>
+    </subgroup>
+  </category>
+  <category>
+    <categoryName>POS Transaction</categoryName>
+    <subgroup>
+      <subgroupName/>
+      <message>
+        <key>POS_TRANSACTION_ERROR</key>
+      </message>
+      <message>
+        <key>POS_ACCOUNT_LOCKED</key>
+      </message>
+      <message>
+        <key>POS_ACCOUNT_DISABLED</key>
+      </message>
+      <message>
+        <key>POS_ACCOUNT_CLOSED</key>
+      </message>
+      <message>
+        <key>POS_CHANGE_PASSWORD</key>
+      </message>
+      <message>
+        <key>POS_SESSION_EXPIRED</key>
+      </message>
+    </subgroup>
+  </category>
+</messageData>

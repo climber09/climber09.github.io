@@ -1,0 +1,188 @@
+/*
+#container {
+    margin: auto;
+    margin-top: 5px;
+    width: 700px;
+    height: auto;
+    min-height: 100%;
+    background: #ffe;
+}
+*/
+/*-- 2nd level navigation --*/
+/*#content {
+   width: auto;
+    margin: 0;
+    padding-top: 2px;
+    height: auto;
+    min-height: 100%;
+    clear: both;
+}*/
+#content_txt {
+/*    border-top: 1px solid #ddce93;*/
+/*    color: #369;*/
+    font-size: /*12px*/ 1em;
+    font-family: arial, helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+#content_txt, #content_txt table, #content_txt table td{
+    border: none;
+}
+#content_txt a {text-decoration: none}
+#content_txt a:link, #content_txt a:visited {color: #00f}
+#content_txt a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #00f;
+}
+#content_txt, ul#nav2 {
+   border-bottom: 1px solid #ddce93;
+}
+ul#nav2 {
+    width: auto;
+    margin-top: 0;
+    padding: 0 0 20px 0;
+}
+ ul#nav2 li {
+    margin: 0;
+    padding: 0;
+    display: inline;
+    list-style-type: none;
+}
+ul#nav2 a:link, ul#nav2 a:visited {
+    float: left;
+    padding: 0 10px 8px 15px;
+    font: bold 0.65em /*tahoma, verdana*/ 'Open Serif', serif;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #708491;
+    letter-spacing: 1px;
+    line-height: 1.215em;
+}
+ul#nav2 a.active:link, ul#nav2 a.active:visited {
+    color: #900;
+    background: url('../img/Circle.gif') no-repeat bottom center;
+    /*padding-bottom: 6px;*/
+}
+ul#nav2 a:hover {
+    color: #900;
+    text-decoration: underline;
+}
+ul#nav2 a.active, ul#nav2 a.active:hover{
+    text-decoration: none; cursor: default;
+}
+table{
+    margin: 0;
+    padding: 0;
+}
+table.resume_tbl{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+table.resume_tbl td{
+    font-size: /*12px*/ 13px;
+    line-height: 1.3;
+    color: #666;
+    margin: 0;
+    padding: 5px;
+}
+table.resume_tbl td.resume-dates{
+    text-align: right;
+    vertical-align: text-top;
+    line-height: 200%;
+    padding: 0;
+    margin: 0;
+}
+table.resume_tbl td.subtitle{
+    padding: 0 0 0 5px;
+}
+ul.resume-item-list {
+  list-style-type: circle;
+  margin: 0.75em 0 0 0;
+}
+li.resume-item{
+  padding-bottom: 0.75em;
+  font-size: 13px;
+}
+.code {
+    font-size: 12px;
+    font-family: "Courier New","Lucida Console", Monaco, monospace;
+    color: #333;
+}
+pre.code {
+    background-color: #eee/*efefec*/;
+    padding: 7px 5px 7px 20px;
+    margin: /*7px 0 7px 0*/ 15px 0;
+    width: 95%;
+    display: block;
+    overflow: auto;
+}
+pre.code .comment{color:#666}
+pre.code .tag{color: /*#096*/ #007f7f}
+pre.code .attr, .keywd{color:#800080}
+pre.code .keywd{font-weight:bold}
+pre.code .strVal{color: /*#06c*/ #00f}
+pre.code .field{color:#009}
+p {
+    text-indent: 20px;
+    margin-bottom: 5px;
+}
+p, #content_txt p, #resume_blk td {
+    /*font-size: 12px;*/
+    font-family: arial, helvetica, sans serif;
+    color: #666;
+    /*padding: 0;
+    margin: 0;*/
+}
+/*
+#resume td { padding: 0 10px 2px 0; line-height: 1.5}
+#resume td.subtitle{ padding: 0; }
+*/
+#resume_blk, #resume_blk table, #resume_blk td {
+  /*padding: 0.25em 0 0.25em 0;*/
+  padding: 0;
+  margin: 0;
+}
+
+#info {
+    font-size: 0.85em;
+    font-weight: bold;
+    padding-left: 10px;
+}
+#info ul {
+    list-style: none;
+    padding-left: 30px;
+}
+#info ul li {
+    font-weight: normal;
+}
+
+/* Page Sections*/
+span.section{
+    font: bold italic 14px georgia, 'times new roman';
+    color: #909090;
+    line-height: 2em;
+}
+ul.page_section_links {
+    list-style: none;
+    padding: 0 0 5px 20px;
+}
+ul.page_section_links li {
+    padding-bottom: 7px;
+    font-size:10pt;
+    font-family: tahoma;
+}
+ul.page_section_links span.arrow {
+    color:#333;
+    font-weight:bold;
+    font-family:georgia, times new roman;
+    line-height: 50%;
+    padding-right: 5px;
+}
+.entry-title {font-size: 24px}
+p.site-title {font-size: 32px}
+p.site-description {margin-top: 10px}
+/*div.welcome_pg a:link{color: #33f}
+div.welcome_pg a:hover{color: #33f}
+*/

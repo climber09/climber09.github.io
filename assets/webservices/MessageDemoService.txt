@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="MessageDemoService" targetNamespace="urn:demo" xmlns:tns="urn:demo" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types>
+    <schema targetNamespace="urn:demo" xmlns:tns="urn:demo" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <complexType name="ArrayOfstring">
+        <complexContent>
+          <restriction base="soap11-enc:Array">
+            <attribute ref="soap11-enc:arrayType" wsdl:arrayType="string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+    </schema>
+  </types>
+  <message name="MessageDemo_getCategoryNames"/>
+  <message name="MessageDemo_getCategoryNamesResponse">
+    <part name="categoryNamesArray" type="tns:ArrayOfstring"/>
+  </message>
+  <message name="MessageDemo_getMessage">
+    <part name="messageKey" type="xsd:string"/>
+  </message>
+  <message name="MessageDemo_getMessageResponse">
+    <part name="messageText" type="xsd:string"/>
+  </message>
+  <message name="MessageDemo_getMessageKeysByCategory">
+    <part name="categoryName" type="xsd:string"/>
+  </message>
+  <message name="MessageDemo_getMessageKeysByCategoryResponse">
+    <part name="messageKeyArray" type="tns:ArrayOfstring"/>
+  </message>
+  <portType name="MessageDemo">
+    <operation name="getCategoryNames">
+      <input message="tns:MessageDemo_getCategoryNames"/>
+      <output message="tns:MessageDemo_getCategoryNamesResponse"/>
+    </operation>
+    <operation name="getMessage" parameterOrder="messageKey">
+      <input message="tns:MessageDemo_getMessage"/>
+      <output message="tns:MessageDemo_getMessageResponse"/>
+    </operation>
+    <operation name="getMessageKeysByCategory" parameterOrder="categoryName">
+      <input message="tns:MessageDemo_getMessageKeysByCategory"/>
+      <output message="tns:MessageDemo_getMessageKeysByCategoryResponse"/>
+    </operation>
+  </portType>
+  <binding name="MessageDemoBinding" type="tns:MessageDemo">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <operation name="getCategoryNames">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      </input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      </output>
+    </operation>
+    <operation name="getMessage">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      </input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      </output>
+    </operation>
+    <operation name="getMessageKeysByCategory">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      </input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="MessageDemoService">
+    <port name="MessageDemoPort" binding="tns:MessageDemoBinding">
+      <soap:address location="http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi"/>
+    </port>
+  </service>
+</definitions>
