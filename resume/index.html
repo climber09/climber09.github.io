@@ -172,9 +172,9 @@ table > tfoot > tr > td {
 <nav id="mainnav" class="main-navigation col-md-8 col-sm-6 col-xs-12" role="navigation">
 <div class="menu-main-menu-container"><ul id="primary-menu" class="menu"><li id="menu-item-41" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-41"><a href="resume/">resume</a>
 <ul class="sub-menu">
-    <li id="menu-item-51" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51"><a href="resume?=summary">summary</a></li>
-    <li id="menu-item-220" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-220"><a href="resume?=experience">experience</a></li>
-    <li id="menu-item-43" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-43"><a href="resume?=education">education</a></li>
+    <li id="menu-item-51" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51"><a href="resume?summary">summary</a></li>
+    <li id="menu-item-220" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-220"><a href="resume?experience">experience</a></li>
+    <li id="menu-item-43" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-43"><a href="resume?education">education</a></li>
 </ul>
 </li>
 <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47"><a href="etc/">etc</a></li>
@@ -190,7 +190,7 @@ table > tfoot > tr > td {
 <div class="entry-content">
 <h2 class="entry-title">Resume</h2>
 <ul id="nav2">
-<li><a href="resume?=summary">Summary</a></li><li><a href="resume?=experience">Experience</a></li><li><a href="resume?=education">Education</a></li></ul>
+<li><a href="resume?summary">Summary</a></li><li><a href="resume?experience">Experience</a></li><li><a href="resume?education">Education</a></li></ul>
 <div id="content_txt">
 </div><!-- end content_txt -->
 </div>
@@ -260,6 +260,12 @@ table > tfoot > tr > td {
 <script type="text/javascript">
 let section = ("" + window.location.search).substring(1);
 if(section === "" || !data[section]) section = "summary";
+const ul = document.getElementById("nav2");
+ul.childNodes.forEach(function(li){
+if (li.firstElementChild && li.firstElementChild.innerHTML.toString().toLowerCase() === section ) {
+  li.firstElementChild.setAttribute("class", "active");
+}
+});
 const contentTarget = document.getElementById("content_txt");
 contentTarget.innerHTML = data[section].map(blockHtml).join("\n");
 </script>
