@@ -1,0 +1,42 @@
+
+Find Jars – Perl Version
+
+    » findJars.pl
+
+A number of years ago I wrote this little utility script in Perl. It’s handy during Java development when you need to locate a particular jar file, but don’t know which one exactly. It’s actually a precursor to my JarFind application written in Java, and essentially does the same thing. This script, findJars.pl, will execute a recursive search to locate Java jar files that contain a specified class file. So, for example, when you get a NoClassDefFoundError, or ClassNotFoundException, you can use it to locate the right jar to be included in your classpath. The syntax is similar to the standard Unix/Linux find command.
+
+$ perl findJars.pl -help
+Usage: perl findJars.pl <start> <pattern> [-exec="<command>"]
+
+  <start>:  The directory where the search begins.
+<pattern>:  The name of the Java class, or pattern, to locate. Use of the '*'
+            meta-character is allowed, e.g., Parser*, *Binding*, etc.
+    -exec:  An optional command can be executed on each Jar file which
+            contains the specified class. The optional command must be in
+            quotes (e.g., -exec="copy {} /common/lib"). Note that the '{}'
+            symbol is replaced with the name of a matched
+            Jar file.
+    -help:  To view this display.
+
+
+To locate a jar file, simply execute something like:
+
+$ perl findJars.pl ~/workspace OracleDriver
+
+And the output will be something like:
+
+Search for Jars containing OracleDriver.class starting at /home/jim/workspace:
+
+/home/jim/workspace/lib/oracle.jar:
+        oracle/jdbc/driver/OracleDriver.class
+        oracle/jdbc/OracleDriver.class
+
+/home/jim/workspace/lib/classes12.jar:
+        oracle/jdbc/driver/OracleDriver.class
+        oracle/jdbc/OracleDriver.class
+
+Results: found 2 Jar(s)
+
+The -exec option is handy when you want to execute some command with each jar file that scores a hit during the search, like, for example, copying each jar to some location:
+
+$ perl findJars.pl ~/workspace/oldLib OracleDriver -exec="cp {} ~/workspace/newLib"

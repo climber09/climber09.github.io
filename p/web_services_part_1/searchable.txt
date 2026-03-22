@@ -1,0 +1,36 @@
+
+Web Services – Part 1
+
+PART 2 ❭
+
+For a Web Service demo I decided to create a simple service with a few methods that would provide access to data that I had been using for my Message Editor application. The Message Editor (just a brief back story here) is a JEE application that I created years ago to provide access to a Java properties file which stored textual messages used throughout a large Web site – a kind of rudimentary content management tool. The Message Editor provided a user-friendly Web interface to edit the text of those messages. I built the Message Editor originally using Java Servlet and JSP technology, along with the SAX API for XML processing. I used XML to structure the messages into categories, making it easier for the user to browse through the collection of messages. I briefly talked about it [here] in a discussion about XSLT.
+
+So, for my Web Service demo, I decided that I would implement three methods:
+
+    Retrieve a specific message by a key.
+    Retrieve a list of message keys by category.
+    Retrieve a list of categories.
+
+These methods are summarized in this Java interface:
+
+public interface MessageEditorDemo extends java.rmi.Remote {
+
+    public String getMessage(String messageKey)
+	    throws java.rmi.RemoteException;
+
+    public String[] getMessageKeysByCategory(String categoryName)
+	    throws java.rmi.RemoteException;
+
+    public String[] getCategoryNames()
+	    throws java.rmi.RemoteException;
+}
+
+I’ve implemented three different versions of this service – a Perl version, an Axis2 version, and a RESTful version.
+
+The Perl implementation came about, actually, out of necessity. Originally my idea was to use Apache SOAP or Axis to implement the service. At that time, however, my website was hosted on a server which prevented me from deploying a JEE application in the usual way using a web.xml descriptor under the WEB-INF directory. I had no control over the server’s configuration or restart process. So, deploying a JEE-style web service was not possible.
+
+Then I discovered a Perl module which I could use to get around this limitation. The SOAP::Lite module, available from CPAN.org, implements the SOAP specification. It enables the deployment of a web service by way of a CGI proxy. Perl CGI scripts are interpreted at runtime and do not need any configuration information to be loaded at server startup. So, as long as you can run Perl CGI scripts, you can deploy a web service.
+
+Eventually, I moved my website to a hosting service which could provide for normal JEE web application deployment. So I was able to create the JEE-based versions that I wanted originally.
+
+In part 2, I’ll discuss the Perl version.

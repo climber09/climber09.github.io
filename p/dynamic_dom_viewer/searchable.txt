@@ -1,0 +1,26 @@
+
+Dynamic DOM Viewer
+
+A handy JavaScript tool
+
+    Source Code: https://github.com/climber09/Dynamic-DOM-Viewer
+    Demo
+
+I have worked with JavaScript on numerous web-based projects for dynamic client-side functionality. Quite often I found that I needed to write a little script to expose a JavaScript object’s member functions and properties within a browser. This is very useful in having to write cross-browser code. It’s a fairly simple thing to do in JavaScript using the standard for… in loop:
+
+var display = '';
+for (var member in window){
+    display += member + ' = ' + window[member] + '<br>\n';
+}
+var popup = window.open();
+popup.document.open();
+popup.document.write(display);
+popup.document.close();
+
+Running this example inside a web browser will open a new window displaying all of the window object’s members with their corresponding values. The code example above will work with most any JavaScript object because JavaScript objects are treated as associative arrays, and object members can be conveniently accessed as key-value pairings.
+
+Eventually, I decided that it would be useful to create a reusable script that I could refer back to whenever I needed to plumb inside an object and expose it’s members. The result is Dynamic DOM Viewer. The JavaScript in Dynamic DOM Viewer will, by default, query the window element of the browser and display the results. The initial view displays the first level of elements under the window element. Successive levels can then be viewed by expanding each child element.
+
+The resulting tree of DOM elements is similar to what you will see inside Firefox’s Firebug add-on. But Firebug only works in Firefox, while Dynamic DOM Viewer can be opened in any browser. It’s standard JavaScript in an HTML file. In addition, a specific element can be entered in the text box at the top of the page. After clicking the “Query” button the specified element will then be queried as the root of the resulting tree, thereby simplifying the output. This is useful when you want to drill down to a specific element quickly.
+
+It is also handy for inspecting the window.event object. This object won’t have any members in the default display, as there are no accessible events to record. But just type “window.event” into the query box, click the “Query” button, or hit the “Enter” key, and check out the results. I’ve tested Dynamic DOM Viewer in Firefox, Internet Explorer, Opera, Google Chrome, and Safari. At the time of this writing, only Firefox does not have the window.event object. It’s interesting to view the different elements displayed by different browsers with Dynamic DOM Viewer.

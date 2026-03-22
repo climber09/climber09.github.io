@@ -1,0 +1,15 @@
+
+Web Services – Part 3
+
+❬ PART 2
+PART 4 ❭
+
+Axis2 Implementation:
+
+I implemented the Axis2 version of my web service in the usual way using the code generation tools that come with the Axis2 distribution – java2wsdl.bat and wsdl2java.bat. After the code generation steps, I simply implemented the specific logic I needed within the service skeleton class. Once I had all the service-specific code completed I used the Apache Ant build script, provided by the Axis2 distribution, to archive the service into MessageEditorService.aar, which worked very nicely, packaging up the MessageDemoService.wsdl as well as the services.xml file.
+
+Thanks to the virtual hosting on my current hosting service provider, I was able to deploy the Axis2 web service in the usual configuration, as illustrated here:
+
+Axis Deployment
+
+Lastly, I generated a JUnit test client for the Axis2 version using wsdl2java.bat, which you can download from [here].

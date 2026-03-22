@@ -1,0 +1,47 @@
+
+Web Services – Part 2
+
+❬ PART 1
+PART 3 ❭
+
+Perl Implementation:
+
+The SOAP::Lite module does most of the heavy lifting. Consider this example:
+
+#!/usr/bin/perl
+
+use SOAP::Transport::HTTP;
+
+SOAP::Transport::HTTP::CGI
+-> dispatch_to('demo')
+-> handle;
+
+package demo;
+    ...
+1;
+
+These few lines of code allow a Web Service client to access the subroutines defined within the demo module using the SOAP protocol over HTTP. Of course the client needs to know what those subroutines look like, but the cool thing here is how simple and easy to use the SOAP::Lite module can be. My Web Service demo is named MessageDemo.cgi. The service address is http://hunterj.hostjava.net/cgi-bin/MessageDemo.cgi. MessageDemo.cgi serves as a proxy that can dispatch the client’s calls to the demo module. No configuration or deployment descriptor file is needed. That’s the gist of it.
+
+Now to expose the Web Service methods to the world a WSDL file is required. To create the WSDL file – MessageDemoService.wsdl – I used Sun’s wscompile tool that comes with the J2EE 1.4 SDK. I also used the wscompile tool to generate the Java client stub code to test the service.
+
+A Perl client can access the service very easily using the SOAP::Lite module. For example:
+
+#!/usr/bin/perl
+
+use SOAP::Lite;
+
+$categoryList = SOAP::Lite
+    -> uri('http://hunterj.hostjava.net/demo')
+    -> proxy('http://hunterj.hostjava.net/cgi-bin/MessageDemo.cgi')
+    -> getCategoryNames()
+    -> result;
+
+foreach $category (@$categoryList) {
+    print $category . "\n";
+}
+
+This Perl program will access the Web Service, call getCategoryNames(), and then display the category names. You can check out the complete Perl source for the Web Service [here].
+
+For more information about the SOAP::Lite module you can go to http://search.cpan.org/~byrne/SOAP-Lite-0.60a/lib/SOAP/Lite.pm
+
+In the next part I’ll cover the Axis2 version.

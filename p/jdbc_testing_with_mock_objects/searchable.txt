@@ -1,0 +1,59 @@
+
+JDBC Testing With Mock Objects
+
+    »Source Code: https://github.com/climber09/JDBC-Test-Framework
+
+Not long ago I had to design a testing strategy for JDBC code. As I began prototyping I ran into the problem of corrupt data from the database. I realized that I had to devise a testing strategy which would isolate the Java code under test away from the database. The goal was to test the Java application code, not than the database integrity.
+
+What needed testing was, in part, the data access code, but also, to a greater extent, the code which processed the data once retrieved. The processing code was tightly coupled with the data access code, making it difficult to inject test data. The challenge, then, was to create a mechanism for feeding test data directly to the JDBC code, bypassing the database altogether. My solution was a JDBC Testing Framework.
+
+I designed the JDBC Testing Framework for JUnit-style tests. It enables the testing of standard JDBC production code with mock data. It injects mock objects into the test execution at runtime to intercept calls to the database driver. The test writer is thus able to control the input of data, which would normally come from the database.
+
+It is intended for those testing scenarios where it is difficult to separate the code which processes the incoming data from the code which executes the database query.
+
+The mock objects are instances of java.lang.reflect.Proxy. They are substituted at runtime for the JDBC objects from the java.sql package used most commonly for data retrieval, namely Driver, Connection, Statement and its sub-classes, and ResultSet. The object substitution is completely transparent. There is no modification of production code. As long as your JDBC code can be called from within a test object, it can be tested with mock objects.
+
+Here is a simple JUnit-style test example:
+
+public class MyMockResultSet{
+   boolean isNext;
+
+   public MyMockResultSet() {
+       this.isNext = true;
+   }
+
+   public String getString(String colname) {
+       return "myMockName";
+   }
+
+   public boolean next(){
+       if (isNext) {
+           isNext = false;
+           return true;
+       }
+       return false;
+   }
+}
+
+@Test
+public void testWithMockDB () throws Exception {
+    TestAction test = new TestAction("MY AWESOME TEST") {
+        @Override
+        public void runTest() {
+            MyJdbcObj myJdbcObj = new MyJdbcObj();
+            String someResult = myJdbcObj.getSomeResult();
+            assertEquals(expectedResult, someResult);
+        }
+    };
+    MockDriver.execute(test, new MyMockResultSet());
+}
+
+What this example shows is that there are two types of objects that the test writer needs to implement, usually. The first is a mock ResultSet type. Mock ResultSet objects are simple Java objects, which do not need to implement any particular interface. The only requirement for mock ResultSet objects is that they define methods which are identical to methods which are expected to be called on actual java.sql.ResultSet objects by the application code under test. These mock methods provide data which would normally come from the database.
+
+The second object is the TestAction type, shown above as an anonymous class. TestAction is the base class to extend in order to implement the test code which will be run by MockDriver.
+
+So as long as your JDBC code can be run from within a TestAction, then, that code can also be run within the MockDriver container. And the mock ResultSet object(s) that you provide will be substituted for the real java.sql.ResultSet objects.
+
+It should be noted that while the framework was originally developed to test code which used the java.sql.DriverManager to obtain a Connection, it can also be extended to handle different types of Connection sources, such as a javax.sql.DataSource. It takes a little more work to substitute a proxy for a real DataSource, but it is possible.
+
+    »Source Code: https://github.com/climber09/JDBC-Test-Framework

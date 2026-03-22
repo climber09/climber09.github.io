@@ -1,0 +1,94 @@
+
+Web Services – Part 4
+
+❬ PART 3
+
+RESTful Implementation:
+
+The RESTful version was probably the easiest to implement. I used the JAX-RS/Jersey API to create the service as well as a test client. I implemented the same methods (mentioned previously in part 1) but with a variation in the return types.
+METHOD 	URI
+getCategoryNames() 	/rest/messages/categories
+getKeysByCategory() 	/rest/messages/keys?cat={CATEGORY_NAME}
+getMessage() 	/rest/messages/{KEY_NAME}
+
+In the SOAP-based implementations, two of these methods return a String[]. A String[] would be marshalled and unmarshalled automatically within the SOAP layer without the need for any additional coding. With Jersey, however, it’s not so simple. Jersey does not support the marshalling/unmarshalling of a bare String[] type, or a Collection<String> type, automatically right out of the box (at least, that was the case at the time of this writing). With Jersey you have to do a little more work.
+
+One strategy would be to create a wrapper class to contain a Collection type:
+
+@XmlRootElement()
+public class ResponseList {
+
+    @XmlElement()
+    List data;
+
+    public ResponseList() {}
+
+    public ResponseList(List data) {
+        this.data = data;
+    }
+
+    public List getData() {
+        return data;
+    }
+}
+
+The XML result from marshalling a ResponseList looks something like this:
+
+<responseList>
+  <data> xsi:type="xs:string">General/System></data>
+  <data> xsi:type="xs:string">Consumer Signup></data>
+  <data> xsi:type="xs:string">Small Business Signup></data>
+  <data> xsi:type="xs:string">Initiate Payment Process></data>
+  <data> xsi:type="xs:string">Claim Payment Process></data>
+  <data> xsi:type="xs:string">EpicWare Related></data>
+  <data> xsi:type="xs:string">Request Payment Process></data>
+  <data> xsi:type="xs:string">Change Password></data>
+  <data> xsi:type="xs:string">Lost Password></data>
+  <data> xsi:type="xs:string">POS Transaction></data>
+</responseList>
+
+The advantage of this type of strategy is that the marshalling/unmarshalling can be handled, automatically, by Jersey’s built-in support for JAXB. The @XmlRootElement annotation marks the class as one that JAXB can marshall into XML, and, conversely, unmarhall XML back into. The annotated class can then be used as a return type for the Web Service methods. For Example:
+
+public ResponseList<String> getCategoryNames();
+
+Indeed, this type of approach may work well for complex domain objects, like, an AccountInfo object, an EmployeeInfo object, a ContactInfo object, and so on. It also supports the production of JSON instead of XML whenever needed. The JAXB processor can automatically produce the supported media type requested by the client. JAXB can also handle collections, such as List<AccountInfo>, as long as the specified object (e.g., AccountInfo) is properly annotated.
+
+But for built-in data types, like List<String>, it seems unnecessary to add an additional wrapper class. It seems that there should be a simpler way to support the handling of simple Java data types.
+
+After several online searches I found a few suggestions using javax.ws.rs.core.Response, or com.sun.jersey.api.JReponse, as well as javax.ws.rs.core.GenericEntity, and javax.xml.bind.JAXBElement. None of the example solutions worked as advertised in my environment (which, at the time of this writing, was Jersey 1.17 on Tomcat 7 using Java 1.7 on Debian 6).
+
+After some trial and error I finally got a successful response from the following:
+
+@Path("/categories")
+@GET
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+public Response getCategoryNames() {
+
+    List<JAXBElement<String>> categories = new ArrayList<JAXBElement<String>>();
+
+    // populate the list...
+
+    GenericEntity<List<JAXBElement<String>>> entity =
+            new GenericEntity<List<JAXBElement<String>>>(categories){};
+
+    return Response.ok(entity).build();
+}
+
+Only by wrapping the individual strings in a JAXBElement, and wrapping the entire List in a GenericEntity did I get a successful result. An alternative implementation is to use com.sun.jersey.api.JResponse in place of javax.ws.rs.core.Response, and skip the GenericEntity wrapper. Since JResponse preserves the data types within the response, the GenericEntity is not required. Of course if JResponse is used, that means the application is coupled to the Jersey implementation, rather than the JAX-RS API. So, you would need to decide if the lack of flexibility, and portability, is worth it. I prefer to code to an interface as a general rule. The result of the operation is the same. The XML marshalled from the Response object above looks like this:
+
+<strings>
+  <category>General/System</category>
+  <category>Consumer Signup</category>
+  <category>Small Business Signup</category>
+  <category>Initiate Payment Process</category>
+  <category>Claim Payment Process</category>
+  <category>EpicWare Related</category>
+  <category>Request Payment Process</category>
+  <category>Change Password</category>
+  <category>Lost Password</category>
+  <category>POS Transaction</category>
+</strings>
+
+On the client side, the response can be digested as XML, JSON, or as a JAXB object, since the JAXB processor, on the server, can produce the supported media type requested by the client.
+
+I have created a simple client which demonstrates how to use the built-in JAXB support to digest the responses from each of the example methods above. You can download the demo client from [here]. 

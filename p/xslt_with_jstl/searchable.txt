@@ -1,0 +1,23 @@
+XSLT With JSTL
+
+XSLT has a variety of advantages and is suitable for a number of tasks that would be more tedious otherwise. XSLT can also be used in conjunction with JSTL tags, as well, to produce consistent and reusable HTML elements. I found it useful in generating the HTML for hyperlinks throughout this Web site. It’s superior to the manual cut-and-paste method, which can be tedious and error-prone. The resulting HTML code is much less cluttered, and you only need to edit the links in one place, an XSL stylesheet, to modify every occurence of the affected HTML element. So, for instance, consider this XSL file fragment:
+
+<xsl:variable name="popupMsg">You may need to disable your Pop-up Blocker to view</xsl:variable>
+
+<xsl:template match="a[@id='messageEditor']">
+    <a title="{$popupMsg}" href="javascript:popUp('/ajax/msgEditorAjax.jsp','')">Message Editor</a>
+</xsl:template>
+
+The template defined here can be applied to any tag matching <a id=”messageEditor”/>. So then the JSTL XSLT tags can be used in a JSP file to access the XSL stylesheet and inject HTML into the page. First, the XSL stylesheet is imported into the JSP.
+
+<c:import url="/xsl/jstl-transform.xsl" var="xslFile"/>
+
+Then that stylesheet can be applied via the JSTL XSLT tag.
+
+<x:transform xslt="${xslFile}"><a id="messageEditor"/></x:transform>
+
+The <a id=”messageEditor”/> tag is treated as XML by the XSLT transformer and the entire tag is substituted for the HTML code defined in the XSL stylesheet. The resulting HTML looks like this:
+
+<a title="You may need to disable your Pop-up Blocker to view" href="javascript:popUp('/ajax/msgEditorAjax.jsp','')">Message Editor</a>
+
+The JSP code is much cleaner as a result, and much easier to maintain. An additional advantage is that all the Web site links can be stored and maintained in one file, which is extremely useful if many of the links appear in multiple locations throughout the Web site.

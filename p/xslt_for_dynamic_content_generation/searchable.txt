@@ -1,0 +1,25 @@
+XSLT For Dynamic Content Generation
+
+A number of years ago I came across an article, “XSLT Querying & XML Documents,” by Giuseppe Naccarato, in Dr.Dobb’s Journal, December 2002. In this article Mr. Naccarato described a relatively new use of XSLT (i.e., new at that time, at least), as a mechanism for generating dynamic HTML content from XML.
+
+I was familiar with the use of XML as a precursor to HTML content. In the past I created a similar thing by parsing an XML document and pulling out the data from a specific set of nodes for display in a web browser. This task was accomplished with the aid of the Java SAX API and a custom data structure to store the parsed out data. The data structure I needed, as well as the task of implementing the org.xml.sax.ContentHandler interface required much additional coding on my part.
+
+Naccarato’s article pointed to a simpler approach that had advantages over SAX or DOM centric strategies. This idea inspired me to jump into the world of XSLT. But first I had to learn basic XSLT. My first task was to create a static page, so I re-composed my online resume. Since a resume breaks down into relatively uniform blocks of text, this seemed like a suitable application for XSL styling. I decided to encapsulate those uniform blocks of text into XML data. Then I could pull out that information and insert it into a JSP page. So I created resume_data.xml to store my data and resume_template.xsl to style that data. These two files are passed to the XSLT processor which then produces my online resume. The Java code to invoke the XSLT processor is fairly straight forward:
+
+StreamSource xslSource =
+    new StreamSource(new File("<path_to_file>/resume_template.xsl"));
+StreamSource xmlSource =
+    new StreamSource(new File("<path_to_file>/resume_data.xml"));
+
+TransformerFactory factory = TransformerFactory.newInstance();
+Transformer transformer = factory.newTransformer(xslSource);
+transformer.transform(xmlSource, new StreamResult(out));
+
+Basically you create a Transformer object, passing to the constructor your XSL file. Then you give the Transformer object an XML file to transform and tell it where to send the output, which in this case is a java.io.OutputStream.
+
+After getting my feet wet, creating a static page – my online resume – I applied the XSLT approach to my Message Editor application to generate user selected content dynamically. In the process I discovered that the XSLT transformer can accept Java objects as parameters, to be used during the transformation process. Java objects can also be declared in the XSL file and used as customized extensions to the built-in functionality. Here’s a diagram:
+Message Editor Diagram
+
+The Web client request is handled by MessageEditorServlet, which creates the MessageManager, stores it in the session, and hands it off to the XSLT transformer. MessageManager is responsible for reading the messages from a properties file and providing operations to retrieve and modify those messages. The transformer uses MessageManager as well as MessageEditorXsltUtil, which is an extension class. MessageEditorXsltUtil provides utility operations for text formatting, abbreviation, etc, which are more easily implemented in a programming language like Java. Using this approach the transformation process can be augmented to include operations that any Java object can execute.
+
+If interested in the original article by Giuseppe Naccarato you can check it out [here]. My letter to DDJ in response to the article should be found [here]. You may need to scroll down to “Happy with XSLT.”
