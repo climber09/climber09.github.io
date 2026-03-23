@@ -37,8 +37,8 @@ h6 {
 	color: #272727;
 	font-family: 'Josefin Sans', sans-serif;
 	font-weight: 300;
-	margin-top: 20px;
-	margin-bottom: 20px;
+/*	margin-top: 20px;
+	margin-bottom: 20px;*/
 	letter-spacing: 1px;
 }
 a,
@@ -799,7 +799,7 @@ select {
 }
 .entry-thumb,
 .entry-summary {
-	margin-bottom: 30px;
+	/*margin-bottom: 30px;*/
 }
 .single-thumb {
 	margin-bottom: 30px;
@@ -821,7 +821,7 @@ select {
 .entry-title a {
 	color: #272727;
 }
-.page .entry-title {
+.page {
 	margin-bottom: 30px;
 }
 .widget-area .widget a:hover,
