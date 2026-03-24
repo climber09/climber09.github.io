@@ -31,8 +31,10 @@ const article_html = `<article id="post-198" class="post-198 post type-post stat
 <li>Quick location of package and class pages without the usual search and scroll.</li>
 <li>Runs as a standard JEE Web application on any JEE Web server</li>
 </ul>
+<!--
 <p>Check out the <a target="_blank" href="http://demo-javadoc-viewer.a3c1.starter-us-west-1.openshiftapps.com/JavadocViewer">live demo</a>.
 </p>
+-->
 <h3 class="entry-sub-sect"><!--a href="#build" aria-hidden="true" class="anchor" id="user-content-build"></a-->Build</h3>
 <p>Simply run the Ant build script to build JavadocViewer.war, wherever you unzip and store the distribution files. Then deploy the war to your JEE Web server.
 </p>

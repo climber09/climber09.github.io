@@ -16,11 +16,11 @@ table#restURIs th{
 </style>
 <ul id="nav2"></ul>
 <div id="content_txt">
-<div class="nav-prev-btn" style="width:99%"><a class="custom-nav-btn" href="p/web_services_part_3">&#10092; PART 3</a></div>
+<div class="nav-prev-btn" style="width:99%"><a target="_top" class="custom-nav-btn" href="p/web_services_part_3">&#10092; PART 3</a></div>
 <p/>
 <p><span class="section">RESTful Implementation:</span></p>
 <p>
-The RESTful version was probably the easiest to implement. I used the JAX-RS/Jersey API to create the service as well as a test client. I implemented the same methods (mentioned previously in <a href="p/web_services_part_1"><i>part 1</i></a>) but with a variation in the return types.
+The RESTful version was probably the easiest to implement. I used the JAX-RS/Jersey API to create the service as well as a test client. I implemented the same methods (mentioned previously in <a target="_top" href="p/web_services_part_1"><i>part 1</i></a>) but with a variation in the return types.
 </p>
 <table id="restURIs" style="padding:0; width:95%; font: normal 12px 'Lucida Console', Monaco, monospace; background:#ccc; border-spacing:1px; border-collapse: separate;">
 <tr>
@@ -136,7 +136,7 @@ After some trial and error I finally got a successful response from the followin
 <p>
 I have created a simple client which demonstrates how to use the built-in JAXB support to digest the responses from each of the example methods above. You can download the demo client from <a href="assets/webservices/RestDemoClient.zip">[here]</a>.
 </p>
-<div class="nav-prev-btn" style="width:99%"><a class="custom-nav-btn" href="p/web_services_part_3">&#10092; PART 3</a></div>
+<div class="nav-prev-btn" style="width:99%"><a target="_top" class="custom-nav-btn" href="p/web_services_part_3">&#10092; PART 3</a></div>
 <p/>
 </div><!-- end content_txt -->
 </div>

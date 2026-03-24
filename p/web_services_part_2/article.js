@@ -5,8 +5,8 @@ article_html = `<article id="post-160" class="post-160 post type-post status-pub
 <link rel="stylesheet" href="assets/css/custom-button.css"/>
 <ul id="nav2"></ul>
 <div id="content_txt">
-<div class="nav-prev-btn"><a class="custom-nav-btn" href="p/web_services_part_1">&#10092; PART 1</a></div>
-<div class="nav-next-btn"><a class="custom-nav-btn" href="p/web_services_part_3">PART 3 &#10093;</a></div>
+<div class="nav-prev-btn"><a target="_top" class="custom-nav-btn" href="p/web_services_part_1">&#10092; PART 1</a></div>
+<div class="nav-next-btn"><a target="_top" class="custom-nav-btn" href="p/web_services_part_3">PART 3 &#10093;</a></div>
 <p/>
 <p><span class="section">Perl Implementation:</span></p>
 <p>
@@ -50,9 +50,9 @@ This Perl program will access the Web Service, call getCategoryNames(), and then
 <p>
 For more information about the SOAP::Lite module you can go to <a href="http://search.cpan.org/~byrne/SOAP-Lite-0.60a/lib/SOAP/Lite.pm" target="_blank">http://search.cpan.org/~byrne/SOAP-Lite-0.60a/lib/SOAP/Lite.pm</a>
 </p>
-<p>In the next <a href="p/web_services_part_3">part</a> I&#8217;ll cover the Axis2 version.</p>
-<div class="nav-prev-btn"><a class="custom-nav-btn" href="p/web_services_part_1">&#10092; PART 1</a></div>
-<div class="nav-next-btn"><a class="custom-nav-btn" href="p/web_services_part_3">PART 3 &#10093;</a></div>
+<p>In the next <a target="_top" href="p/web_services_part_3">part</a> I&#8217;ll cover the Axis2 version.</p>
+<div class="nav-prev-btn"><a target="_top" class="custom-nav-btn" href="p/web_services_part_1">&#10092; PART 1</a></div>
+<div class="nav-next-btn"><a target="_top" class="custom-nav-btn" href="p/web_services_part_3">PART 3 &#10093;</a></div>
 <p/>
 </div><!-- end content_txt -->
 </div>

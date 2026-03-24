@@ -5,10 +5,10 @@ article_html = `<article id="post-158" class="post-158 post type-post status-pub
 <link rel="stylesheet" href="assets/css/custom-button.css"/>
 <ul id="nav2"></ul>
 <div id="content_txt">
-<div class="nav-next-btn" style="width:99%"><a class="custom-nav-btn" href="p/web_services_part_2">PART 2 &#10093;</a></div>
+<div class="nav-next-btn" style="width:99%"><a target="_top" class="custom-nav-btn" href="p/web_services_part_2">PART 2 &#10093;</a></div>
 <p/>
 <p>
-For a Web Service demo I decided to create a simple service with a few methods that would provide access to data that I had been using for my <!--a title="You may need to disable your Pop-up Blocker to view" href="javascript:popupUtil.open('/ajax/msgEditorAjax.jsp','')"--><a href="javascript:void">Message&nbsp;Editor</a> application. The Message Editor (just a brief back story here) is a JEE application that I created years ago to provide access to a Java properties file which stored textual messages used throughout a large Web site &#8211; a kind of rudimentary content management tool. The Message Editor provided a user-friendly Web interface to edit the text of those messages. I built the Message Editor originally using Java Servlet and JSP technology, along with the SAX API for XML processing. I used XML to structure the messages into categories, making it easier for the user to browse through the collection of messages. I briefly talked about it [<a href="p/xslt_for_dynamic_content_generation/">here</a>] in a discussion about XSLT.
+For a Web Service demo I decided to create a simple service with a few methods that would provide access to data that I had been using for my <!--a title="You may need to disable your Pop-up Blocker to view" href="javascript:popupUtil.open('/ajax/msgEditorAjax.jsp','')"--><a href="javascript:void">Message&nbsp;Editor</a> application. The Message Editor (just a brief back story here) is a JEE application that I created years ago to provide access to a Java properties file which stored textual messages used throughout a large Web site &#8211; a kind of rudimentary content management tool. The Message Editor provided a user-friendly Web interface to edit the text of those messages. I built the Message Editor originally using Java Servlet and JSP technology, along with the SAX API for XML processing. I used XML to structure the messages into categories, making it easier for the user to browse through the collection of messages. I briefly talked about it [<a target="_top" href="p/xslt_for_dynamic_content_generation/">here</a>] in a discussion about XSLT.
 </p>
 <p>
 So, for my Web Service demo, I decided that I would implement three methods:</p>
@@ -33,7 +33,7 @@ These methods are summarized in this Java interface:</p>
 </pre>
 </p>
 <p>
-I&#8217;ve implemented three different versions of this service &#8211; a <a href="p/web_services_part_2">Perl version</a>, an <a href="p/web_services_part_3">Axis2 version</a>, and a <a href="p/web_services_part_4">RESTful version</a>.
+I&#8217;ve implemented three different versions of this service &#8211; a <a target="_top" href="p/web_services_part_2">Perl version</a>, an <a target="_top" href="p/web_services_part_3">Axis2 version</a>, and a <a target="_top" href="p/web_services_part_4">RESTful version</a>.
 </p>
 <p>
 The Perl implementation came about, actually, out of necessity. Originally my idea was to use Apache SOAP or Axis to implement the service. At that time, however, my website was hosted on a server which prevented me from deploying a JEE application in the usual way using a web.xml descriptor under the WEB-INF directory. I had no control over the server’s configuration or restart process. So, deploying a JEE-style web service was not possible.</p>
@@ -43,9 +43,9 @@ The Perl implementation came about, actually, out of necessity. Originally my id
 Eventually, I moved my website to a hosting service which could provide for normal JEE web application deployment. So I was able to create the JEE-based versions that I wanted originally.
 </p>
 <p>
-In <a href="p/web_services_part_2"><i>part 2</i></a>, I&#8217;ll discuss the Perl version.
+In <a target="_top" href="p/web_services_part_2"><i>part 2</i></a>, I&#8217;ll discuss the Perl version.
 </p>
-<div class="nav-next-btn" style="width:99%"><a class="custom-nav-btn" href="p/web_services_part_2">PART 2 &#10093;</a></div>
+<div class="nav-next-btn" style="width:99%"><a target="_top" class="custom-nav-btn" href="p/web_services_part_2">PART 2 &#10093;</a></div>
 <p/>
 </div><!-- end #content_txt -->
 </div>
