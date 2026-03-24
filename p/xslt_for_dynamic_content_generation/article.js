@@ -1,0 +1,47 @@
+const article_html = `<article id="post-182" class="post-182 post type-post status-publish format-standard hentry category-xslt clearfix">
+<header class="entry-header">
+<h1 class="entry-title">XSLT For Dynamic Content Generation</h1></header><!-- entry-header -->
+<div class="entry-content">
+<ul id="nav2"></ul>
+<div id="content_txt">
+<p>
+A number of years ago I came across an article, &#8220;XSLT Querying &amp; XML Documents,&#8221; by Giuseppe Naccarato, in <a href="http://www.ddj.com" target="_blank">Dr.Dobb&#8217;s Journal</a>, December 2002. In this article Mr. Naccarato described a relatively new use of XSLT (i.e., new at that time, at least), as a mechanism for generating dynamic HTML content from XML.
+</p>
+<p>
+I was familiar with the use of XML as a precursor to HTML content. In the past I created a similar thing by parsing an XML document and pulling out the data from a specific set of nodes for display in a web browser. This task was accomplished with the aid of the Java SAX API and a custom data structure to store the parsed out data. The data structure I needed, as well as the task of implementing the <code>org.xml.sax.ContentHandler</code> interface required much additional coding on my part.<br />
+<!--
+I realized that I could use the same approach in developing web applications. One application that I had previously created - the <a title="You may need to disable your Pop-up Blocker to view" href="javascript:popUp('/ajax/msgEditorAjax.jsp','',defaultSpecs)">Message&nbsp;Editor</a> application - accomplished a similar task by parsing an XML document and pulling out a specific set of nodes for display in a web browser. 
+-->
+</p>
+<p>
+Naccarato&#8217;s article pointed to a simpler approach that had advantages over SAX or DOM centric strategies. This idea inspired me to jump into the world of XSLT. But first I had to learn basic XSLT. My first task was to create a static page, so I re-composed my <a href="resume">online resume</a>. Since a resume breaks down into relatively uniform blocks of text, this seemed like a suitable application for XSL styling. I decided to encapsulate those uniform blocks of text into XML data. Then I could pull out that information and insert it into a JSP page. So I created <!--a title="You may need to disable your Pop-up Blocker to view" href="javascript:popUp('/assets/resume_data.txt','',defaultSpecs);"-->resume_data.xml<!--/a--> to store my data and <!--a title="You may need to disable your Pop-up Blocker to view" href="javascript:popUp('/assets/resume_template.txt','',defaultSpecs);"-->resume_template.xsl<!--/a--> to style that data. These two files are passed to the XSLT processor which then produces my <a href="resume">online resume</a>. The Java code to invoke the XSLT processor is fairly straight forward:</p>
+<pre class="code">
+StreamSource xslSource = 
+    <span class="keywd">new</span> StreamSource(new File(<span class="strVal">"&lt;path_to_file&gt;/resume_template.xsl"</span>));
+StreamSource xmlSource = 
+    <span class="keywd">new</span> StreamSource(new File(<span class="strVal">"&lt;path_to_file&gt;/resume_data.xml"</span>));
+
+TransformerFactory factory = TransformerFactory.newInstance();
+Transformer transformer = factory.newTransformer(xslSource);
+transformer.transform(xmlSource, new StreamResult(out));
+</pre>
+<p>
+Basically you create a Transformer object, passing to the constructor your XSL file. Then you give the Transformer object an XML file to transform and tell it where to send the output, which in this case is a java.io.OutputStream.
+</p>
+<p>
+After getting my feet wet, creating a static page &#8211; my <a href="resume">online resume</a> &#8211; I applied the XSLT approach to my <a href="javascript:void">Message Editor</a>  <!--a title="You may need to disable your Pop-up Blocer to view" href="javascript:popUp('/ajax/msgEditorAjax.jsp','',defaultSpecs)">Message&nbsp;Editor</a--> application to generate user selected content dynamically. In the process I discovered that the XSLT transformer can accept Java objects as parameters, to be used during the transformation process. Java objects can also be declared in the XSL file and used as customized extensions to the built-in functionality. Here&#8217;s a diagram:
+</p>
+<div style="padding:0;margin:10px;text-align:center;">
+<img alt="Message Editor Diagram" src="assets/img/msgEditorXslt.gif">
+</div>
+<p>
+The Web client request is handled by <span class="code">MessageEditorServlet</span>, which creates the <span class="code">MessageManager</span>, stores it in the session, and hands it off to the XSLT transformer. <span class="code">MessageManager</span> is responsible for reading the messages from a properties file and providing operations to retrieve and modify those messages. The transformer uses <span class="code">MessageManager</span> as well as <span class="code">MessageEditorXsltUtil</span>, which is an extension class. <span class="code">MessageEditorXsltUtil</span> provides utility operations for text formatting, abbreviation, etc, which are more easily implemented in a programming language like Java. Using this approach the transformation process can be augmented to include operations that any Java object can execute.
+</p>
+<p>
+If interested in the original article by Giuseppe Naccarato you can check it out [<a href="http://www.ddj.com/architect/184407890" target="_blank">here</a>]. My letter to <a href="http://www.ddj.com" target="_blank"><i>DDJ</i></a> in response to the article should be found [<a href="http://www.ddj.com/cpp/184405324" target="_blank">here</a>]. You may need to scroll down to &#8220;Happy with XSLT.&#8221;
+</p>
+</div>
+<p><!-- end content_txt --></p>
+</div>
+</article>
+`;

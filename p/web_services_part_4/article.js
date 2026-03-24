@@ -1,0 +1,143 @@
+article_html = `<article id="post-174" class="post-174 post type-post status-publish format-standard hentry category-webservices clearfix">
+<header class="entry-header">
+<h1 class="entry-title">Web Services &#8211; Part 4</h1>	</header><!-- .entry-header -->	
+<div class="entry-content">
+<link rel="stylesheet" href="assets/css/custom-button.css"/>
+<style type="text/css">
+table#restURIs td{
+  padding:10px; 
+  background:#efefef;
+  color: #668;
+}
+table#restURIs th{
+  background: #ccc;
+  color: #666;
+}
+</style>
+<ul id="nav2"></ul>
+<div id="content_txt">
+<div class="nav-prev-btn" style="width:99%"><a class="custom-nav-btn" href="p/web_services_part_3">&#10092; PART 3</a></div>
+<p/>
+<p><span class="section">RESTful Implementation:</span></p>
+<p>
+The RESTful version was probably the easiest to implement. I used the JAX-RS/Jersey API to create the service as well as a test client. I implemented the same methods (mentioned previously in <a href="p/web_services_part_1"><i>part 1</i></a>) but with a variation in the return types.
+</p>
+<table id="restURIs" style="padding:0; width:95%; font: normal 12px 'Lucida Console', Monaco, monospace; background:#ccc; border-spacing:1px; border-collapse: separate;">
+<tr>
+<th>METHOD</th>
+<th>URI</th>
+</tr>
+<tr>
+<td>getCategoryNames()</td>
+<td>/rest/messages/categories</td>
+</tr>
+<tr>
+<td>getKeysByCategory()</td>
+<td>/rest/messages/keys?cat={CATEGORY_NAME}</td>
+</tr>
+<tr>
+<td>getMessage()</td>
+<td>/rest/messages/{KEY_NAME}</td>
+</tr>
+</table>
+<p>
+In the SOAP-based implementations, two of these methods return a <span class="code">String[]</span>. A String[] would be marshalled and unmarshalled automatically within the SOAP layer without the need for any additional coding. With Jersey, however, it&#8217;s not so simple. Jersey does not support the marshalling/unmarshalling of a bare <span class="code">String[]</span> type, or a <span class="code">Collection&lt;String&gt;</span> type, automatically right out of the box (at least, that was the case at the time of this writing). <!--With Jersey, the easist way to return a list of values is to utilize the built-in JAXB support to handle the marshalling/unmarshalling. To do so, JAXB needs a root object, to wrap the collection of values. A generic Object wrapper does the trick:
+-->With Jersey you have to do a little more work.
+</p>
+<p>
+One strategy would be to create a wrapper class to contain a <span class="code">Collection</span> type:
+</p>
+<pre class="code">
+@XmlRootElement()
+<span class="keywd">public class</span> ResponseList<T> {
+
+    @XmlElement()
+    List<T> <span class="field">data</span>;
+    
+    <span class="keywd">public</span> ResponseList() {}
+    
+    <span class="keywd">public</span> ResponseList(List<T> data) {
+        <span class="keywd">this</span>.<span class="field">data</span> = data;
+    }
+
+    <span class="keywd">public</span> List<T> getData() {
+        return <span class="field">data</span>;
+    }
+}
+</pre>
+<p>The XML result from marshalling a <span class="code">ResponseList</span> looks something like this:</p>
+<pre class="code">
+<span class="tag">&lt;responseList&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;General/System<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Consumer Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Small Business Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Initiate Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Claim Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;EpicWare Related<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Request Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Change Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Lost Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;POS Transaction<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+<span class="tag">&lt;/responseList&gt;</span>
+</pre>
+<p><!--p>
+So, for the purpose of this demo, I used the <span class="code">ResponseList&lt;T&gt;</span> as the return type to contain a list of values. 
+</p-->
+<p>
+The advantage of this type of strategy is that the marshalling/unmarshalling can be handled, automatically, by Jersey&#8217;s built-in support for JAXB. The <span class="code">@XmlRootElement</span> annotation marks the class as one that JAXB can marshall into XML, and, conversely, unmarhall XML back into. The annotated class can then be used as a return type for the Web Service methods. For Example: </p>
+<pre class="code">
+<span class="keywd">public</span> ResponseList&lt;String&gt; getCategoryNames();
+</pre>
+<p>
+Indeed, this type of approach may work well for complex domain objects, like, an <span class="code">AccountInfo</span> object, an <span class="code">EmployeeInfo</span> object, a <span class="code">ContactInfo</span> object, and so on. It also supports the production of JSON instead of XML whenever needed. The JAXB processor can automatically produce the supported media type requested by the client. JAXB can also handle collections, such as <span class="code">List&lt;AccountInfo&gt;</span>, as long as the specified object (e.g., <span class="code">AccountInfo</span>) is properly annotated.
+</p>
+<p>
+But for built-in data types, like <span class="code">List&lt;String&gt;</span>, it seems unnecessary to add an additional wrapper class. It seems that there should be a simpler way to support the handling of simple Java data types.
+</p>
+<p>
+After several online searches I found a few suggestions using <span class="code">javax.ws.rs.core.Response</span>, or <span class="code">com.sun.jersey.api.JReponse</span>, as well as <span class="code">javax.ws.rs.core.GenericEntity</span>, and <span class="code">javax.xml.bind.JAXBElement</span>. None of the example solutions worked as advertised in my environment (which, at the time of this writing, was Jersey 1.17 on Tomcat 7 using Java 1.7 on Debian 6).
+</p>
+<p>
+After some trial and error I finally got a successful response from the following:</p>
+<pre class="code">
+@Path("/categories")
+@GET
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+<span class="keywd">public</span> Response getCategoryNames() {
+
+    List&lt;JAXBElement&lt;String&gt;&gt; categories = <span class="keywd">new</span> ArrayList&lt;JAXBElement&lt;String&gt;&gt;();
+
+    // populate the list...
+
+    GenericEntity&lt;List&lt;JAXBElement&lt;String&gt;&gt;&gt; entity = 
+            <span class="keywd">new</span> GenericEntity&lt;List&lt;JAXBElement&lt;String&gt;&gt;&gt;(categories){};        
+
+    <span class="keywd">return</span> Response.ok(entity).build();
+}
+</pre>
+<p>Only by wrapping the individual strings in a <span class="code">JAXBElement</span>, and wrapping the entire <span class="code">List</span> in a <span class="code">GenericEntity</span> did I get a successful result. An alternative implementation is to use <span class="code">com.sun.jersey.api.JResponse</span> in place of <span class="code">javax.ws.rs.core.Response</span>, and skip the <span class="code">GenericEntity</span> wrapper. Since <span class="code">JResponse</span> preserves the data types within the response, the <span class="code">GenericEntity</span> is not required. Of course if <span class="code">JResponse</span> is used, that means the application is coupled to the Jersey implementation, rather than the JAX-RS API. So, you would need to decide if the lack of flexibility, and portability, is worth it. I prefer to code to an interface as a general rule. The result of the operation is the same. The XML marshalled from the <span class="code">Response</span> object above looks like this:
+</p>
+<pre class="code">
+<span class="tag">&lt;strings&gt;</span>
+  <span class="tag">&lt;category&gt;</span>General/System<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Consumer Signup<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Small Business Signup<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Initiate Payment Process<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Claim Payment Process<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>EpicWare Related<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Request Payment Process<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Change Password<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>Lost Password<span class="tag">&lt;/category&gt;</span>
+  <span class="tag">&lt;category&gt;</span>POS Transaction<span class="tag">&lt;/category&gt;</span>
+<span class="tag">&lt;/strings&gt;</span>
+</pre>
+<p>On the client side, the response can be digested as XML, JSON, or as a JAXB object, since the JAXB processor, on the server, can produce the supported media type requested by the client.
+</p>
+<p>
+I have created a simple client which demonstrates how to use the built-in JAXB support to digest the responses from each of the example methods above. You can download the demo client from <a href="assets/webservices/RestDemoClient.zip">[here]</a>.
+</p>
+<div class="nav-prev-btn" style="width:99%"><a class="custom-nav-btn" href="p/web_services_part_3">&#10092; PART 3</a></div>
+<p/>
+</div><!-- end content_txt -->
+</div>
+</article>`;

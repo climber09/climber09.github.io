@@ -1,0 +1,67 @@
+article_html = `<article id="post-77" class="post-77 post type-post status-publish format-standard hentry category-jdbc category-testing clearfix">
+<header class="entry-header">
+<h1 class="entry-title">JDBC Testing With Mock Objects</h1>
+</header>
+<div class="entry-content">
+<ul id="nav2"></ul>
+<div id="content_txt">
+
+<ul class="page_section_links">
+<li><span class="arrow">&raquo;</span>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
+</ul>
+
+<p>Not long ago I had to design a testing strategy for JDBC code. As I began prototyping I ran into the problem of corrupt data from the database. I realized that I had to devise a testing strategy which would isolate the Java code under test away from the database. The goal was to test the Java application code, not than the database integrity.</p>
+<p>What needed testing was, in part, the data access code, but also, to a greater extent, the code which processed the data once retrieved. The processing code was tightly coupled with the data access code, making it difficult to inject test data. The challenge, then, was to create a mechanism for feeding test data directly to the JDBC code, bypassing the database altogether. My solution was a <a title="GitHub Repository" target="_blank" href="https://github.com/climber09/JDBC-Test-Framework">JDBC Testing Framework</a>.</p>
+<p>I designed the <a title="GitHub Repository" target="_blank" href="https://github.com/climber09/JDBC-Test-Framework">JDBC Testing Framework</a> for JUnit-style tests. It enables the testing of standard JDBC production code with mock data. It injects mock objects into the test execution at runtime to intercept calls to the database driver. The test writer is thus able to control the input of data, which would normally come from the database.</p>
+<p>It is intended for those testing scenarios where it is difficult to separate the code which processes the incoming data from the code which executes the database query.</p>
+<p>The mock objects are instances of <code>java.lang.reflect.Proxy</code>. They are substituted at runtime for the JDBC objects from the <code>java.sql</code> package used most commonly for data retrieval, namely <code>Driver</code>, <code>Connection</code>, <code>Statement</code> and its sub-classes, and <code>ResultSet</code>. The object substitution is completely transparent. There is no modification of production code. As long as your JDBC code can be called from within a test object, it can be tested with mock objects.</p>
+<p>Here is a simple JUnit-style test example:</p>
+<pre class="code">
+<span class="keywd">public class</span> MyMockResultSet{
+   <span class="keywd">boolean</span> <span class="field">isNext</span>;
+
+   <span class="keywd">public</span> MyMockResultSet() {
+       <span class="keywd">this</span>.<span class="field">isNext</span> = <span class="keywd">true</span>;
+   }
+
+   <span class="keywd">public</span> String getString(String colname) {
+       return <span class="strVal">"myMockName"</span>;
+   }
+
+   <span class="keywd">public boolean</span> next(){
+       if (<span class="field">isNext</span>) {
+           <span class="field">isNext</span> = <span class="keywd">false</span>;
+           <span class="keywd">return true</span>;
+       }
+       <span class="keywd">return false</span>;
+   }
+}
+
+@Test
+<span class="keywd">public void</span> testWithMockDB () <span class="keywd">throws</span> Exception {
+    TestAction test = <span class="keywd">new</span> TestAction(<span class="strVal">"MY AWESOME TEST"</span>) {
+        @Override
+        <span class="keywd">public void</span> runTest() {
+            MyJdbcObj myJdbcObj = <span class="keywd">new</span> MyJdbcObj();
+            String someResult = myJdbcObj.getSomeResult();
+            assertEquals(expectedResult, someResult);
+        }
+    };
+    MockDriver.execute(test, <span class="keywd">new</span> MyMockResultSet());
+}
+</pre>
+<p>What this example shows is that there are two types of objects that the test writer needs to implement, usually. The first is a mock <code>ResultSet</code> type. Mock <code>ResultSet</code> objects are simple Java objects, which do not need to implement any particular interface. The only requirement for mock <code>ResultSet</code> objects is that they define methods which are identical to methods which are expected to be called on actual <code>java.sql.ResultSet</code> objects by the application code under test. These mock methods provide data which would normally come from the database.</p>
+<p>The second object is the <code>TestAction</code> type, shown above as an anonymous class. <code>TestAction</code> is the base class to extend in order to implement the test code which will be run by <code>MockDriver</code>.</p>
+<p>So as long as your JDBC code can be run from within a <code>TestAction</code>, then, that code can also be run within the <code>MockDriver</code> container. And the mock <code>ResultSet</code> object(s) that you provide will be substituted for the real <code>java.sql.ResultSet</code> objects.</p>
+<p>It should be noted that while the framework was originally developed to test code which used the <code>java.sql.DriverManager</code> to obtain a <code>Connection</code>, it can also be extended to handle different types of <code>Connection</code> sources, such as a <code>javax.sql.DataSource</code>. It takes a little more work to substitute a proxy for a real <code>DataSource</code>, but it is possible.</p>
+
+<ul class="page_section_links">
+<li><span class="arrow">&raquo;</span>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
+</ul>
+
+<!--
+<p>The source code: <a target="_blank" href="https://github.com/climber09/JDBC-Test-Framework">https://github.com/climber09/JDBC-Test-Framework</a></p>
+-->
+</div>
+</div>
+</article>`;

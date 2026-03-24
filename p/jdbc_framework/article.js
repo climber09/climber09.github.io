@@ -1,0 +1,123 @@
+const article_html = `<article id="post-195" class="post-195 post type-post status-publish format-standard hentry category-jdbc clearfix">
+<header class="entry-header">
+<h1 class="entry-title">JDBC Framework</h1></header><!-- .entry-header -->
+<div class="entry-content">
+<ul id="nav2"></ul>
+<div id="content_txt">
+<p><span class="section">Why a JDBC framework?</span>
+</p>
+<ul class="page_section_links">
+<li><span class="arrow">&raquo;</span>  <a title="You may need to disable your Pop-up Blocker to view" href="javascript:popupUtil.open('assets/jdbc_framework/javadoc/index.html','',new popupUtil.WindowSpecs(850,650));">Javadocs</a></li>
+<li><span class="arrow">&raquo;</span>  <a href="assets/jdbc_framework/jdbc_framework_v1.0.zip">Source Code</a></li>
+</ul>
+<p>My aim in developing a JDBC framework was to create a simple, flexible, and lightweight framework for running JDBC queries.
+</p>
+<p>I began to develop the JDBC framework after reading Rod Johnson&#8217;s discussion of a generic JDBC abstraction framework in &#8220;Expert One-On-One J2EE Design and Development.&#8221; The framework he describes is basically a precursor to the JDBC support which is bundled within the Spring Framework. The Spring JDBC abstraction framework accomplishes most of what it does with the use of callback handlers. The primary motivation for the Spring JDBC framework is the necessity, otherwise, to catch a myriad of SQLExceptions, sometimes nested, with each query, thus cluttering up the code and obscuring the actual query specific implementation. For a framework to close all the JDBC resources (ResultSet, Statement, and Connection), it must maintain handles to each of these objects.
+</p>
+<p>The Spring approach accomplishes this task by requiring the user to implement callback handlers and thus encapsulating the resources to be closed. <!--Trouble is, once you start wrapping an API like JDBC, you have to go a long way to cover all your bases. Later, if the wrapped API changes, then you may have to modify your wrapping classes, as well, to accomodate those changes.-->This strategy can be fragile. And in the case of JDBC, the implementation must be broken up into parts &#8211; mainly, the Statement creation part and the ResultSet processing part. This strategy seems to me like a trade-off of one set of complexities for another.
+</p>
+<p>I believe that the motivation behind the Spring JDBC encapsulation strategy itself is sound. However, the extensive use of callback handlers is not the only way to achieve the desired end &#8211; namely, cleaner code uncluttered by nested try-catch-finally blocks, and guarantees of closure for all JDBC resources in a consistent, timely manner.
+</p>
+<p>What I offer here is simpler approach to achieve the same end, i.e., to store and maintain the necessary JDBC resources so that proper closure and exception handling is taken care of within the framework, instead of the application code, but without the extensive use of callbacks which break up your JDBC code.
+</p>
+<p>Ironically, the modus operandi was inspired by reading about the internal workings of the Spring Framework, and, in particular, it&#8217;s use of Dynamic Proxies. Proxying is ubiquitous throughout Spring&#8217;s inner workings. So why not apply the same strategy to the problems encountered with JDBC? Consider this example:
+</p>
+<pre class="code"><span class="keywd">public</span> String loadMessage(<span class="keywd">final</span> String messageKey) <span class="keywd">throws</span> SQLException {
+    <span class="keywd">final</span> String[] message = new String[1];
+         
+    JdbcQueryHandler query1 = new AbstractQueryHandler() {
+        <span class="keywd">public void</span> doQueryAndProcessResults(Connection connection) 
+                <span class="keywd">throws</span> SQLException {
+            PreparedStatement ps = connection.prepareStatement(
+                    <span class="strVal">"SELECT TEXT FROM MESSAGE WHERE ID = ?"</span>);
+         
+            ps.setString(1, messageKey);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                message[0] = rs.getString(1);
+            }
+        }
+    };
+    <span class="field">queryManager</span>.executeAndCloseResources(query1); 
+    <span class="keywd">return</span> message[0];
+}
+</pre>
+<p>Within the <span class="code">loadMessage()</span> method is an anonymous class which extends <span class="code">AbstractQueryHandler</span>. The anonymous implementation contains a single method: <span class="code">doQueryAndProcessResults()</span>. Notice that all of the JDBC related code is contained therein, and only therein. No other callbacks need to be implemented. There is one exception and I will discuss that shortly, but the important point here is that the JDBC code remains intact, as if no framework were used. And there is no need to close the ResultSet, Statement, or Connection explicitly within the user&#8217;s implementation. The developer has full access to the Statement and ResultSet objects, so there is no need for further wrapping to invoke methods on these objects. OK, that&#8217;s the simplicity part. You can write your JDBC query as you have already learned and you don&#8217;t have to learn a new API or strategy.
+</p>
+<p>How is this accomplished? Well, look at the first line in the anonymous <span class="code">AbstractQueryHandler</span> class.
+</p>
+<pre class="code">  PreparedStatement ps = connection.prepareStatement(...)</pre>
+<p>The <span class="code">&#8220;connection&#8221;</span> invoked here is actually a java.lang.reflect.Proxy instance employed as a &#8220;stand-in&#8221; for a java.sql.Connection. This proxy is created within the framework and then monitored. Later, on when the query execution is completed, the Connection can be closed by the framework. Whenever this Connection proxy is invoked and a java.sql.Statement object is created, that invocation is intercepted and then a Statement proxy is created, stored internally, and then sent back to the caller. So, the PreparedStatement, in the example above, is actually a proxy. Since java.sql.Statement is the super class for java.sql.PreparedStatement and java.sql.CallableStatement, the framework only has to monitor calls that return a java.sql.Statement type, and that takes care of the subtypes as well. The framework does not need to know the specific type of Statement, but only that there is a Statement to be monitored. Whenever the Statement proxy is invoked to return a ResultSet, that invocation is intercepted, and the ResultSet is stored as well. So all the JDBC resources associated with each query are stored, and can be closed after execution of the query.
+</p>
+<p><!--I am somewhat surprised that this approach has not been exploited already, particularly since-->Spring makes extensive use of proxying, especially in the support of transaction management via AOP mechanics. And, on the subject of transaction management, it is very easy to apply the Spring transaction management strategy to my JDBC framework. Spring&#8217;s TransactionAwareDataSourceProxy can be employed to allow queries to execute within a transaction. Then you can apply the Spring declarative transaction management strategy as usual. And if you like Spring&#8217;s fine grained generic data access exception hierarchy, you can use Spring&#8217;s SQLStateSQLExceptionTranslator, or SQLErrorCodeSQLExceptionTranslator to translate SQLExceptions into a more expository exception type. So my JDBC framework can easily plug into a Spring-outfitted JEE application. Here&#8217;s an example fragment of a Spring applicationContext.xml file that would integrate my JDBC framework:
+</p>
+<pre class="code"><span class="comment">&lt;!-- DATASOURCE BEANS --&gt;</span>
+<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"dataSource"</span><span class="attr"> class=</span><span class="strVal">"org.apache.commons.dbcp.BasicDataSource"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"driverClassName"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.driver}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"url"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.connection.url}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"username"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.username}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"password"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.password}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+
+<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"dataSourceProxy"
+</span><span class="attr">class=</span><span class="strVal">"org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"targetDataSource"</span><span class="attr"> ref=</span><span class="strVal">"dataSource"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+
+<span class="comment">&lt;!-- TRANSACTION MANAGER BEAN --&gt;</span>
+<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"txManager"
+</span><span class="attr">class=</span><span class="strVal">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"dataSource"</span><span class="attr"> ref=</span><span class="strVal">"dataSourceProxy"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+
+<span class="comment">&lt;!-- JDBC FRAMEWORK BEANS --&gt;</span>
+<span class="comment">&lt;!-- ConnectionAdapter --&gt;</span>
+<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"connectionAdapter"
+</span><span class="attr">class=</span><span class="strVal">"test.springframework.SpringDataSourceConnectionAdapter"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"dataSourceProxy"</span><span class="attr"> ref=</span><span class="strVal">"dataSourceProxy"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+
+<span class="comment">&lt;!-- JdbcQueryManager --&gt;</span>
+<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"queryMgr" </span><span class="attr">class=</span><span class="strVal">"com.addr.hunterj.jdbc.QueryManager"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"connectionAdapter"</span><span class="attr"> ref=</span><span class="strVal">"connectionAdapter"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+</pre>
+<p>This configuration sets up a transaction manager bean (&#8220;txManager&#8221;) in the usual way by supplying it with a DataSource. But the DataSource is a TransactionAwareDataSourceProxy bean (&#8220;dataSourceProxy&#8221;), which wraps around a standard DataSource bean. So any beans that get a Connection from this proxy bean can execute within a Spring managed transaction. Now, to further understand how the integration is achieved take a look at this <span class="code">ConnectionAdapter</span> implementation:
+</p>
+<pre class="code"><span class="keywd">public class</span> SpringDataSourceConnectionAdapter <span class="keywd">implements</span> ConnectionAdapter {
+    TransactionAwareDataSourceProxy <span class="field">dataSourceProxy</span>;
+                
+    <span class="keywd">public</span> SpringDataSourceConnectionAdapter() {
+    }
+
+    <span class="keywd">public</span> Connection getTargetConnection() <span class="keywd">throws</span> SQLException {
+        <span class="keywd">return</span> dataSourceProxy.getConnection();
+    }
+
+    <span class="keywd">public void</span> setDataSourceProxy(
+            TransactionAwareDataSourceProxy dataSourceProxy){
+        <span class="keywd">this.</span><span class="field">dataSourceProxy</span> = dataSourceProxy;
+    }
+}
+</pre>
+<p>The <span class="code">ConnectionAdapter</span> interface has one method:</p>
+<pre class="code"><span class="keywd">public</span> Connection getTargetConnection() <span class="keywd">throws</span> java.sql.SQLException;
+</pre>
+<p>This is the only additional callback that needs to be implemented. The <span class="code">ConnectionAdapter</span> decouples the framework from the application specific Connection source. The user implements a <span class="code">ConnectionAdapter</span> and supplies it to the <span class="code">JdbcQueryManager</span>.  This strategy enables portability between application environments, as different environments may use a different resource type to acquire the database connection, e.g., DataSource, Connection Pool, or a direct connection, as could be used for testing purposes. The <span class="code">ConnectionAdapter</span> merely allows the JDBC framework to access the target Connection in an application agnostic way. So no matter how the Connection is established or what resources are used, the framework doesn&#8217;t care, as long as the target is of type java.sql.Connection. So, in the above configuration example, the DataSource proxy bean is supplied to a <span class="code">ConnectionAdapter</span> bean (&#8220;connectionAdapter&#8221;), and the <span class="code">ConnectionAdapter</span> bean is then supplied to a <span class="code">JdbcQueryManager</span> bean (&#8220;queryMgr&#8221;). The <span class="code">JdbcQueryManager</span>, by the way, is roughly equivalent in concept to Spring&#8217;s JdbcTemplate. It is the controller within the framework. It creates the internal objects needed and is thread safe.
+</p>
+<p>In this way, a Spring application can be configured to use a <span class="code">JdbcQueryManager</span>. Of course any number of <span class="code">JdbcQueryManager</span> instances can be configured, but it is reusable. So now beans that require a <span class="code">JdbcQueryManager</span>, such as a DAO, can be configured this way:
+</p>
+<pre class="code">
+<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"myService" </span><span class="attr">class=</span><span class="strVal">"com.my.services.myServiceDao"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"queryManager"</span><span class="attr"> ref=</span><span class="strVal">"queryMgr"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+</pre>
+<p>The Spring declarative transaction management configuration can then be applied in the usual way to the interface specified methods within myServiceDao.
+</p>
+<p>The framework also supports complex queries that involve multiple, or nested, Statements, as, for example, when inserting an oracle.sql.BLOB. A nested <span class="code">JdbcQueryHandler</span> can be executed to handle a nested Statement by calling <span class="code">executeNested(JdbcQueryHandler)</span>. The framework takes care of closing each Statement and ResultSet pair in the appropriate LIFO (last-in-first-out) order of execution, closing the innermost nested resources first and continuing back up the chain.
+</p>
+<p>So writing a query within a <span class="code">JdbcQueryHandler</span> allows the developer to focus on just the JDBC code. The query code is not obscured or cluttered with operations to acquire the Connection or closing the Connection, Statement, and ResultSet instances. And the application query code need not be split up into many callback handlers. Each query requires just a single callback to be implemented. It is written using standard JDBC syntax, and the Statement and ResultSet objects are accessible to the developer. The JDBC framework is easily integrated into a Spring application and can participate in transactions managed by Spring. I believe that this framework gives the developer a simple yet powerful alternative in the implementation of JDBC queries.
+</p>
+</div><!-- end content_txt -->
+</div>
+</article>`;
