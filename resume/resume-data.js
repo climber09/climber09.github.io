@@ -1,5 +1,5 @@
-const data = [];
-data["experience"] = [
+const resumeData = [];
+resumeData["experience"] = [
   {
     heading : {
       title : {
@@ -263,7 +263,7 @@ data["experience"] = [
     ]
   }
 ];
-data["education"] = [
+resumeData["education"] = [
   {
     heading : {
       title : {
@@ -311,7 +311,7 @@ data["education"] = [
     ]
   }  
 ];
-data["summary"] = [
+resumeData["summary"] = [
   {
     item_list : [
       "Languages and Technologies: Java/JEE, Servlets, JSP, Portlets, JAXP, JAXB, JDBC, SQL, XML, XSLT, Ant, Perl, JavaScript, AJAX, HTML, and CSS.", 

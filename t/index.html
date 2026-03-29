@@ -4,11 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>James Hunter &#8211; Computer Software &amp; Web Development</title>
-<base href="/">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<base href="/climber09/">
 <script src="assets/js/popup-util.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/custom-style.css"/>
-
 <link rel='stylesheet' id='bootstrap-css'  href='wp-content/themes/astrid/css/bootstrap/bootstrap.min68b3.css?ver=1' type='text/css' media='all' />
 <link rel='stylesheet' id='astrid-style-css'  href='wp-content/themes/astrid/style5010.css?ver=4.9.8' type='text/css' media='all' />
 <style id='astrid-style-inline-css' type='text/css'>
@@ -31,7 +29,6 @@ h5 { font-size:14px; }
 h6 { font-size:12px; }
 body { font-size:14px; }
 </style>
-
 <link rel='stylesheet' id='font-awesome-css'  href='wp-content/themes/astrid/fonts/font-awesome.min5010.css?ver=4.9.8' type='text/css' media='all' />
 <script type='text/javascript' src='wp-includes/js/jquery/jqueryb8ff.js?ver=1.12.4'></script>
 <script type='text/javascript' src='wp-includes/js/jquery/jquery-migrate.min330a.js?ver=1.4.1'></script>
@@ -73,11 +70,10 @@ body { font-size:14px; }
     clear: both;
 }
 p.site-title{font-size: 28px;}
-/*h1.page-title, h1.entry-title, h2.entry-title{font-size: 24px;}
-  */
 h2.entry-title{font-size:1.25em;text-decoration:underline}
-h1.page-title, h1.entry-title{font-size:1.25em;font-weight:bold;color:#666}
+h1.page-title, h1.entry-title{font-size:20px;font-weight:bold;color:#888}
 h1.page-title span {font-weight:normal}
+h1.page-title{margin-top:30px;margin-bottom: 30px}
 h3.entry-sub-sect{font-size: 16px; text-decoration: underline;
 text-transform: uppercase;
 padding-top: 10px;}
@@ -107,10 +103,9 @@ div#content_txt p, div#content_txt ul{
   color: #777;
   line-height: 1.75;
 }
-h1.page-title{margin-bottom: 30px}
 article.hentry{
-  margin-top: 20px;
-  margin-bottom: 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
   padding-top: 0;
   padding-bottom:0;
 }
@@ -126,23 +121,21 @@ table > tfoot > tr > td {
 </style>
 <script type="text/javascript" src="assets/jquery/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="p/postInfo.js"></script>
-<script type="text/javascript" src="topic/topicInfo.js"></script>
+<script type="text/javascript" src="t/topicInfo.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
-    let topicKey = window.location.search.replaceAll(/[^a-z]/g, "");
-    if(topicKey === "" || !topicInfo[topicKey]){
-        return
-    }
-    let topic = topicInfo[topicKey];
-    $("#topic-label").append(topic.label);
-    $.each(topic.posts, function(i, k){
-        $("div.posts-layout").append(postInfo[k]);
-    });
-//    alert(topic);
+$(document).ready(function(){
+  let topicKey = window.location.search.replaceAll(/[^a-z]/g, "");
+  if(topicKey === "" || !topicInfo[topicKey]){
+      return
+  }
+  let topic = topicInfo[topicKey];
+  $("#topic-label").append(topic.label);
+  $.each(topic.posts, function(i, k){
+      $("div.posts-layout").append(postInfo[k]);
+  });
 });
 </script>
 </head>
-
 <body class="page-template-default page">
 <div class="preloader">
 <div class="preloader-inner">
@@ -156,15 +149,8 @@ table > tfoot > tr > td {
 <p class="site-title"><a href="." rel="home">James Hunter</a></p><p class="site-description">Computer Software &amp; Web Development</p></div>
 <div class="btn-menu col-md-8 col-sm-6 col-xs-12"><i class="fa fa-navicon"></i></div>
 <nav id="mainnav" class="main-navigation col-md-8 col-sm-6 col-xs-12" role="navigation">
-<div class="menu-main-menu-container"><ul id="primary-menu" class="menu"><li id="menu-item-41" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-41"><a href="resume/">resume</a>
-<ul class="sub-menu">
-    <li id="menu-item-51" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-51"><a href="resume?=Summary">summary</a></li>
-    <li id="menu-item-220" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-220"><a href="resume?=Experience">experience</a></li>
-    <li id="menu-item-43" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-43"><a href="resume?=Education">education</a></li>
-</ul>
-</li>
-<li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47"><a href="etc/">etc</a></li>
-</ul></div></nav><!-- #site-navigation -->
+<div id="head-menu-container" class="menu-main-menu-container">
+</div></nav><!-- #site-navigation -->
 </div>
 </header><!-- #masthead -->
 <div class="header-clone"></div><div id="content" class="site-content">
@@ -173,14 +159,13 @@ table > tfoot > tr > td {
 <main id="main" class="site-main" role="main" style="font-size:0.9em">
 <header class="page-header">
 <h1 id="topic-label" class="page-title"><i class="fa fa-folder-o"></i></h1>
+<!--ul id="nav2"></ul-->
 </header><!-- page-header -->
 <div class="posts-layout">
 </div>
 </main><!-- #main -->
 </div><!-- #primary -->
-  
 <aside id="secondary" class="widget-area" role="complementary">
-
 <aside id="search-2" class="widget widget_search">
   <form role="search" method="get" class="search-form" action="s">
     <label>
@@ -189,31 +174,6 @@ table > tfoot > tr > td {
     </label>
     <input type="submit" class="search-submit" value="Search" />
   </form>
-</aside>
-
-<aside id="categories-2" class="widget widget_categories"><h4 class="widget-title">Topics</h4>
-<ul>
-<li class="cat-item cat-item-2"><a href="topic?=java">Java/JEE</a>
-<ul class='children'>
-<li class="cat-item cat-item-3"><a href="topic?=jdbc">JDBC</a>
-</li>
-<li class="cat-item cat-item-4"><a href="topic?=jsp">JSP</a>
-</li>
-<li class="cat-item cat-item-5"><a href="topic?=jstl">JSTL</a>
-</li>
-<li class="cat-item cat-item-6"><a href="topic?=xslt">XSLT</a>
-</li>
-</ul>
-</li>
-<li class="cat-item cat-item-7"><a href="topic?=javascript">JavaScript</a>
-</li>
-<li class="cat-item cat-item-8"><a href="topic?=perl">Perl</a>
-</li>
-<li class="cat-item cat-item-10"><a href="topic?=testing">Testing</a>
-</li>
-<li class="cat-item cat-item-9"><a href="topic?=webservices">Web Services</a>
-</li>
-</ul>
 </aside>
 </aside><!-- #secondary -->
 </div>
@@ -227,7 +187,6 @@ table > tfoot > tr > td {
 <script type='text/javascript' src='wp-content/themes/astrid/js/html5shiv.js?ver=4.9.8'></script>
 <![endif]-->
 <script type='text/javascript' src='wp-includes/js/wp-embed.min5010.js?ver=4.9.8'></script>
-
 </body>
 </html>
 

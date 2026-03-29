@@ -1,4 +1,4 @@
-article_html = `<article id="post-156" class="post-156 post type-post status-publish format-standard hentry category-perl clearfix">
+<article id="post-156" class="post-156 post type-post status-publish format-standard hentry category-perl clearfix">
 <header class="entry-header">
 <h1 class="entry-title">Find Jars &#8211; Perl Version</h1></header><!-- .entry-header -->
 <div class="entry-content">
@@ -47,11 +47,13 @@ Search for Jars containing OracleDriver.class starting at /home/jim/workspace:
 
 Results: found 2 Jar(s)
 </pre>
-<p>The <span class="code">-exec</span> option is handy when you want to execute some command with each jar file that scores a hit during the search, like, for example, copying each jar to some location:</p>
+<p>The <span class="code">-exec</span> option is handy when you want to execute some command with each jar file that scores a hit during the search, like, for example, copying each jar to some location:
+</p>
 <pre class="code">
 $ perl findJars.pl ~/workspace/oldLib OracleDriver -exec="cp {} ~/workspace/newLib"
 </pre>
 <p/>
+<ul class="page_section_links"></ul>
 </div><!-- end content_txt -->
 </div>
-</article>`;
+</article>
