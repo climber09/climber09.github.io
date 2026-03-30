@@ -19,17 +19,17 @@
 }*/
 .card{
   display: inline-block;
-  box-shadow: 1px 1px 4px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.2);
   transition: 0.25s;
   width: 200px;
   border-radius: 5px;
-  background-color: rgb(244,244,246) /*#f6f6f6*/ /*#f0f0f0*/ /* #eee*/;
+  background-color: #f9f9f9;
   margin: 14px;
 }
 .card:hover {
   cursor: pointer;
-  background-color: rgb(249,249,249) /*#f9f9f9*/ /*#f6f6f6*/;
-  box-shadow: 2px 2px 4px 0 rgba(0,0,0,0.2);
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 .card-content{
   padding: 8px 4px;
