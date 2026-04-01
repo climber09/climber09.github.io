@@ -185,7 +185,7 @@ ul#nav2{margin-bottom:25px}
 <ul id="nav2">
 <li><a href="resume/?=summary">Summary</a></li><li><a href="resume/?=experience">Experience</a></li><li><a href="resume/?=education">Education</a></li>
 </ul>
-<div id="content_txt">
+<div id="content_txt"><div id="entry-box"></div>
 </div><!-- end content_txt -->
 </div>
 </article>
@@ -203,7 +203,7 @@ ul#nav2{margin-bottom:25px}
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter<div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->
@@ -222,8 +222,8 @@ $("ul#nav2 li").each(function(){
     link.attr("class", "active");
   }
 });
-$("div#content_txt").html(resumeData[section].map(blockHtml).join("\n"));
+$("div#entry-box").html(resumeData[section].map(blockHtml).join("\n"));
+// $("div#content_txt").html(resumeData[section].map(blockHtml).join("\n"));
 </script>
 </body>
 </html>
-

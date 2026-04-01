@@ -61,6 +61,10 @@
 #content_txt, ul#nav2 {
    border-bottom: 1px solid #ddce93;
 }
+div#content_txt div#entry-box, div#content_txt div#info{
+    min-height: 400px;
+    margin-top: 30px;
+}
 ul#nav2 {
     width: auto;
     margin-top: 0;

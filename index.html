@@ -10,6 +10,8 @@
 <link rel='stylesheet' id='bootstrap-css'  href='wp-content/themes/astrid/css/bootstrap/bootstrap.min68b3.css?ver=1' type='text/css' media='all' />
 <link rel='stylesheet' id='astrid-style-css'  href='wp-content/themes/astrid/style5010.css?ver=4.9.8' type='text/css' media='all' />
 <style id='astrid-style-inline-css' type='text/css'>
+html {height: calc(100% - 589px)}
+body{min-height: calc(100vh + 589px)}
 .site-header {position: fixed;}
 .site-title a,.site-title a:hover { color:#ffffff}
 .site-description { color:#BDBDBD}
@@ -136,7 +138,7 @@ $(document).ready(function(){
 <p class="site-title"><a href="." rel="home">James Hunter</a></p><p class="site-description">Computer Software &amp; Web Development</p></div>
 <div class="btn-menu col-md-8 col-sm-6 col-xs-12"><i class="fa fa-navicon"></i></div>
 <nav id="mainnav" class="main-navigation col-md-8 col-sm-6 col-xs-12" role="navigation">
-<div id="head-menu-container" class="menu-main-menu-container">
+<div id="head-menu-container" class="menu-main-menu-container">  
 </div></nav><!-- #site-navigation -->
 </div>
 </header><!-- #masthead -->
@@ -155,16 +157,13 @@ $(document).ready(function(){
 <div id="primary" class="content-area">
 <main id="main" class="site-main" role="main">
 <article id="post-64" class="post-64 page type-page status-publish hentry clearfix">
-<header class="entry-header">
-<p><h1 class="entry-title">Browse</h1></p>
-</header><!-- .entry-header -->
+<header class="entry-header"><h1 class="entry-title">Browse</h1></header><!-- .entry-header -->
 <div class="entry-content">
 <ul id="nav2"></ul>
 <div id="content_txt">
-<div id="entry-box" class="welcome_pg" style="margin-top:30px;min-height:600px">
+<div id="entry-box" class="welcome_pg"></div>
+</div>
 </div><!-- .entry-content -->
-<footer class="entry-footer">
-</footer><!-- .entry-footer -->
 </article><!-- #post-## -->
 </main><!-- #main -->
 </div><!-- #primary -->
@@ -180,7 +179,7 @@ $(document).ready(function(){
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter<div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->
@@ -190,12 +189,6 @@ $(document).ready(function(){
 <script type='text/javascript' src='wp-content/themes/astrid/js/html5shiv.js?ver=4.9.8'></script>
 <![endif]-->
 <script type='text/javascript' src='wp-includes/js/wp-embed.min5010.js?ver=4.9.8'></script>
-<script type='text/javascript'>
-let headImg = document.querySelector("img.large-header");
-if(window.location.hash === "#1") {
-  window.scrollTo(0, headImg.offsetHeight - 90);
-}
-</script>
 </body>
 </html>
 
