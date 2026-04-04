@@ -24,7 +24,7 @@ SOAP::Transport::HTTP::CGI
     ...
 1;
 </pre>
-<p>These few lines of code allow a Web Service client to access the subroutines defined within the <em>demo</em> module using the SOAP protocol over HTTP. Of course the client needs to know what those subroutines look like, but the cool thing here is how simple and easy to use the SOAP::Lite module can be. My Web Service demo is named <span class="code">MessageDemo.cgi</span>. In this example the service address is <span class="code">http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi.</span> <span class="code">MessageDemo.cgi</span> serves as a proxy that can dispatch the client&#8217;s calls to the <em>demo</em> module. No configuration or deployment descriptor file is needed. That&#8217;s the gist of it.</p>
+<p>These few lines of code allow a Web Service client to access the subroutines defined within the <em>demo</em> module using the SOAP protocol over HTTP. Of course the client needs to know what those subroutines look like, but the cool thing here is how simple and easy to use the SOAP::Lite module can be. My Web Service demo is named <span class="code">MessageDemo.cgi</span>. In this example the service address is <span class="code">http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi.</span><span class="code">MessageDemo.cgi</span> serves as a proxy that can dispatch the client&#8217;s calls to the <em>demo</em> module. No configuration or deployment descriptor file is needed. That&#8217;s the gist of it.</p>
 <p>Now to expose the Web Service methods to the world a WSDL file is required. To create the WSDL file &#8211; <a title="You may need to disable your Pop-up Blocker to view" href="javascript:popupUtil.open('assets/webservices/MessageDemoService.xml','')">MessageDemoService.wsdl</a> &#8211; I used Sun&#8217;s <em>wscompile</em> tool that comes with the J2EE 1.4 SDK. I also used the <em>wscompile</em> tool to generate the Java client stub code to test the service.
 </p>
 <p>
@@ -40,8 +40,8 @@ A Perl client can access the service very easily using the SOAP::Lite module. Fo
     -> getCategoryNames()
     -> result;
 
-<span class="keywd">foreach</span> <span class="field">$category</span> (<span class="field">@$categoryList</span>) {
-    <span class="keywd">print</span> <span class="field">$category</span> . <span class="strVal">"\n"</span>;
+<span class="keywd">foreach</span><span class="field">$category</span> (<span class="field">@$categoryList</span>) {
+    <span class="keywd">print</span><span class="field">$category</span> . <span class="strVal">"\n"</span>;
 }
 </pre>
 <p>

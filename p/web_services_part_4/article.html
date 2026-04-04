@@ -52,7 +52,7 @@ One strategy would be to create a wrapper class to contain a <span class="code">
 <span class="keywd">public class</span> ResponseList<T> {
 
     @XmlElement()
-    List<T> <span class="field">data</span>;
+    List<T><span class="field">data</span>;
     
     <span class="keywd">public</span> ResponseList() {}
     
@@ -68,16 +68,16 @@ One strategy would be to create a wrapper class to contain a <span class="code">
 <p>The XML result from marshalling a <span class="code">ResponseList</span> looks something like this:</p>
 <pre class="code">
 <span class="tag">&lt;responseList&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;General/System<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Consumer Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Small Business Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Initiate Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Claim Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;EpicWare Related<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Request Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Change Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Lost Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span> <span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;POS Transaction<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;General/System<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Consumer Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Small Business Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Initiate Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Claim Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;EpicWare Related<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Request Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Change Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Lost Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
+  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;POS Transaction<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
 <span class="tag">&lt;/responseList&gt;</span>
 </pre>
 <p><!--p>

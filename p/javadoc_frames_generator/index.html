@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<style>
+*{
+  margin: 0;
+  padding: 0;
+}
+div{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+div > iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
+</head>
+<body>
+<div>
+<iframe src="" id="content"></iframe>
+</div>
+<script type="text/javascript">
+const uri = window.location.href.replace("/p/", "/p/?=");
+document.getElementById("content").src = uri;
+</script>
+</body>
+</html>

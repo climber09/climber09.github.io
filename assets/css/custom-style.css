@@ -62,7 +62,7 @@
    border-bottom: 1px solid #ddce93;
 }
 div#content_txt div#entry-box, div#content_txt div#info{
-    min-height: 400px;
+    min-height: 360px;
     margin-top: 30px;
 }
 ul#nav2 {

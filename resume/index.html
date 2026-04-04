@@ -203,7 +203,7 @@ ul#nav2{margin-bottom:25px}
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter</div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2026 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->
@@ -216,14 +216,13 @@ ul#nav2{margin-bottom:25px}
 <script type="text/javascript">
 let section = window.location.search.replace(/[^a-z]/g, "");
 if(section === "" || !resumeData[section]){section = "summary"};
-$("ul#nav2 li").each(function(){
-  let link = $(this).find("a");
-  if(link.text().toLowerCase() === section){
-    link.attr("class", "active");
-  }
+$("ul#nav2 li a").each((i, link)=>{
+   if(link.innerText.toLowerCase().indexOf(section) > -1){
+     link.setAttribute("class", "active");
+     return;
+   }
 });
 $("div#entry-box").html(resumeData[section].map(blockHtml).join("\n"));
-// $("div#content_txt").html(resumeData[section].map(blockHtml).join("\n"));
 </script>
 </body>
 </html>

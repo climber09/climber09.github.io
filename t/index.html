@@ -123,15 +123,16 @@ table > tfoot > tr > td {
 <script type="text/javascript" src="p/postInfo.js"></script>
 <script type="text/javascript" src="t/topicInfo.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-  let topicKey = window.location.search.replaceAll(/[^a-z]/g, "");
+$(document).ready(()=>{
+  const topicKey = window.location.search.replaceAll(/[^a-z]/g, "");
   if(topicKey === "" || !topicInfo[topicKey]){
-      return
+      return;
   }
-  let topic = topicInfo[topicKey];
+  const topic = topicInfo[topicKey];
   $("#topic-label").append(topic.label);
-  $.each(topic.posts, function(i, k){
-      $("div.posts-layout").append(postInfo[k]);
+  const contentBox = $("div.posts-layout");
+  $.each(topic.posts, (i, key)=>{
+    contentBox.append(postInfo[key]);
   });
 });
 </script>
@@ -177,7 +178,7 @@ $(document).ready(function(){
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter</div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2026 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->

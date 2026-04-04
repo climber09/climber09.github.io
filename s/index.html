@@ -2,6 +2,9 @@
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>James Hunter &#8211; Computer Software &amp; Web Development</title>
 <base href="/">
@@ -44,7 +47,6 @@ body { font-size:14px; }
 .site-main .post-navigation {
     padding: 2px 60px;
 }
-
 .site-branding{
     margin-bottom: 15px;
     width: 100%;
@@ -123,7 +125,7 @@ table > tfoot > tr > td {
 <script type="text/javascript" src="p/postInfo.js"></script>
 <script type="text/javascript" src="t/topicInfo.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(()=>{
   let keyPhrase = window.location.search.replaceAll(/\+/g, " ");
   keyPhrase = decodeURIComponent(keyPhrase);
   if(keyPhrase === ""){
@@ -139,13 +141,23 @@ $(document).ready(function(){
   searchHeader.innerHTML = searchHeader.innerHTML.replace("<span>", "<span>" + keyPhrase + "");  
   // escaping the '+' character in the search expression handles searches on 'C++'.
   const keyPhraseRE = new RegExp(keyPhrase.replaceAll("+", "\\+"), "i");
-  $.each(postInfo, function(path, html){
-    $.get(path + "/searchable.txt", function(content){
-      if (content.search(keyPhraseRE) != -1) {
-        $("main").append(html);
-      }
-    });
+  const results = Object.entries(postInfo).map(([key, content])=>{
+    return new Promise( (resolve) => {
+      $.get(key + "/searchable.txt", (text) => {
+        if(text.search(keyPhraseRE) != -1){
+          resolve(content);
+        } else {
+          resolve();
+        }
+      });
+    })
   });
+  const mainBox = $("main");
+  (async () => {for await (const entry of results){
+      if(entry){
+        mainBox.append(entry);
+    }}
+  })();
 });
 </script>
 </head>
@@ -187,7 +199,7 @@ $(document).ready(function(){
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter</div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2026 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->

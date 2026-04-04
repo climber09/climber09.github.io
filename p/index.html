@@ -120,13 +120,13 @@ table > tfoot > tr > td {
 <script type="text/javascript">
 function alternateContent(){
   const contentBox = $("div#entry-box");
-  $.each(topicInfo, function(key, topic){
+  $.each(topicInfo, (key, topic)=>{
     contentBox.append(`<div class="card" onclick="window.location.assign('t/?=${key}')"><div class="card-content"><h3>${topic.label}</h3></div></div>`);
   });
 }
 let uri = window.location.href.replace("/p/?=", "/p/") + "article.html";
-$(document).ready(function(){
-  $.get(uri, function(content){
+$(document).ready(()=>{
+  $.get(uri, (content)=>{
     $("article").replaceWith(content);
   }).fail(alternateContent);
 });
@@ -174,7 +174,7 @@ $(document).ready(function(){
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright © 2003 - 2018 James P. Hunter</div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright © 2003 - 2026 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->

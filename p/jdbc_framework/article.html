@@ -52,34 +52,34 @@
 <p><!--I am somewhat surprised that this approach has not been exploited already, particularly since-->Spring makes extensive use of proxying, especially in the support of transaction management via AOP mechanics. And, on the subject of transaction management, it is very easy to apply the Spring transaction management strategy to my JDBC framework. Spring&#8217;s TransactionAwareDataSourceProxy can be employed to allow queries to execute within a transaction. Then you can apply the Spring declarative transaction management strategy as usual. And if you like Spring&#8217;s fine grained generic data access exception hierarchy, you can use Spring&#8217;s SQLStateSQLExceptionTranslator, or SQLErrorCodeSQLExceptionTranslator to translate SQLExceptions into a more expository exception type. So my JDBC framework can easily plug into a Spring-outfitted JEE application. Here&#8217;s an example fragment of a Spring applicationContext.xml file that would integrate my JDBC framework:
 </p>
 <pre class="code"><span class="comment">&lt;!-- DATASOURCE BEANS --&gt;</span>
-<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"dataSource"</span><span class="attr"> class=</span><span class="strVal">"org.apache.commons.dbcp.BasicDataSource"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"driverClassName"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.driver}"</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"url"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.connection.url}"</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"username"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.username}"</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"password"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.password}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;bean</span><span class="attr">id=</span><span class="strVal">"dataSource"</span><span class="attr"> class=</span><span class="strVal">"org.apache.commons.dbcp.BasicDataSource"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"driverClassName"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.driver}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"url"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.connection.url}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"username"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.username}"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"password"</span><span class="attr"> value=</span><span class="strVal">"&#36;{jdbc.password}"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/bean&gt;</span>
 
-<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"dataSourceProxy"
+<span class="tag">&lt;bean</span><span class="attr">id=</span><span class="strVal">"dataSourceProxy"
 </span><span class="attr">class=</span><span class="strVal">"org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"targetDataSource"</span><span class="attr"> ref=</span><span class="strVal">"dataSource"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"targetDataSource"</span><span class="attr"> ref=</span><span class="strVal">"dataSource"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/bean&gt;</span>
 
 <span class="comment">&lt;!-- TRANSACTION MANAGER BEAN --&gt;</span>
-<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"txManager"
+<span class="tag">&lt;bean</span><span class="attr">id=</span><span class="strVal">"txManager"
 </span><span class="attr">class=</span><span class="strVal">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"dataSource"</span><span class="attr"> ref=</span><span class="strVal">"dataSourceProxy"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"dataSource"</span><span class="attr"> ref=</span><span class="strVal">"dataSourceProxy"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/bean&gt;</span>
 
 <span class="comment">&lt;!-- JDBC FRAMEWORK BEANS --&gt;</span>
 <span class="comment">&lt;!-- ConnectionAdapter --&gt;</span>
-<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"connectionAdapter"
+<span class="tag">&lt;bean</span><span class="attr">id=</span><span class="strVal">"connectionAdapter"
 </span><span class="attr">class=</span><span class="strVal">"test.springframework.SpringDataSourceConnectionAdapter"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"dataSourceProxy"</span><span class="attr"> ref=</span><span class="strVal">"dataSourceProxy"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"dataSourceProxy"</span><span class="attr"> ref=</span><span class="strVal">"dataSourceProxy"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/bean&gt;</span>
 
 <span class="comment">&lt;!-- JdbcQueryManager --&gt;</span>
-<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"queryMgr" </span><span class="attr">class=</span><span class="strVal">"com.addr.hunterj.jdbc.QueryManager"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"connectionAdapter"</span><span class="attr"> ref=</span><span class="strVal">"connectionAdapter"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;bean</span><span class="attr">id=</span><span class="strVal">"queryMgr" </span><span class="attr">class=</span><span class="strVal">"com.addr.hunterj.jdbc.QueryManager"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"connectionAdapter"</span><span class="attr"> ref=</span><span class="strVal">"connectionAdapter"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/bean&gt;</span>
 </pre>
 <p>This configuration sets up a transaction manager bean (&#8220;txManager&#8221;) in the usual way by supplying it with a DataSource. But the DataSource is a TransactionAwareDataSourceProxy bean (&#8220;dataSourceProxy&#8221;), which wraps around a standard DataSource bean. So any beans that get a Connection from this proxy bean can execute within a Spring managed transaction. Now, to further understand how the integration is achieved take a look at this <span class="code">ConnectionAdapter</span> implementation:
@@ -108,8 +108,8 @@
 <p>In this way, a Spring application can be configured to use a <span class="code">JdbcQueryManager</span>. Of course any number of <span class="code">JdbcQueryManager</span> instances can be configured, but it is reusable. So now beans that require a <span class="code">JdbcQueryManager</span>, such as a DAO, can be configured this way:
 </p>
 <pre class="code">
-<span class="tag">&lt;bean</span> <span class="attr">id=</span><span class="strVal">"myService" </span><span class="attr">class=</span><span class="strVal">"com.my.services.myServiceDao"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;property</span> <span class="attr">name=</span><span class="strVal">"queryManager"</span><span class="attr"> ref=</span><span class="strVal">"queryMgr"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;bean</span><span class="attr">id=</span><span class="strVal">"myService" </span><span class="attr">class=</span><span class="strVal">"com.my.services.myServiceDao"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;property</span><span class="attr">name=</span><span class="strVal">"queryManager"</span><span class="attr"> ref=</span><span class="strVal">"queryMgr"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/bean&gt;</span>
 </pre>
 <p>The Spring declarative transaction management configuration can then be applied in the usual way to the interface specified methods within myServiceDao.

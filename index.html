@@ -29,7 +29,7 @@ h5 { font-size:14px; }
 h6 { font-size:12px; }
 body { font-size:14px; }
 </style>
-<link rel='stylesheet' id='font-awesome-css'  href='wp-content/themes/astrid/fonts/font-awesome.min5010.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css' href='wp-content/themes/astrid/fonts/font-awesome.min5010.css?ver=4.9.8' type='text/css' media='all' />
 <script type='text/javascript' src='wp-includes/js/jquery/jqueryb8ff.js?ver=1.12.4'></script>
 <script type='text/javascript' src='wp-includes/js/jquery/jquery-migrate.min330a.js?ver=1.4.1'></script>
 <style type="text/css" id="wp-custom-css">
@@ -118,15 +118,19 @@ table > tfoot > tr > td {
 function resizeHeight(){
   const imgW = 1920;
   const imgH = 680;
+  // const w = document.documentElement.clientWidth;
+  // const pageH = document.documentElement.clientHeight;
+  // const h = 680-(((((1920-w)*100)/1920)/100)*680)
+  // const h = 680 - (1920 - w) * 0.354;
   const h = imgH - ((imgW - document.documentElement.clientWidth) / imgW * imgH);
   document.body.style.height = document.documentElement.clientHeight + h - 122 + 'px';
 }
 window.addEventListener('load', resizeHeight);
 window.addEventListener('resize', resizeHeight);
 
-$(document).ready(function(){
+$(document).ready(()=>{
   const contentBox = $("#entry-box");
-  $.each(topicInfo, function(key, topic){
+  $.each(topicInfo, (key, topic)=>{
     contentBox.append(`<div class="card" onclick="window.location.assign('t/?=${key}')"><div class="card-content"><h3>${topic.label}</h3></div></div>`);
   });
 });
@@ -186,7 +190,7 @@ $(document).ready(function(){
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2018 James P. Hunter</div>
+<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2026 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->

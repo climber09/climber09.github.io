@@ -1,16 +1,16 @@
 /** {key => {label, posts[..], parent}} */
-const topicInfo = {"java": {label: "Java/JEE", posts: ["p/jarfind","p/javadoc_viewer","p/jdbc_framework","p/jdbc_testing_with_mock_objects","p/web_services_part_1","p/web_services_part_3","p/web_services_part_4","p/xslt_for_dynamic_content_generation","p/xslt_with_jstl"]},
+const topicInfo = {"java": {label: "Java/JEE", posts: ["p/jarfind","p/javadoc_frames_generator","p/javadoc_viewer","p/jdbc_framework","p/jdbc_testing_with_mock_objects","p/web_services_part_1","p/web_services_part_3","p/web_services_part_4","p/xslt_for_dynamic_content_generation","p/xslt_with_jstl"]},
 "jdbc": {label: "JDBC", posts: ["p/jdbc_framework","p/jdbc_testing_with_mock_objects"], parent: "java"},
 "jsp": {label: "JSP", posts:["p/xslt_with_jstl"], parent: "java"},
 "jstl": {label: "JSTL", posts:["p/xslt_with_jstl"], parent: "java"},
 "xslt": {label: "XSLT", posts:["p/xslt_for_dynamic_content_generation","p/xslt_with_jstl"], parent: "java"},
-"javascript": {label: "JavaScript", posts:["p/dynamic_dom_viewer","p/javadoc_viewer"]},
+"javascript": {label: "JavaScript", posts:["p/dynamic_dom_viewer","p/javadoc_frames_generator","p/javadoc_viewer"]},
 "perl": {label: "Perl", posts:["p/find_jars_perl_version","p/web_services_part_2"]},
 "testing": {label: "Testing", posts:["p/jdbc_testing_with_mock_objects"]},
 "webservices": {label: "Web Services", posts:["p/web_services_part_1","p/web_services_part_2","p/web_services_part_3","p/web_services_part_4"]}};
-(function(){
-  $(document).ready(function(){
-    let headLink = `
+(()=>{
+  $(document).ready(()=>{
+    const headLink = `
 <ul id="primary-menu" class="menu">
 <li id="menu-item-41" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-41"><a target="_top" href="resume/">resume</a>
 <ul class="sub-menu">
@@ -22,11 +22,10 @@ const topicInfo = {"java": {label: "Java/JEE", posts: ["p/jarfind","p/javadoc_vi
 <li id="menu-item-47" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-47"><a target="_top" href="etc/">etc</a></li>
 </ul>`;
     $("div#head-menu-container").html(headLink);
-    let tBox = $('<aside id="categories-2" class="widget widget_categories"><h4 class="widget-title">Topics</h4></aside>');
-    let tList = $("<ul></ul>");
+    const tBox = $('<aside id="categories-2" class="widget widget_categories"><h4 class="widget-title">Topics</h4></aside>');
+    const tList = $("<ul></ul>");
     $("aside#secondary").append(tBox.append(tList));
-
-    $.each(topicInfo, function(key, info){
+    $.each(topicInfo, (key, info)=>{
       const li = `<li id="${key}" class="cat-item"><a target="_top" href="t/?=${key}">${info.label}</a></li>`;
       if(info.parent){
         const parent = $(`li#${info.parent}`);
