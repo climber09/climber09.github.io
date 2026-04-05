@@ -118,21 +118,13 @@ table > tfoot > tr > td {
 function resizeHeight(){
   const imgW = 1920;
   const imgH = 680;
-  // const w = document.documentElement.clientWidth;
-  // const pageH = document.documentElement.clientHeight;
-  // const h = 680-(((((1920-w)*100)/1920)/100)*680)
-  // const h = 680 - (1920 - w) * 0.354;
   const h = imgH - ((imgW - document.documentElement.clientWidth) / imgW * imgH);
   document.body.style.height = document.documentElement.clientHeight + h - 122 + 'px';
 }
 window.addEventListener('load', resizeHeight);
 window.addEventListener('resize', resizeHeight);
-
 $(document).ready(()=>{
-  const contentBox = $("#entry-box");
-  $.each(topicInfo, (key, topic)=>{
-    contentBox.append(`<div class="card" onclick="window.location.assign('t/?=${key}')"><div class="card-content"><h3>${topic.label}</h3></div></div>`);
-  });
+  defaultContent($("main"));
 });
 </script>
 </head>
@@ -166,17 +158,7 @@ $(document).ready(()=>{
 <div id="content" class="site-content">
 <div class="container">
 <div id="primary" class="content-area">
-<main id="main" class="site-main" role="main">
-<article id="post-64" class="post-64 page type-page status-publish hentry clearfix">
-<header class="entry-header"><h1 class="entry-title">Browse</h1></header><!-- .entry-header -->
-<div class="entry-content">
-<ul id="nav2"></ul>
-<div id="content_txt">
-<div id="entry-box" class="welcome_pg"></div>
-</div>
-</div><!-- .entry-content -->
-</article><!-- #post-## -->
-</main><!-- #main -->
+<main id="main" class="site-main" role="main"></main><!-- #main -->
 </div><!-- #primary -->
 <aside id="secondary" class="widget-area" role="complementary">
 <aside id="search-2" class="widget widget_search">

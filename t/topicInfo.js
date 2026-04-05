@@ -8,6 +8,14 @@ const topicInfo = {"java": {label: "Java/JEE", posts: ["p/jarfind","p/javadoc_fr
 "perl": {label: "Perl", posts:["p/find_jars_perl_version","p/web_services_part_2"]},
 "testing": {label: "Testing", posts:["p/jdbc_testing_with_mock_objects"]},
 "webservices": {label: "Web Services", posts:["p/web_services_part_1","p/web_services_part_2","p/web_services_part_3","p/web_services_part_4"]}};
+function defaultContent(container) {
+  container.html(`<article class="page type-page status-publish hentry clearfix"><header class="entry-header"><h1 class="entry-title">Browse</h1></header>
+  <div id="article-box" class="entry-content"><ul id="nav2"></ul><div id="content_txt"><div id="entry-box" class="welcome_pg"></div></div></div></article>`);
+  const contentBox = container.find("div#article-box div#content_txt div#entry-box");
+  $.each(topicInfo, (key, topic)=>{
+    contentBox.append(`<div class="card" onclick="window.location.assign('t/?=${key}')"><div class="card-content"><h3>${topic.label}</h3></div></div>`);
+  });
+}
 (()=>{
   $(document).ready(()=>{
     const headLink = `

@@ -118,17 +118,11 @@ table > tfoot > tr > td {
 <style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}
 </style>
 <script type="text/javascript">
-function alternateContent(){
-  const contentBox = $("div#entry-box");
-  $.each(topicInfo, (key, topic)=>{
-    contentBox.append(`<div class="card" onclick="window.location.assign('t/?=${key}')"><div class="card-content"><h3>${topic.label}</h3></div></div>`);
-  });
-}
 let uri = window.location.href.replace("/p/?=", "/p/") + "article.html";
 $(document).ready(()=>{
   $.get(uri, (content)=>{
-    $("article").replaceWith(content);
-  }).fail(alternateContent);
+    $("main").html(content);
+  }).fail(()=>{defaultContent($("main"))});
 });
 </script>
 </head>
@@ -157,9 +151,7 @@ $(document).ready(()=>{
 <div class="container">
 <div id="primary" class="content-area">
 <main id="main" class="site-main" role="main">
-<article class="page type-page status-publish hentry clearfix">
-<header class="entry-header"><h1 class="entry-title">Browse</h1></header>
-<div class="entry-content"><ul id="nav2"></ul><div id="content_txt"><div id="entry-box" class="welcome_pg"></div></div></div></article>
+<header class="page-header"><h1 id="topic-label" class="page-title"></h1></header>
 </main><!-- #main -->
 </div><!-- #primary -->
 <aside id="secondary" class="widget-area" role="complementary">
@@ -184,6 +176,5 @@ $(document).ready(()=>{
 <script type='text/javascript' src='wp-content/themes/astrid/js/html5shiv.js?ver=4.9.8'></script>
 <![endif]-->
 <script type="text/javascript" src="wp-includes/js/wp-embed.min5010.js?ver=4.9.8"></script>
-</div></div></body></html>
-
-
+</body>
+</html>
