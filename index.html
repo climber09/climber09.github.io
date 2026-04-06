@@ -49,9 +49,6 @@ body { font-size:14px; }
     width: 100%;
     text-align: left;
 }
-.site-header, .site-header.header-scrolled{
-    padding: 9px 0 0 0;
-}
 .site-header.header-scrolled{
     background-color: rgba(32, 37, 41, 0.6);
 }
@@ -119,7 +116,7 @@ function resizeHeight(){
   const imgW = 1920;
   const imgH = 680;
   const h = imgH - ((imgW - document.documentElement.clientWidth) / imgW * imgH);
-  document.body.style.height = document.documentElement.clientHeight + h - 122 + 'px';
+  document.body.style.height = document.documentElement.clientHeight + h - 123 + 'px';
 }
 window.addEventListener('load', resizeHeight);
 window.addEventListener('resize', resizeHeight);

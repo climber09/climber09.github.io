@@ -17,6 +17,7 @@
     min-height: 100%;
     clear: both;
 }*/
+div#primary{min-height: calc(100vh - 141px)}
 .card{
   display: inline-block;
   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.2);
