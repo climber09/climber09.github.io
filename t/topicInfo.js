@@ -1,13 +1,56 @@
-/** {key => {label, posts[..], parent}} */
-const topicInfo = {"java": {label: "Java/JEE", posts: ["p/jarfind","p/javadoc_frames_generator","p/javadoc_viewer","p/jdbc_framework","p/jdbc_testing_with_mock_objects","p/web_services_part_1","p/web_services_part_3","p/web_services_part_4","p/xslt_for_dynamic_content_generation","p/xslt_with_jstl"]},
-"jdbc": {label: "JDBC", posts: ["p/jdbc_framework","p/jdbc_testing_with_mock_objects"], parent: "java"},
-"jsp": {label: "JSP", posts:["p/xslt_with_jstl"], parent: "java"},
-"jstl": {label: "JSTL", posts:["p/xslt_with_jstl"], parent: "java"},
-"xslt": {label: "XSLT", posts:["p/xslt_for_dynamic_content_generation","p/xslt_with_jstl"], parent: "java"},
-"javascript": {label: "JavaScript", posts:["p/dynamic_dom_viewer","p/javadoc_frames_generator","p/javadoc_viewer"]},
-"perl": {label: "Perl", posts:["p/find_jars_perl_version","p/web_services_part_2"]},
-"testing": {label: "Testing", posts:["p/jdbc_testing_with_mock_objects"]},
-"webservices": {label: "Web Services", posts:["p/web_services_part_1","p/web_services_part_2","p/web_services_part_3","p/web_services_part_4"]}};
+/** For topic to posts mapping */
+const postMapping = (()=>{
+  const _topics = {
+    "java": [],
+    "jdbc": [],
+    "jsp": [],
+    "jstl": [],
+    "xslt": [],
+    "javascript": [],
+    "perl": [],
+    "testing": [],
+    "webservices": []};
+
+  const _posts = {
+    "p/dynamic_dom_viewer": ["javascript"],
+    "p/find_jars_perl_version": ["perl"],
+    "p/jarfind": ["java"],
+    "p/javadoc_frames_generator": ["java", "javascript"],
+    "p/javadoc_viewer": ["java", "javascript"],
+    "p/jdbc_framework": ["java", "jdbc"],
+    "p/jdbc_testing_with_mock_objects": ["java", "jdbc", "testing"],
+    "p/web_services_part_1": ["java", "webservices"],
+    "p/web_services_part_2": ["perl", "webservices"],
+    "p/web_services_part_3": ["java", "webservices"],
+    "p/web_services_part_4": ["java", "webservices"],
+    "p/xslt_for_dynamic_content_generation": ["java", "xslt"],
+    "p/xslt_with_jstl": ["java", "jsp", "xslt", "jstl"]};
+
+  /** Map posts to topics */
+  for(let [p, topics] of Object.entries(_posts)){
+    topics.forEach((t)=>{
+      _topics[t].push(p);
+    });
+  }
+
+  return {
+    byTopic : (t)=>{return _topics[t]}
+  };
+})();
+
+const topicInfo = {
+  "java": {label: "Java/JEE", posts: postMapping.byTopic("java")},
+  "jdbc": {label: "JDBC", posts: postMapping.byTopic("jdbc"), parent: "java"},
+  "jsp": {label: "JSP", posts: postMapping.byTopic("jsp"), parent: "java"},
+  "jstl": {label: "JSTL", posts: postMapping.byTopic("jstl"), parent: "java"},
+  "xslt": {label: "XSLT", posts: postMapping.byTopic("xslt"), parent: "java"},
+  "javascript": {label: "JavaScript", posts: postMapping.byTopic("javascript")},
+  "perl": {label: "Perl", posts: postMapping.byTopic("perl")},
+  "testing": {label: "Testing", posts: postMapping.byTopic("testing")},
+  "webservices": {label: "Web Services", posts: postMapping.byTopic("webservices")}
+}
+
+/** For topic card grid display */
 function defaultContent(container) {
   container.html(`<article class="page type-page status-publish hentry clearfix" style="padding-top:30px"><header class="entry-header"><h1 class="entry-title">Browse</h1></header>
   <div id="article-box" class="entry-content"><ul id="nav2"></ul><div id="content_txt"><div id="entry-box" class="welcome_pg"></div></div></div></article>`);
@@ -16,6 +59,8 @@ function defaultContent(container) {
     contentBox.append(`<div class="card" onclick="window.location.assign('t/?=${key}')"><div class="card-content"><h3>${topic.label}</h3></div></div>`);
   });
 }
+
+/** For masthead links and topic list display, right side-panel */
 (()=>{
   $(document).ready(()=>{
     const headLink = `
