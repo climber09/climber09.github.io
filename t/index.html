@@ -134,8 +134,8 @@ $(document).ready(()=>{
   const topic = topicInfo[topicKey];
   $("main header h1#topic-label").append(topic.label);
   const contentBox = $("main div.posts-layout");
-  $.each(topic.posts, (i, key)=>{
-    contentBox.append(postInfo[key]);
+  $.each(postMapping.byTopic(topicKey), (i, postKey)=>{
+    contentBox.append(postInfo[postKey]);
   });
 });
 </script>

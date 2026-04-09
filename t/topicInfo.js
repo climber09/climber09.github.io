@@ -1,54 +1,44 @@
-/** For topic to posts mapping */
+/** Assign posts to topics */
 const postMapping = (()=>{
-  const _topics = {
-    "java": [],
-    "jdbc": [],
-    "jsp": [],
-    "jstl": [],
-    "xslt": [],
-    "javascript": [],
-    "perl": [],
-    "testing": [],
-    "webservices": []};
-
-  const _posts = {
-    "p/dynamic_dom_viewer": ["javascript"],
-    "p/find_jars_perl_version": ["perl"],
-    "p/jarfind": ["java"],
-    "p/javadoc_frames_generator": ["java", "javascript"],
-    "p/javadoc_viewer": ["java", "javascript"],
-    "p/jdbc_framework": ["java", "jdbc"],
-    "p/jdbc_testing_with_mock_objects": ["java", "jdbc", "testing"],
-    "p/web_services_part_1": ["java", "webservices"],
-    "p/web_services_part_2": ["perl", "webservices"],
-    "p/web_services_part_3": ["java", "webservices"],
-    "p/web_services_part_4": ["java", "webservices"],
-    "p/xslt_for_dynamic_content_generation": ["java", "xslt"],
-    "p/xslt_with_jstl": ["java", "jsp", "xslt", "jstl"]};
-
-  /** Map posts to topics */
-  for(let [p, topics] of Object.entries(_posts)){
-    topics.forEach((t)=>{
-      _topics[t].push(p);
-    });
-  }
-
+  const _posts = [
+    ["p/dynamic_dom_viewer", {"javascript":1}],
+    ["p/find_jars_perl_version", {"perl":1}],
+    ["p/jarfind", {"java":1}],
+    ["p/javadoc_frames_generator", {"java":1, "javascript":1}],
+    ["p/javadoc_viewer", {"java":1, "javascript":1}],
+    ["p/jdbc_framework", {"java":1, "jdbc":1}],
+    ["p/jdbc_testing_with_mock_objects", {"java":1, "jdbc":1, "testing":1}],
+    ["p/web_services_part_1", {"java":1, "webservices":1}],
+    ["p/web_services_part_2", {"perl":1, "webservices":1}],
+    ["p/web_services_part_3", {"java":1, "webservices":1}],
+    ["p/web_services_part_4", {"java":1, "webservices":1}],
+    ["p/xslt_for_dynamic_content_generation", {"java":1, "xslt":1}],
+    ["p/xslt_with_jstl", {"java":1, "jsp":1, "xslt":1, "jstl":1}]
+  ];
   return {
-    byTopic : (t)=>{return _topics[t]}
-  };
+    byTopic: (t)=>{
+      const _list = [];
+      _posts.forEach( (p)=>{
+        if ( p[1][t] ){
+          _list.push(p[0]);
+        }
+      });
+      return _list;
+  }}
 })();
 
+/** For topic to posts mapping */
 const topicInfo = {
-  "java": {label: "Java/JEE", posts: postMapping.byTopic("java")},
-  "jdbc": {label: "JDBC", posts: postMapping.byTopic("jdbc"), parent: "java"},
-  "jsp": {label: "JSP", posts: postMapping.byTopic("jsp"), parent: "java"},
-  "jstl": {label: "JSTL", posts: postMapping.byTopic("jstl"), parent: "java"},
-  "xslt": {label: "XSLT", posts: postMapping.byTopic("xslt"), parent: "java"},
-  "javascript": {label: "JavaScript", posts: postMapping.byTopic("javascript")},
-  "perl": {label: "Perl", posts: postMapping.byTopic("perl")},
-  "testing": {label: "Testing", posts: postMapping.byTopic("testing")},
-  "webservices": {label: "Web Services", posts: postMapping.byTopic("webservices")}
-}
+  "java": {label: "Java/JEE"},
+  "jdbc": {label: "JDBC", parent: "java"},
+  "jsp": {label: "JSP", parent: "java"},
+  "jstl": {label: "JSTL", parent: "java"},
+  "xslt": {label: "XSLT", parent: "java"},
+  "javascript": {label: "JavaScript"},
+  "perl": {label: "Perl"},
+  "testing": {label: "Testing"},
+  "webservices": {label: "Web Services"}
+};
 
 /** For topic card grid display */
 function defaultContent(container) {
