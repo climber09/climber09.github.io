@@ -152,7 +152,7 @@ ul#nav2 a.active, ul#nav2 a.active:hover{
     text-decoration: none; cursor: default;
 }
 table{
-    margin: 0;
+    margin: 0 0 20px 0;
     padding: 0;
 }
 table.resume_tbl{
