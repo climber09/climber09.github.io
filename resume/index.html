@@ -5,142 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>James Hunter &#8211; Computer Software &amp; Web Development</title>
 <base href="/"/>
-<script type="text/javascript" src="resume/resume-data.js"></script>
-<script type="text/javascript">
-function listItemHtml(item){
-  return '<li class="resume-item">' + item + '</li>';
-}
-function itemListHtml(list){
-    let html = '<ul class="resume-item-list">\n';
-    html += list.map(listItemHtml).join('\n');
-    html += '\n</ul>\n';
-    return html;
-}
-function headerHtml(block){
-    if(! block.heading) {
-        return '';
-    }
-    let hd = block.heading;
-    let html = '<table class="resume_tbl"><tr>\n';
-    html += '<td style="text-align:left;font-weight:bold">' + hd.title.text + '</td>\n';
-    let dateStr = (hd.title.dates)? hd.title.dates: "";
-    html += '<td class="resume-dates">' + dateStr +'</td></tr>\n';
-    if (hd.subtitles){
-        html += hd.subtitles.map(subtitleHtml).join("\n");
-    }
-    html += '</tr></table>\n';
-    return html;
-}
-function subtitleHtml(sub){
-    if (sub !== "undefined" && sub !== ""){
-        return '<tr><td colspan="2" class="subtitle">' + sub + '</td></tr>\n';
-    }
-    return "";
-}
-function blockHtml(block){
-    let html = '<div class="resume_blk"><table style="width:100%"><tr><td\n>';
-    html += headerHtml(block);
-    html += itemListHtml(block.item_list);
-    html += '</td></tr></table></div>\n';
-    return html;
-}
-</script>
-<script src="assets/js/popup-util.js" type="text/javascript"></script>
-<link rel='stylesheet' id='bootstrap-css'  href='wp-content/themes/astrid/css/bootstrap/bootstrap.min68b3.css?ver=1' type='text/css' media='all' />
-<link rel='stylesheet' id='astrid-style-css'  href='wp-content/themes/astrid/style5010.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='bootstrap-css' href='wp-content/themes/astrid/css/bootstrap/bootstrap.min68b3.css?ver=1' type='text/css' media='all'/>
+<link rel='stylesheet' id='astrid-style-css' href='wp-content/themes/astrid/style5010.css?ver=4.9.8' type='text/css' media='all'/>
+<link rel='stylesheet' id='font-awesome-css' href='wp-content/themes/astrid/fonts/font-awesome.min5010.css?ver=4.9.8' type='text/css' media='all'/>
 <link rel="stylesheet" type="text/css" href="assets/css/custom-style.css"/>
-<style id='astrid-style-inline-css' type='text/css'>
-.site-header {position: fixed;}
-.site-title a,.site-title a:hover { color:#ffffff}
-.site-description { color:#BDBDBD}
-.site-header,.site-header.header-scrolled { background-color:rgba(32,37,41,0.9)}
-@media only screen and (max-width: 1024px) { .site-header.has-header,.site-header.has-video,.site-header.has-single,.site-header.has-shortcode { background-color:rgba(32,37,41,0.9)} }
-body, .widget-area .widget, .widget-area .widget a { color:#656D6D}
-.footer-widgets, .site-footer, .footer-info { background-color:#202529}
-body {font-family: 'Open Sans', sans-serif;}
-.site-title { font-size:36px; }
-.site-description { font-size:14px; }
-h1 { font-size:36px; }
-h2 { font-size:30px; }
-h3 { font-size:24px; }
-h4 { font-size:16px; }
-h5 { font-size:14px; }
-h6 { font-size:12px; }
-body { font-size:14px; }
-</style>
-<link rel='stylesheet' id='font-awesome-css'  href='wp-content/themes/astrid/fonts/font-awesome.min5010.css?ver=4.9.8' type='text/css' media='all' />
 <script type="text/javascript" src="assets/jquery/jquery-4.0.0.min.js"></script>
-<script type="text/javascript" src="t/topicInfo.js"></script>
+
+<script type="module">
+import {commonElements} from "/assets/js/mod-site-content.js";
+import resumeContent, {hasSection} from "/resume/mod-resume-content.js";
+commonElements();
+let section = window.location.search.replace(/[^a-z]/g, "");
+if(!hasSection(section)){
+  section = "summary"
+}
+$("ul#nav2 li a").each((i, link)=>{
+   if(link.innerText.toLowerCase().indexOf(section) > -1){
+     link.setAttribute("class", "active");
+     return;
+   }
+});
+$("div#entry-box").html(resumeContent(section));
+</script>
+
 <style type="text/css" id="wp-custom-css">
-/*Custom css*/
-.main-navigation li a::before ,.main-navigation li a::after{
-    -webkit-transition: none;
-    transition: none;
-    border: none;
-}
-.site-main .comment-navigation,
-.site-main .posts-navigation,
-.site-main .post-navigation {
-    padding: 2px 60px;
-}
-.site-branding{
-    margin-bottom: 15px;
-    width: 100%;
-    text-align: left;
-}
-.site-header, .site-header.header-scrolled{
-  padding: 5px 0;
-}
-.site-header.header-scrolled{
-    background-color: rgba(32, 37, 41, 0.6);
-}
-.header-image::after{
-    background-color: rgba(37, 46, 53, 0.6);
-}
-.site-description{
-    white-space: nowrap;
-}
-.site-footer{padding: 0;}
-#content{
-    margin: 0;
-    padding-top: 2px;
-    height: auto;
-    min-height: 100%;
-    clear: both;
-}
-h1.page-title, h1.entry-title, h2.entry-title{font-size:20px;font-weight:bold;color:#888}
-h2.entry-title{margin-bottom:30px}
-h3.entry-sub-sect{font-size: 16px; text-decoration: underline;
-text-transform: uppercase;
-padding-top: 10px;}
-div.welcome_pg a:link{color: #33f;}
-div.welcome_pg a:hover{color: #99f;}
-div.welcome_pg a:visited{color: #33f;}
-div.entry-meta{
-    display:none;
-}
-a.button{padding: 3px 10px; font-size: 12px;}
-/*.nav-sub-menu*/
-.sub-menu .menu-item-object-page{
-  background: #202529;
-  line-height: 1;
-  border-left: 1px solid #444;
-  border-right: 1px solid #444;
-  border-bottom: 1px solid #444;
-}
-/*.nav-sub-menu:hover, .nav-sub-menu a:hover*/
-.sub-menu .menu-item-object-page:hover, .sub-menu .menu-item-object-page a:hover{
-  background: #000;
-  color: #fcd088;
-}
-div#content_txt p, div#content_txt ul{
-  font: normal 1em arial, helvetica, sans-serif;
-  color: #777;
-  line-height: 1.75;
-}
-article.hentry{
-  padding-top: 30px;
-  padding-bottom: 30px;
+h2.entry-title{
+  margin-bottom:30px
 }
 table > thead > tr > th,
 table > tbody > tr > th,
@@ -148,10 +38,46 @@ table > tfoot > tr > th,
 table > thead > tr > td,
 table > tbody > tr > td,
 table > tfoot > tr > td {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+  font-family: arial, helvetica, sans-serif;
+  line-height: 1.5em;
 }
-ul#nav2{margin-bottom:25px}
+div#content_txt{
+  padding-bottom: 1.5em;
+}
+div.resume_blk:first-of-type{
+  padding-top: 0;
+}
+div.resume_blk{
+  padding-top: 0.25em;
+}
+table.resume_tbl{
+  width: 100%;
+  margin-bottom: 0.75em;
+}
+table.resume_tbl td.resume-dates{
+  text-align: right;
+  vertical-align: text-top;
+}
+div#content_txt ul{
+  padding: 0 0 0 36px;
+  margin: 0;
+}
+.fa-li{
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 0.9lh;
+}
+li.resume-item{
+  display: flex;
+  align-items: flex-start;
+  padding-left: 0.3em;
+  padding-bottom: 0.75em;
+}
+li.resume-item:last-of-type{
+  padding-bottom: 1.5em;
+}
 </style>
 </head>
 <body class="page-template-default page">
@@ -162,24 +88,17 @@ ul#nav2{margin-bottom:25px}
 </div>
 <div id="page" class="site">
 <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-<header id="masthead" class="site-header " role="banner"><div class="container">
-<div class="site-branding col-md-4 col-sm-6 col-xs-12">
-<p class="site-title"><a href="." rel="home">James Hunter</a></p><p class="site-description">Computer Software &amp; Web Development</p></div>
-<div class="btn-menu col-md-8 col-sm-6 col-xs-12"><i class="fa fa-navicon"></i></div>
-<nav id="mainnav" class="main-navigation col-md-8 col-sm-6 col-xs-12" role="navigation">
-<div id="head-menu-container" class="menu-main-menu-container">
-</div></nav><!-- #site-navigation -->
-</div>
-</header><!-- #masthead -->
+<header id="masthead" class="site-header " role="banner"></header><!-- #masthead -->
 <div class="header-clone"></div><div id="content" class="site-content">
 <div class="container">
 <div id="primary" class="content-area">
 <main id="main" class="site-main" role="main">
 <article class="post page type-page status-publish hentry clearfix">
-<div class="entry-content">
-<h2 class="entry-title">resume</h2>
+<div class="entry-content"><h2 class="entry-title">resume</h2>
 <ul id="nav2">
-<li><a href="resume/?=summary">Summary</a></li><li><a href="resume/?=experience">Experience</a></li><li><a href="resume/?=education">Education</a></li>
+ <li><a href="resume/?=summary">Summary</a></li>
+ <li><a href="resume/?=experience">Experience</a></li>
+ <li><a href="resume/?=education">Education</a></li>
 </ul>
 <div id="content_txt"><div id="entry-box"></div>
 </div><!-- end content_txt -->
@@ -194,27 +113,15 @@ ul#nav2{margin-bottom:25px}
       <span class="screen-reader-text">Search for:</span>
       <input type="search" class="search-field fa" style="width:75%" placeholder="&#xf002;&nbsp;Search posts &hellip;" value="" name="*"/>
     </label>
-    <input type="submit" class="search-submit" value="Search" />
+    <input type="submit" class="search-submit" value="Search"/>
   </form>
 </aside>
 </aside><!-- #secondary -->
 </div>
-<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2026 James P. Hunter</div>
 </div><!-- #content -->
 </div><!-- #page -->
 <!-- Blog Page Right -->
 <script type='text/javascript' src='wp-content/themes/astrid/js/main5010.js?ver=4.9.8'></script>
 <script type='text/javascript' src='wp-content/themes/astrid/js/scripts.min5010.js?ver=4.9.8'></script>
-<script type="text/javascript">
-let section = window.location.search.replace(/[^a-z]/g, "");
-if(section === "" || !resumeData[section]){section = "summary"};
-$("ul#nav2 li a").each((i, link)=>{
-   if(link.innerText.toLowerCase().indexOf(section) > -1){
-     link.setAttribute("class", "active");
-     return;
-   }
-});
-$("div#entry-box").html(resumeData[section].map(blockHtml).join("\n"));
-</script>
 </body>
 </html>

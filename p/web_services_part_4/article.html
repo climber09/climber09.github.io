@@ -1,6 +1,6 @@
-<article id="post-174" class="post-174 post type-post status-publish format-standard hentry category-webservices clearfix">
+<article id="post-174" class="page post type-post status-publish format-standard hentry clearfix">
 <header class="entry-header">
-<h1 class="entry-title">Web Services &#8211; Part 4</h1>	</header><!-- .entry-header -->	
+<h1 class="entry-title">Web Services &#8211; Part 4</h1></header><!-- .entry-header -->
 <div class="entry-content">
 <link rel="stylesheet" href="assets/css/custom-button.css"/>
 <style type="text/css">
@@ -22,7 +22,7 @@ table#restURIs th{
 <p>
 The RESTful version was probably the easiest to implement. I used the JAX-RS/Jersey API to create the service as well as a test client. I implemented the same methods (mentioned previously in <a target="_top" href="p/web_services_part_1"><i>part 1</i></a>) but with a variation in the return types.
 </p>
-<table id="restURIs" style="padding:0; width:95%; font: normal 12px 'Lucida Console', Monaco, monospace; background:#ccc; border-spacing:1px; border-collapse: separate;">
+<table id="restURIs" class="code" style="padding:0; width:95%; background:#ccc; border-spacing:1px; border-collapse: separate; margin: 20px 0;">
 <tr>
 <th>METHOD</th>
 <th>URI</th>
@@ -41,7 +41,8 @@ The RESTful version was probably the easiest to implement. I used the JAX-RS/Jer
 </tr>
 </table>
 <p>
-In the SOAP-based implementations, two of these methods return a <span class="code">String[]</span>. A String[] would be marshalled and unmarshalled automatically within the SOAP layer without the need for any additional coding. With Jersey, however, it&#8217;s not so simple. Jersey does not support the marshalling/unmarshalling of a bare <span class="code">String[]</span> type, or a <span class="code">Collection&lt;String&gt;</span> type, automatically right out of the box (at least, that was the case at the time of this writing). <!--With Jersey, the easist way to return a list of values is to utilize the built-in JAXB support to handle the marshalling/unmarshalling. To do so, JAXB needs a root object, to wrap the collection of values. A generic Object wrapper does the trick:
+In the SOAP-based implementations, two of these methods return a <span class="code">String[]</span>. A String[] would be marshalled and unmarshalled automatically within the SOAP layer without the need for any additional coding. With Jersey, however, it&#8217;s not so simple. Jersey does not support the marshalling/unmarshalling of a bare <span class="code">String[]</span> type, or a <span class="code">Collection&lt;String&gt;</span> type, automatically right out of the box (at least, that was the case at the time of this writing).
+<!--With Jersey, the easist way to return a list of values is to utilize the built-in JAXB support to handle the marshalling/unmarshalling. To do so, JAXB needs a root object, to wrap the collection of values. A generic Object wrapper does the trick:
 -->With Jersey you have to do a little more work.
 </p>
 <p>

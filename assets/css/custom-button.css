@@ -2,7 +2,7 @@
   display: inline-block;
   width: 49%;
   padding: 0;
-  margin: 0;
+  margin: 20px 0;
 }
 .nav-next-btn{
   text-align: right;
@@ -34,4 +34,4 @@
   -webkit-transition: color 0.3s;
   transition: color 0.3s;
 }
-div#content_txt{margin-top: 20px;}
+div#content_txt, ul#nav2{margin: 0;}

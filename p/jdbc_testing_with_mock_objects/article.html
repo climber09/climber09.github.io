@@ -1,4 +1,4 @@
-<article id="post-77" class="post-77 post type-post status-publish format-standard hentry category-jdbc category-testing clearfix">
+<article id="post-77" class="page post type-post status-publish format-standard hentry clearfix">
 <header class="entry-header">
 <h1 class="entry-title">JDBC Testing With Mock Objects</h1>
 </header>
@@ -7,7 +7,7 @@
 <div id="content_txt">
 
 <ul class="page_section_links">
-<li><span class="arrow">&raquo;</span>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
+<li>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
 </ul>
 
 <p>Not long ago I had to design a testing strategy for JDBC code. As I began prototyping I ran into the problem of corrupt data from the database. I realized that I had to devise a testing strategy which would isolate the Java code under test away from the database. The goal was to test the Java application code, not than the database integrity.</p>
@@ -18,7 +18,7 @@
 <p>Here is a simple JUnit-style test example:</p>
 <pre class="code">
 <span class="keywd">public class</span> MyMockResultSet{
-   <span class="keywd">boolean</span><span class="field">isNext</span>;
+   <span class="keywd">boolean</span>&nbsp;<span class="field">isNext</span>;
 
    <span class="keywd">public</span> MyMockResultSet() {
        <span class="keywd">this</span>.<span class="field">isNext</span> = <span class="keywd">true</span>;
@@ -56,7 +56,7 @@
 <p>It should be noted that while the framework was originally developed to test code which used the <code>java.sql.DriverManager</code> to obtain a <code>Connection</code>, it can also be extended to handle different types of <code>Connection</code> sources, such as a <code>javax.sql.DataSource</code>. It takes a little more work to substitute a proxy for a real <code>DataSource</code>, but it is possible.</p>
 
 <ul class="page_section_links">
-<li><span class="arrow">&raquo;</span>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
+<li>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
 </ul>
 
 <!--
