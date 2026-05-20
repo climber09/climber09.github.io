@@ -54,14 +54,10 @@ public void testWithMockDB () throws Exception {
 <p>The second object is the <code>TestAction</code> type, shown above as an anonymous class. <code>TestAction</code> is the base class to extend in order to implement the test code which will be run by <code>MockDriver</code>.</p>
 <p>So as long as your JDBC code can be run from within a <code>TestAction</code>, then, that code can also be run within the <code>MockDriver</code> container. And the mock <code>ResultSet</code> object(s) that you provide will be substituted for the real <code>java.sql.ResultSet</code> objects.</p>
 <p>It should be noted that while the framework was originally developed to test code which used the <code>java.sql.DriverManager</code> to obtain a <code>Connection</code>, it can also be extended to handle different types of <code>Connection</code> sources, such as a <code>javax.sql.DataSource</code>. It takes a little more work to substitute a proxy for a real <code>DataSource</code>, but it is possible.</p>
-
+<p></p>
 <ul class="page_section_links">
 <li>Source Code: <a href="https://github.com/climber09/JDBC-Test-Framework" target="_blank">https://github.com/climber09/JDBC-Test-Framework</a></li>
 </ul>
-
-<!--
-<p>The source code: <a target="_blank" href="https://github.com/climber09/JDBC-Test-Framework">https://github.com/climber09/JDBC-Test-Framework</a></p>
--->
 </div>
 </div>
 </article>

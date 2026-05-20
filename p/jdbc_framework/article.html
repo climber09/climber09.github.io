@@ -123,6 +123,7 @@ public Connection getTargetConnection() throws java.sql.SQLException;
 </p>
 <p>So writing a query within a <code>JdbcQueryHandler</code> allows the developer to focus on just the JDBC code. The query code is not obscured or cluttered with operations to acquire the Connection or closing the Connection, Statement, and ResultSet instances. And the application query code need not be split up into many callback handlers. Each query requires just a single callback to be implemented. It is written using standard JDBC syntax, and the Statement and ResultSet objects are accessible to the developer. The JDBC framework is easily integrated into a Spring application and can participate in transactions managed by Spring. I believe that this framework gives the developer a simple yet powerful alternative in the implementation of JDBC queries.
 </p>
+<p></p>
 <ul class="page_section_links">
 <li>Source Code: <a href="https://github.com/climber09/JDBC-Framework" target="_blank">https://github.com/climber09/JDBC-Framework</a></li>
 </ul>

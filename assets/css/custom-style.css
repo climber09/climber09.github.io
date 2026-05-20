@@ -163,6 +163,9 @@ div#content_txt {
 /*   color: #777; */
   line-height: 1.75;
 }
+div#content_txt p:last-of-type{
+  margin-bottom: 10px;
+}
 ul#nav2 {
   width: auto;
   margin-top: 0;

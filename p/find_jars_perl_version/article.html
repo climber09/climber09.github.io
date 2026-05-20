@@ -5,9 +5,7 @@
 <ul id="nav2"></ul>
 <div id="content_txt">
 <ul class="page_section_links">
-<li>
-<a class="popup" href="javascript:void['','assets/code/findJars.html','']">findJars.pl</a>
-</li>
+<li><a class="popup" href="javascript:void['','assets/code/findJars.html','']">findJars.pl</a></li>
 </ul>
 <p>
 A number of years ago I wrote this little utility script in Perl. It&#8217;s handy during Java development when you need to locate a particular jar file, but don&#8217;t know which one exactly. It&#8217;s actually a precursor to my <a target="_top" href="p/jarfind">JarFind</a> application written in Java, and essentially does the same thing. This script, <a class="popup" href="javascript:void['','assets/code/findJars.html','']">findJars.pl</a>, will execute a recursive search to locate Java jar files that contain a specified class file. So, for example, when you get a <code>NoClassDefFoundError</code>, or <code>ClassNotFoundException</code>, you can use it to locate the right jar to be included in your classpath. The syntax is similar to the standard Unix/Linux <code>find</code> command.
@@ -48,7 +46,7 @@ Results: found 2 Jar(s)
 <pre><code class="language-shell-session">
 $ perl findJars.pl ~/workspace/oldLib OracleDriver -exec="cp {} ~/workspace/newLib"
 </code></pre>
-<p/>
+<p></p>
 <ul class="page_section_links"></ul>
 </div><!-- end content_txt -->
 </div>
