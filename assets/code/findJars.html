@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<base href="/">
+<link href="assets/code/prism.css" rel="stylesheet">
+<link href="assets/code/custom-code-style.css" rel="stylesheet">
+<style type="text/css">
+body{
+  margin: 0;
+  background: #fff;
+}
+</style>
+</head>
+<body>
+<pre><code class="language-perl">
+#! C:\Perl\bin\perl.exe -w
+#    eval 'exec C:\Perl\bin\perl.exe -S $0 ${1+"$@"}'
+#        if 0; #$running_under_some_shell
+
+use strict;
+use File::Find;
+use File::Basename;
+use Getopt::Long;
+
+my $help = 0;
+my $command = 0;   # optional command to execute on matched jar files.
+GetOptions ('-exec=s' => \$command, '-help' => \$help);
+
+if ($help || @ARGV < 2) {
+	&printHelp;
+	exit;
+}
+
+my $startDir = $ARGV[0];
+my $target = ($ARGV[1] =~ /^.+\.class$/)? $ARGV[1]: $ARGV[1] . '.class';
+my %found;
+
+print "\nSearch for Jars containing $target starting at $startDir:\n";
+$target =~ s/\*/\.\*/g; # add a '.' before '*' in search pattern.
+
+# Set the variable $File::Find::dont_use_nlink if you're using AFS,
+# since AFS cheats.
+# Traverse the specified directory
+File::Find::find(\&wanted, $startDir);
+
+my $count = keys %found;
+foreach my $jar (keys %found) {
+	print "\n$jar:\n";
+	print map {"\t$_"} @{$found{$jar}};
+}
+print "\nResults: found $count Jar(s)\n";
+exit 0;
+
+# -------------------------------------------------------------------
+# Callback instructions for File::Find to locate Jars containing a
+# target class name or pattern. Matched class names are stored in a
+# list which is bound to a hash, keyed by the Jar's full path name.
+# If an optional command is specified, it is exectuted on the Jar.
+# -------------------------------------------------------------------
+my @matches;
+sub wanted {
+    /^.+\.jar$/ && !-d &&
+	( @matches = grep /^.+\/$target/, qx(jar -tf $_) ) &&
+	( @matches ) && ( $found{$File::Find::name} = [ @matches ] ) &&
+	( $command ) && &optionalCommand;
+}
+
+# -------------------------------------------------------------------
+# Execute the optional command.
+# -------------------------------------------------------------------
+sub optionalCommand {
+	my $cmd = $command;
+	$cmd =~ s/{}/$_/g;
+	qx($cmd);
+}
+
+# -------------------------------------------------------------------
+# Print help dialog.
+# -------------------------------------------------------------------
+sub printHelp{
+	print "\nUsage: perl findJars.pl <start> <pattern> [-exec=\"<command>\"]";
+	print "\n";
+	print "\n  <start>:  The directory where the search begins.";
+	print "\n<pattern>:  The name of the Java class, or pattern, to locate. Use of the '*'";
+	print "\n             meta-character is allowed, e.g., Parser*, *Binding*, etc.";
+	print "\n    -exec:  An optional command can be executed on each Jar file which contains";
+	print "\n            the specified class. The optional command must be in quotes,";
+	print "\n            e.g., -exec=\"copy {} /common/lib\"";
+	print "\n            Note that the '{}' symbol is replaced with the name of a matched";
+	print "\n            Jar file.";
+	print "\n    -help:  To view this display.";
+	print "\n";
+}
+</code></pre>
+<script type="text/javascript" src="/assets/code/prism.js"></script>
+</body>
+</html>

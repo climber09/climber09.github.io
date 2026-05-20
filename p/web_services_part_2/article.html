@@ -1,6 +1,6 @@
 <article id="post-160" class="page post type-post status-publish format-standard hentry clearfix">
 <header class="entry-header">
-<h1 class="entry-title">Web Services &#8211; Part 2</h1></header><!-- .entry-header -->
+<h1 class="entry-title">Web Services &#8211; Part 2</h1></header>
 <div class="entry-content">
 <link rel="stylesheet" href="assets/css/custom-button.css"/>
 <ul id="nav2"></ul>
@@ -12,40 +12,42 @@
 <p>
 The SOAP::Lite module does most of the heavy lifting. Consider this example:
 </p>
-<pre class="code" style="padding-left: 25px;"><span class="comment">#!/usr/bin/perl</span>
+<pre><code class="language-perl">
+#!/usr/bin/perl
 
-<span class="keywd">use</span> SOAP::Transport::HTTP;
+use SOAP::Transport::HTTP;
 
 SOAP::Transport::HTTP::CGI
--> dispatch_to(<span class="strVal">'demo'</span>)
+-> dispatch_to('demo')
 -> handle;
 
-<span class="keywd">package</span> demo;
+package demo;
     ...
 1;
-</pre>
-<p>These few lines of code allow a Web Service client to access the subroutines defined within the <em>demo</em> module using the SOAP protocol over HTTP. Of course the client needs to know what those subroutines look like, but the cool thing here is how simple and easy to use the SOAP::Lite module can be. My Web Service demo is named <span class="code">MessageDemo.cgi</span>. In this example the service address is <span class="code">http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi.</span><span class="code">MessageDemo.cgi</span> serves as a proxy that can dispatch the client&#8217;s calls to the <em>demo</em> module. No configuration or deployment descriptor file is needed. That&#8217;s the gist of it.</p>
-<p>Now to expose the Web Service methods to the world a WSDL file is required. To create the WSDL file &#8211; <a class="popup" href="javascript:void['assets/webservices/MessageDemoService.xml','']">MessageDemoService.wsdl</a> &#8211; I used Sun&#8217;s <em>wscompile</em> tool that comes with the J2EE 1.4 SDK. I also used the <em>wscompile</em> tool to generate the Java client stub code to test the service.
+</code></pre>
+<p>These few lines of code allow a Web Service client to access the subroutines defined within the <em>demo</em> module using the SOAP protocol over HTTP. Of course the client needs to know what those subroutines look like, but the cool thing here is how simple and easy to use the SOAP::Lite module can be. My Web Service demo is named MessageDemo.cgi. In this example the service address is <code>http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi.</code> MessageDemo.cgi serves as a proxy that can dispatch the client&#8217;s calls to the <em>demo</em> module. No configuration or deployment descriptor file is needed. That&#8217;s the gist of it.</p>
+<p>Now to expose the Web Service methods to the world a WSDL file is required. To create the WSDL file &#8211; <a class="popup" href="javascript:void['assets/code/MessageDemoService.html','assets/webservices/MessageDemoService.xml','',[900,600]]">MessageDemoService.wsdl</a> &#8211; I used Sun&#8217;s <em>wscompile</em> tool that comes with the J2EE 1.4 SDK. I also used the <em>wscompile</em> tool to generate the Java client stub code to test the service.
 </p>
 <p>
 A Perl client can access the service very easily using the SOAP::Lite module. For example:
 </p>
-<pre class="code" style="padding-left: 25px;"><span class="comment">#!/usr/bin/perl</span>
+<pre><code class="language-perl">
+#!/usr/bin/perl
 
-<span class="keywd">use</span> SOAP::Lite;
+use SOAP::Lite;
 
-<span class="field">$categoryList</span> = SOAP::Lite
-    -> uri(<span class="strVal">'http://huntrjp.users.sourceforge.net/demo'</span>)
-    -> proxy(<span class="strVal">'http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi'</span>)
+$categoryList = SOAP::Lite
+    -> uri('http://huntrjp.users.sourceforge.net/demo')
+    -> proxy('http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi')
     -> getCategoryNames()
     -> result;
 
-<span class="keywd">foreach</span>&nbsp;<span class="field">$category</span> (<span class="field">@$categoryList</span>) {
-    <span class="keywd">print</span><span class="field">$category</span> . <span class="strVal">"\n"</span>;
+foreach $category (@$categoryList) {
+    print $category . "\n";
 }
-</pre>
+</code></pre>
 <p>
-This Perl program will access the Web Service, call getCategoryNames(), and then display the category names. You can check out the complete Perl source for the Web Service [<a class="popup" href="javascript:void['assets/webservices/MessageDemo.txt','']">here</a>].
+This Perl program will access the Web Service, call getCategoryNames(), and then display the category names. You can check out the complete Perl source for the Web Service [<a class="popup" href="javascript:void['','assets/code/MessageDemo-perl.html','']" title="Message Demo - Perl">here</a>].
 </p>
 <p>
 For more information about the SOAP::Lite module you can go to <a href="http://search.cpan.org/~byrne/SOAP-Lite-0.60a/lib/SOAP/Lite.pm" target="_blank">http://search.cpan.org/~byrne/SOAP-Lite-0.60a/lib/SOAP/Lite.pm</a>
@@ -57,3 +59,4 @@ For more information about the SOAP::Lite module you can go to <a href="http://s
 </div><!-- end content_txt -->
 </div>
 </article>
+<script type="text/javascript" src="assets/code/prism.js"></script>

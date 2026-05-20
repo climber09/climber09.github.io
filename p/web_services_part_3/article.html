@@ -10,8 +10,8 @@
 <p/>
 <p><span class="section">Axis2 Implementation:</span></p>
 <p>
-I implemented the Axis2 version of my web service in the usual way using the code generation tools that come with the Axis2 distribution &#8211; <span class="code">java2wsdl.bat</span> and <span class="code">wsdl2java.bat</span>. After the code generation steps, I simply implemented the specific logic I needed within the service skeleton class. Once I had all the service-specific code completed I used the Apache Ant build script, provided by the Axis2 distribution, to archive the service into MessageEditorService.aar, which worked very nicely, packaging up the
-<a class="popup" href="javascript:void['assets/webservices/MessageDemoService.xml','']">MessageDemoService.wsdl</a> as well as the services.xml file.
+I implemented the Axis2 version of my web service in the usual way using the code generation tools that come with the Axis2 distribution &#8211; <code>java2wsdl.bat</code> and <code>wsdl2java.bat</code>. After the code generation steps, I simply implemented the specific logic I needed within the service skeleton class. Once I had all the service-specific code completed I used the Apache Ant build script, provided by the Axis2 distribution, to archive the service into MessageEditorService.aar, which worked very nicely, packaging up the
+<a class="popup" href="javascript:void['assets/code/MessageDemoService.html','assets/webservices/MessageDemoService.xml','',[900,600]]">MessageDemoService.wsdl</a> as well as the services.xml file.
 </p>
 <p>
 Thanks to the virtual hosting on my current hosting service provider, I was able to deploy the Axis2 web service in the usual configuration, as illustrated here:
@@ -20,7 +20,7 @@ Thanks to the virtual hosting on my current hosting service provider, I was able
 <img src="assets/img/axis2deployt.gif" alt="Axis Deployment"/>
 </p>
 <p>
-Lastly, I generated a JUnit test client for the Axis2 version using <span class="code">wsdl2java.bat</span>, which you can download from [<a href="assets/webservices/MessageEditorService-Axis2TestClient.zip">here</a>].
+Lastly, I generated a JUnit test client for the Axis2 version using <code>wsdl2java.bat</code>, which you can download from [<a href="assets/webservices/MessageEditorService-Axis2TestClient.zip">here</a>].
 </p>
 <div class="nav-prev-btn"><a target="_top" class="custom-nav-btn" href="p/web_services_part_2">&#10092; PART 2</a></div>
 <div class="nav-next-btn"><a target="_top" class="custom-nav-btn" href="p/web_services_part_4">PART 4 &#10093;</a></div>

@@ -41,97 +41,97 @@ The RESTful version was probably the easiest to implement. I used the JAX-RS/Jer
 </tr>
 </table>
 <p>
-In the SOAP-based implementations, two of these methods return a <span class="code">String[]</span>. A String[] would be marshalled and unmarshalled automatically within the SOAP layer without the need for any additional coding. With Jersey, however, it&#8217;s not so simple. Jersey does not support the marshalling/unmarshalling of a bare <span class="code">String[]</span> type, or a <span class="code">Collection&lt;String&gt;</span> type, automatically right out of the box (at least, that was the case at the time of this writing).
+In the SOAP-based implementations, two of these methods return a <code>String[]</code>. A String[] would be marshalled and unmarshalled automatically within the SOAP layer without the need for any additional coding. With Jersey, however, it&#8217;s not so simple. Jersey does not support the marshalling/unmarshalling of a bare <code>String[]</code> type, or a <code>Collection&lt;String&gt;</code> type, automatically right out of the box (at least, that was the case at the time of this writing).
 <!--With Jersey, the easist way to return a list of values is to utilize the built-in JAXB support to handle the marshalling/unmarshalling. To do so, JAXB needs a root object, to wrap the collection of values. A generic Object wrapper does the trick:
 -->With Jersey you have to do a little more work.
 </p>
 <p>
-One strategy would be to create a wrapper class to contain a <span class="code">Collection</span> type:
+One strategy would be to create a wrapper class to contain a <code>Collection</code> type:
 </p>
-<pre class="code">
+<pre><code class="language-java">
 @XmlRootElement()
-<span class="keywd">public class</span> ResponseList<T> {
+public class ResponseList {
 
     @XmlElement()
-    List<T>&nbsp;<span class="field">data</span>;
-    
-    <span class="keywd">public</span> ResponseList() {}
-    
-    <span class="keywd">public</span> ResponseList(List<T> data) {
-        <span class="keywd">this</span>.<span class="field">data</span> = data;
+    List data;
+
+    public ResponseList() {}
+
+    public ResponseList(List data) {
+        this.data = data;
     }
 
-    <span class="keywd">public</span> List<T> getData() {
-        return <span class="field">data</span>;
+    public List getData() {
+        return data;
     }
 }
-</pre>
-<p>The XML result from marshalling a <span class="code">ResponseList</span> looks something like this:</p>
-<pre class="code">
-<span class="tag">&lt;responseList&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;General/System<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Consumer Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Small Business Signup<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Initiate Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Claim Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;EpicWare Related<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Request Payment Process<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Change Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;Lost Password<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-  <span class="tag">&lt;data&gt;</span><span class="attr">xsi:type=</span><span class="strVal">"xs:string"</span>&gt;POS Transaction<span class="tag"<span class="tag">&gt;&lt;/data&gt;</span>
-<span class="tag">&lt;/responseList&gt;</span>
-</pre>
+</code></pre>
+<p>The XML result from marshalling a <code>ResponseList</code> looks something like this:</p>
+<pre><code class="language-xml">
+&lt;responseList>
+  &lt;data xsi:type="xs:string">General/System>&lt;/data>
+  &lt;data xsi:type="xs:string">Consumer Signup>&lt;/data>
+  &lt;data xsi:type="xs:string">Small Business Signup>&lt;/data>
+  &lt;data xsi:type="xs:string">Initiate Payment Process>&lt;/data>
+  &lt;data xsi:type="xs:string">Claim Payment Process>&lt;/data>
+  &lt;data xsi:type="xs:string">EpicWare Related>&lt;/data>
+  &lt;data xsi:type="xs:string">Request Payment Process>&lt;/data>
+  &lt;data xsi:type="xs:string">Change Password>&lt;/data>
+  &lt;data xsi:type="xs:string">Lost Password>&lt;/data>
+  &lt;data xsi:type="xs:string">POS Transaction>&lt;/data>
+&lt;/responseList>
+</code></pre>
 <p><!--p>
-So, for the purpose of this demo, I used the <span class="code">ResponseList&lt;T&gt;</span> as the return type to contain a list of values. 
+So, for the purpose of this demo, I used the <code>ResponseList&lt;T&gt;</code> as the return type to contain a list of values. 
 </p-->
 <p>
-The advantage of this type of strategy is that the marshalling/unmarshalling can be handled, automatically, by Jersey&#8217;s built-in support for JAXB. The <span class="code">@XmlRootElement</span> annotation marks the class as one that JAXB can marshall into XML, and, conversely, unmarhall XML back into. The annotated class can then be used as a return type for the Web Service methods. For Example: </p>
-<pre class="code">
-<span class="keywd">public</span> ResponseList&lt;String&gt; getCategoryNames();
-</pre>
+The advantage of this type of strategy is that the marshalling/unmarshalling can be handled, automatically, by Jersey&#8217;s built-in support for JAXB. The <code>@XmlRootElement</code> annotation marks the class as one that JAXB can marshall into XML, and, conversely, unmarshall XML back into. The annotated class can then be used as a return type for the Web Service methods. For Example: </p>
+<pre><code class="language-java">
+public ResponseList<String> getCategoryNames();
+</code></pre>
 <p>
-Indeed, this type of approach may work well for complex domain objects, like, an <span class="code">AccountInfo</span> object, an <span class="code">EmployeeInfo</span> object, a <span class="code">ContactInfo</span> object, and so on. It also supports the production of JSON instead of XML whenever needed. The JAXB processor can automatically produce the supported media type requested by the client. JAXB can also handle collections, such as <span class="code">List&lt;AccountInfo&gt;</span>, as long as the specified object (e.g., <span class="code">AccountInfo</span>) is properly annotated.
+Indeed, this type of approach may work well for complex domain objects, like, an <code>AccountInfo</code> object, an <code>EmployeeInfo</code> object, a <code>ContactInfo</code> object, and so on. It also supports the production of JSON instead of XML whenever needed. The JAXB processor can automatically produce the supported media type requested by the client. JAXB can also handle collections, such as <code>List&lt;AccountInfo&gt;</code>, as long as the specified object (e.g., <code>AccountInfo</code>) is properly annotated.
 </p>
 <p>
-But for built-in data types, like <span class="code">List&lt;String&gt;</span>, it seems unnecessary to add an additional wrapper class. It seems that there should be a simpler way to support the handling of simple Java data types.
+But for built-in data types, like <code>List&lt;String&gt;</code>, it seems unnecessary to add an additional wrapper class. It seems that there should be a simpler way to support the handling of simple Java data types.
 </p>
 <p>
-After several online searches I found a few suggestions using <span class="code">javax.ws.rs.core.Response</span>, or <span class="code">com.sun.jersey.api.JReponse</span>, as well as <span class="code">javax.ws.rs.core.GenericEntity</span>, and <span class="code">javax.xml.bind.JAXBElement</span>. None of the example solutions worked as advertised in my environment (which, at the time of this writing, was Jersey 1.17 on Tomcat 7 using Java 1.7 on Debian 6).
+After several online searches I found a few suggestions using <code>javax.ws.rs.core.Response</code>, or <code>com.sun.jersey.api.JReponse</code>, as well as <code>javax.ws.rs.core.GenericEntity</code>, and <code>javax.xml.bind.JAXBElement</code>. None of the example solutions worked as advertised in my environment (which, at the time of this writing, was Jersey 1.17 on Tomcat 7 using Java 1.7 on Debian 6).
 </p>
 <p>
 After some trial and error I finally got a successful response from the following:</p>
-<pre class="code">
+<pre><code class="language-java">
 @Path("/categories")
 @GET
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-<span class="keywd">public</span> Response getCategoryNames() {
+public Response getCategoryNames() {
 
-    List&lt;JAXBElement&lt;String&gt;&gt; categories = <span class="keywd">new</span> ArrayList&lt;JAXBElement&lt;String&gt;&gt;();
+    List&lt;JAXBElement&lt;String>> categories = new ArrayList&lt;JAXBElement&lt;String>>();
 
     // populate the list...
 
-    GenericEntity&lt;List&lt;JAXBElement&lt;String&gt;&gt;&gt; entity = 
-            <span class="keywd">new</span> GenericEntity&lt;List&lt;JAXBElement&lt;String&gt;&gt;&gt;(categories){};        
+    GenericEntity&lt;List&lt;JAXBElement&lt;String>>> entity =
+            new GenericEntity&lt;List&lt;JAXBElement&lt;String>>>(categories){};
 
-    <span class="keywd">return</span> Response.ok(entity).build();
+    return Response.ok(entity).build();
 }
-</pre>
-<p>Only by wrapping the individual strings in a <span class="code">JAXBElement</span>, and wrapping the entire <span class="code">List</span> in a <span class="code">GenericEntity</span> did I get a successful result. An alternative implementation is to use <span class="code">com.sun.jersey.api.JResponse</span> in place of <span class="code">javax.ws.rs.core.Response</span>, and skip the <span class="code">GenericEntity</span> wrapper. Since <span class="code">JResponse</span> preserves the data types within the response, the <span class="code">GenericEntity</span> is not required. Of course if <span class="code">JResponse</span> is used, that means the application is coupled to the Jersey implementation, rather than the JAX-RS API. So, you would need to decide if the lack of flexibility, and portability, is worth it. I prefer to code to an interface as a general rule. The result of the operation is the same. The XML marshalled from the <span class="code">Response</span> object above looks like this:
+</code></pre>
+<p>Only by wrapping the individual strings in a <code>JAXBElement</code>, and wrapping the entire <code>List</code> in a <code>GenericEntity</code> did I get a successful result. An alternative implementation is to use <code>com.sun.jersey.api.JResponse</code> in place of <code>javax.ws.rs.core.Response</code>, and skip the <code>GenericEntity</code> wrapper. Since <code>JResponse</code> preserves the data types within the response, the <code>GenericEntity</code> is not required. Of course if <code>JResponse</code> is used, that means the application is coupled to the Jersey implementation, rather than the JAX-RS API. So, you would need to decide if the lack of flexibility, and portability, is worth it. I prefer to code to an interface as a general rule. The result of the operation is the same. The XML marshalled from the <code>Response</code> object above looks like this:
 </p>
-<pre class="code">
-<span class="tag">&lt;strings&gt;</span>
-  <span class="tag">&lt;category&gt;</span>General/System<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Consumer Signup<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Small Business Signup<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Initiate Payment Process<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Claim Payment Process<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>EpicWare Related<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Request Payment Process<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Change Password<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>Lost Password<span class="tag">&lt;/category&gt;</span>
-  <span class="tag">&lt;category&gt;</span>POS Transaction<span class="tag">&lt;/category&gt;</span>
-<span class="tag">&lt;/strings&gt;</span>
-</pre>
+<pre><code class="language-xml">
+&lt;strings>
+  &lt;category>General/System&lt;/category>
+  &lt;category>Consumer Signup&lt;/category>
+  &lt;category>Small Business Signup&lt;/category>
+  &lt;category>Initiate Payment Process&lt;/category>
+  &lt;category>Claim Payment Process&lt;/category>
+  &lt;category>EpicWare Related&lt;/category>
+  &lt;category>Request Payment Process&lt;/category>
+  &lt;category>Change Password&lt;/category>
+  &lt;category>Lost Password&lt;/category>
+  &lt;category>POS Transaction&lt;/category>
+&lt;/strings>
+</code></pre>
 <p>On the client side, the response can be digested as XML, JSON, or as a JAXB object, since the JAXB processor, on the server, can produce the supported media type requested by the client.
 </p>
 <p>
@@ -142,3 +142,4 @@ I have created a simple client which demonstrates how to use the built-in JAXB s
 </div><!-- end content_txt -->
 </div>
 </article>
+<script type="text/javascript" src="assets/code/prism.js"></script>

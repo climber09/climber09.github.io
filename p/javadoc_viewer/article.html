@@ -8,9 +8,9 @@
 <ul class="page_section_links">
 <li>Source Code: <a href="https://github.com/climber09/JavadocViewer" target="_blank">https://github.com/climber09/JavadocViewer</a></li>
 </ul>
-<div id="modal_pane" class="modal-backdrop"><span id="closeBtn" class="modal-button">&times;</span><br/>
-<img class="modal-content" id="modal_image">
-<div id="caption"></div>
+<div id="modalPane" class="modal-backdrop"><span id="closeBtn" class="modal-button">&times;</span><br/>
+<img id="modalContent" class="modal-image" >
+<!-- <div id="caption"></div> -->
 </div>
 <!--<div>
 <img class="image-thumb" src="assets/img/jdv-screenshot.png" alt="" width="300" height="200"/>
@@ -35,13 +35,15 @@
 <h3 class="entry-sub-sect">Build</h3>
 <p>Simply run the Ant build script to build JavadocViewer.war, wherever you unzip and store the distribution files. Then deploy the war to your JEE Web server.
 </p>
-<pre class="code">
-$ cd /../&lt;YOUR-JAVADOCVIEWER-HOME&gt;/
+<pre><code class="language-shell-session">
+$ cd /../&lt;your_javadocviewer_home&gt;/
 $ ant
-</pre>
+</code></pre>
 <p>Optionally, you can specify a <code>server.deploy.dir</code> value in build.properties and run the Ant deploy task, which will build JavadocViewer.war and copy it to the deployment directory specified in build.properties.
 </p>
-<pre class="code">$ ant deploy</code></pre>
+<pre><code class="language-shell-session">
+$ ant deploy</code>
+</pre>
 <h3 class="entry-sub-sect">Usage</h3>
 <p>When you first open the JavadocViewer application in a web browser you will need to enter the location of the Javadoc sources you want to view in the location widget in the top left corner. Click the &#8220;Browse&#8221; button to open the folder browser and locate the local folder containing the main index.html, or manually enter the file path into the location box. To load Javadocs from a remote source, enter the complete URL in the location box (e.g., <code>http://junit.sourceforge.net/javadoc/</code>).
 </p>
@@ -53,3 +55,4 @@ $ ant
 </div>
 </div>
 </article>
+<script type="text/javascript" src="assets/code/prism.js"></script>

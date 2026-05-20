@@ -15,39 +15,46 @@
 <h3 class="entry-sub-sect">Install</h3>
 <p>First, download the <em>JarFind</em> source code from GitHub: <a target="_blank" href="https://github.com/climber09/JarFind">https://github.com/climber09/JarFind</a></p>
 <p>The rest of these instructions are geared for Linux/Unix based systems. If you’re working on Windows, you’re on your own.  Ok, let’s say you want to compile the source and create an executable jar named jarfind.jar and put that somewhere convenient (like /opt/java/jarfind.jar or ~/bin/jarfind.jar). So, assuming you have the compiled code under ./build, you could do something like:</p>
-<pre class="code">$ jar -cvfe ~/bin/jarfind.jar net/sourceforge/hunterj/jarfind/JarFind -C ./build net
-</pre>
+<pre><code class="language-shell-session">
+$ jar -cvfe ~/bin/jarfind.jar net/sourceforge/hunterj/jarfind/JarFind -C ./build net
+</code></pre>
 <p>This command should create an executable ~/bin/jarfind.jar file. Alternatively, you can just run the ant build script (build.xml) included in the <a target="_blank" href="https://github.com/climber09/JarFind">GitHub repository</a>.</p>
 <p>For convenience, I like to invoke <em>JarFind</em> with a simple shell script like this:</p>
-<pre class="code">#!/usr/bin/env bash
+<pre><code class="language-bash">
+#!/usr/bin/env bash
 
 JARFIND_HOME=$(dirname $(readlink -f $0))
 JARFIND_JAR="jarfind.jar"
 
 if [ "$#" -eq 3 ]; then
-java $1 -jar $JARFIND_HOME/$JARFIND_JAR $2 $3
+  java $1 -jar $JARFIND_HOME/$JARFIND_JAR $2 $3
 else
-java -jar $JARFIND_HOME/$JARFIND_JAR $1 $2
+  java -jar $JARFIND_HOME/$JARFIND_JAR $1 $2
 fi
 exit 0
-</pre>
+</code></pre>
 <p>So if you save this shell script in the same directory as jarfind.jar – say, ~/bin/jarfind.sh – you have a handy way of invoking <em>JarFind</em>. Better still, you can create a symbolic link to the script – something like:</p>
-<pre class="code">$ sudo ln -s ~/bin/jarfind.sh /usr/local/bin/jarfind
-</pre>
+<pre><code class="language-shell-session">
+$ sudo ln -s ~/bin/jarfind.sh /usr/local/bin/jarfind
+</code></pre>
 <p>Then simply invoke the link.</p>
 <h3 class="entry-sub-sect">Usage</h3>
-<pre class="code">$ jarfind
+<pre><code class="language-shell-session">
+$ jarfind
+
 USAGE: java [-DjarFind.jarEntryMatcher=my.custom.Matcher] net.sourceforge.hunterj.jarfind.JarFind &lt;starting_dir&gt;  &lt;class_name_exp&gt;
+
 $ jarfind ~/workspace TestCase
 
 Looking for TestCase.class under /home/jim/workspace...
 
 /home/jim/workspace/JavaTest/lib/junit-4.12.jar
 junit/framework/TestCase.class
-</pre>
+</code></pre>
 <p><em>JarFind</em> will display the located jar file(s) as well as the .class file found within that jar.</p>
 <p>Sometimes you get multiple results, in which case you will need to manually select the right jar.</p>
-<pre class="code">$ jarfind ~/workspace Document
+<pre><code class="language-shell-session">
+$ jarfind ~/workspace Document
 
 Looking for Document.class under /home/jim/workspace...
 
@@ -57,20 +64,21 @@ org/apache/lucene/document/Document.class
 org/w3c/dom/Document.class
 /home/jim/workspace/lib/jdom.jar
 org/jdom/Document.class
-</pre>
+</code></pre>
 <p>You can also customize the search by implementing your own <em>net.sourceforge.hunterj.jarfind.JarEntryMatcher</em>. You then provide the fully qualified Java class name of your custom matcher as a jvm system property using the standard “-D” option of the <em>java</em> command. The system property <em>JarFind</em> looks for is <em>“jarFind.jarEntryMatcher”</em>. So, for example if you have created an executable jar file, your command would look something like:</p>
-<pre class="code">$ java -DjarFind.jarEntryMatcher=my.custom.Matcher -jar ~/bin/jarfind.jar ~/workspace TestCase
-</pre>
+<pre><code class="language-shell-session">
+$ java -DjarFind.jarEntryMatcher=my.custom.Matcher -jar ~/bin/jarfind.jar ~/workspace TestCase
+</code></pre>
 <p>If you use the script file above, and create a link to it, then your command would like something like:</p>
-<pre class="code">$ jarfind -DjarFind.jarEntryMatcher=my.brilliant.custom.Matcher ~/workspace TestCase
-</pre>
+<pre><code class="language-shell-session">
+$ jarfind -DjarFind.jarEntryMatcher=my.brilliant.custom.Matcher ~/workspace TestCase
+</code></pre>
 <p>You just need to make sure that your custom <em>matcher</em> class is on your Java classpath.</p>
-<p>
-
-</p>
+<p></p>
 <ul class="page_section_links">
 <li>Source Code: <a href="https://github.com/climber09/JarFind" target="_blank">https://github.com/climber09/JarFind</a></li>
 </ul>
 </div>
 </div>
 </article>
+<script type="text/javascript" src="assets/code/prism.js"></script>

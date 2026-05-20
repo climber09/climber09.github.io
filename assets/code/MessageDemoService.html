@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<base href="/">
+<link href="assets/code/prism.css" rel="stylesheet">
+<link href="assets/code/custom-code-style.css" rel="stylesheet">
+<style type="text/css">
+body{
+  margin: 0;
+  background: #fff;
+}
+</style>
+</head>
+<body>
+<pre><code class="language-xml">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;definitions name="MessageDemoService" targetNamespace="urn:demo" xmlns:tns="urn:demo" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  &lt;types>
+    &lt;schema targetNamespace="urn:demo" xmlns:tns="urn:demo" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://www.w3.org/2001/XMLSchema">
+      &lt;import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      &lt;complexType name="ArrayOfstring">
+        &lt;complexContent>
+          &lt;restriction base="soap11-enc:Array">
+            &lt;attribute ref="soap11-enc:arrayType" wsdl:arrayType="string[]"/>
+          &lt;/restriction>
+        &lt;/complexContent>
+      &lt;/complexType>
+    &lt;/schema>
+  &lt;/types>
+  &lt;message name="MessageDemo_getCategoryNames"/>
+  &lt;message name="MessageDemo_getCategoryNamesResponse">
+    &lt;part name="categoryNamesArray" type="tns:ArrayOfstring"/>
+  &lt;/message>
+  &lt;message name="MessageDemo_getMessage">
+    &lt;part name="messageKey" type="xsd:string"/>
+  &lt;/message>
+  &lt;message name="MessageDemo_getMessageResponse">
+    &lt;part name="messageText" type="xsd:string"/>
+  &lt;/message>
+  &lt;message name="MessageDemo_getMessageKeysByCategory">
+    &lt;part name="categoryName" type="xsd:string"/>
+  &lt;/message>
+  &lt;message name="MessageDemo_getMessageKeysByCategoryResponse">
+    &lt;part name="messageKeyArray" type="tns:ArrayOfstring"/>
+  &lt;/message>
+  &lt;portType name="MessageDemo">
+    &lt;operation name="getCategoryNames">
+      &lt;input message="tns:MessageDemo_getCategoryNames"/>
+      &lt;output message="tns:MessageDemo_getCategoryNamesResponse"/>
+    &lt;/operation>
+    &lt;operation name="getMessage" parameterOrder="messageKey">
+      &lt;input message="tns:MessageDemo_getMessage"/>
+      &lt;output message="tns:MessageDemo_getMessageResponse"/>
+    &lt;/operation>
+    &lt;operation name="getMessageKeysByCategory" parameterOrder="categoryName">
+      &lt;input message="tns:MessageDemo_getMessageKeysByCategory"/>
+      &lt;output message="tns:MessageDemo_getMessageKeysByCategoryResponse"/>
+    &lt;/operation>
+  &lt;/portType>
+  &lt;binding name="MessageDemoBinding" type="tns:MessageDemo">
+    &lt;soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    &lt;operation name="getCategoryNames">
+      &lt;soap:operation soapAction=""/>
+      &lt;input>
+        &lt;soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      &lt;/input>
+      &lt;output>
+        &lt;soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      &lt;/output>
+    &lt;/operation>
+    &lt;operation name="getMessage">
+      &lt;soap:operation soapAction=""/>
+      &lt;input>
+        &lt;soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      &lt;/input>
+      &lt;output>
+        &lt;soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      &lt;/output>
+    &lt;/operation>
+    &lt;operation name="getMessageKeysByCategory">
+      &lt;soap:operation soapAction=""/>
+      &lt;input>
+        &lt;soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      &lt;/input>
+      &lt;output>
+        &lt;soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="urn:demo"/>
+      &lt;/output>
+    &lt;/operation>
+  &lt;/binding>
+  &lt;service name="MessageDemoService">
+    &lt;port name="MessageDemoPort" binding="tns:MessageDemoBinding">
+      &lt;soap:address location="http://huntrjp.users.sourceforge.net/cgi-bin/MessageDemo.cgi"/>
+    &lt;/port>
+  &lt;/service>
+&lt;/definitions>
+</code></pre>
+<script type="text/javascript" src="assets/code/prism.js"></script>
+</body>
+</html>

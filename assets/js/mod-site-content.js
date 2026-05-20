@@ -77,6 +77,8 @@ const headerHtml = `
 const copyright = `<div style="text-align:center;display:block;margin:0;padding:0;font:normal 8pt 'courier new';color:#666;">Copyright &copy; 2003 - 2026 James P. Hunter</div>`;
 
 export function commonElements(){
+  const title = $("<title>James Hunter – Computer Software &amp; Web Development</title>");
+  $(window.top.document.head).append(title);
   $("#masthead").html(headerHtml);
   const tBox = $('<aside id="categories-2" class="widget widget_categories"><h4 class="widget-title">Topics</h4></aside>');
   const tList = $("<ul></ul>");

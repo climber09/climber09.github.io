@@ -203,7 +203,7 @@ table{
   padding: 0;
 }
 
-.code {
+/*.code {
   font-size: 0.9em;
   color: #333;
 }
@@ -216,15 +216,15 @@ pre.code {
   overflow: auto;
 }
 pre.code .comment{color:#666}
-pre.code .tag{color: /*#096*/ #007f7f}
+pre.code .tag{color: #007f7f}
 pre.code .attr, .keywd{color:#800080}
 pre.code .keywd{font-weight: bold}
-pre.code .strVal{color: /*#06c*/ #00f}
+pre.code .strVal{color: #00f}
 pre.code .field{color:#009}
 p{
   text-indent: 20px;
   margin-bottom: 5px;
-}
+}*/
 
 /************************/
 #info {

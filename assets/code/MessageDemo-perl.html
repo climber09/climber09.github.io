@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<base href="/">
+<link href="assets/code/prism.css" rel="stylesheet">
+<link href="assets/code/custom-code-style.css" rel="stylesheet">
+<style type="text/css">
+body{
+  margin: 0;
+  background: #fff;
+}
+</style>
+</head>
+<body>
+<pre><code class="language-perl">
+#!/usr/bin/perl -w
+
+use XML::Simple;
+use SOAP::Transport::HTTP;
+#use SOAP::Lite;
+
+# temporary fix for testing in Windows
+#my $tomcatPath = "C:/Projects/Apache/Tomcat5.5/webapps/resume";
+#my $MESSAGES_FILE = "$tomcatPath/messageditor/messages.ini";
+#my $MESSAGES_META_DATA_FILE = "$tomcatPath/messageditor/messageData.xml";
+
+SOAP::Transport::HTTP::CGI
+-> dispatch_to('demo')
+-> handle;
+
+package demo;
+
+# =====================================================================
+# Web Service operation: getCategoryNames()
+# Used to retrieve an array of all category names.
+# =====================================================================
+sub getCategoryNames{
+
+    my @catNames = ();
+
+    foreach my $category ( @{&getCategoryList} ) {
+         push @catNames, "$category->{categoryName}->[0]";
+    }
+
+    return buildSoapStringArray( 'categoryNamesArray',
+                                 'categoryName',
+                                  sort @catNames);
+}
+
+# =====================================================================
+# Web Service operation: getMessage(string messageKey);
+# Used to retrieve the text of a single message.
+# =====================================================================
+sub getMessage($){
+
+    my $requestedKey = $_[1];
+    my ($line, $key, $value, @pair);
+
+    open(PROPFILE,"$ENV{MESSAGES_FILE}") or die "Unable to open $ENV{MESSAGES_FILE}";
+    while ($line = <PROPFILE>){
+        @pair = split /=/, $line, 2;
+        $key = shift @pair;
+        trim(\$key);
+
+        if($key eq $requestedKey){
+            $value = shift @pair;
+            trim(\$value);
+            last;
+        }
+    }
+    close(PROPFILE);
+    return SOAP::Data->name('messageText' => $value);
+}
+
+# =====================================================================
+# Web Service operation: getMessageKeysByCategory(string categoryName)
+# Use to retrieva an array of message keys within one category.
+# =====================================================================
+sub getMessageKeysByCategory($){
+
+    my $requestedCat = $_[1];
+
+    foreach my $category ( @{&getCategoryList} ) {
+
+        if ($requestedCat eq "$category->{categoryName}->[0]"){
+            my @keyList = getCategoryKeys( $category );
+
+            return buildSoapStringArray('messageKeyArray',
+                                        'messageKey',
+                                         @keyList);
+        }
+    }
+}
+
+# =====================================================================
+# Used internally to return a reference to an ARRAY of <category> elements
+# within an XML file that has been parsed by XML::Simple::XMLin
+# =====================================================================
+sub getCategoryList{
+
+    my $messageData = XML::Simple::XMLin( $ENV{MESSAGES_META_DATA_FILE},
+                                           forcearray => 1 );
+    return $messageData->{category};
+}
+
+# =====================================================================
+# Used internally to return an array of keys within one category.
+# =====================================================================
+sub getCategoryKeys{
+
+    my $category = shift;
+    my @keyList = ();
+
+    foreach my $subgroup ( @{$category->{subgroup}} ) {
+        foreach my $message ( @{$subgroup->{message}} ) {
+            my $messageKey = $message->{key}->[0];
+            trim( \$messageKey );
+            push @keyList, $messageKey;
+        }
+    }
+    return sort @keyList;
+}
+
+# =====================================================================
+# Used internally to create the SOAP response for an array of Strings
+# =====================================================================
+sub buildSoapStringArray($$@){
+
+    my($arrayName, $elementName, @valueList) = @_;
+
+    return SOAP::Data
+        ->name( $arrayName )
+        ->attr({'soapenc:arrayType' => 'xsd:string[]'})
+        ->value(\SOAP::Data->value(
+                SOAP::Data->name( $elementName )
+                    ->value( @valueList ) ));
+}
+
+# =====================================================================
+# Use to trim leading and trailing whitespace around a string.
+# =====================================================================
+sub trim{
+    my $string = shift;
+    $$string =~ s/^\s*//;
+    $$string =~ s/\s*$//
+}
+
+1;
+</code></pre>
+<script type="text/javascript" src="/assets/code/prism.js"></script>
+</body>
+</html>

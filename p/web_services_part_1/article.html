@@ -19,18 +19,19 @@ So, for my Web Service demo, I decided that I would implement three methods:</p>
 </ol>
 <p>
 These methods are summarized in this Java interface:</p>
-<pre class="code"><span class="keywd">public interface</span> MessageEditorDemo <span class="keywd">extends</span> java.rmi.Remote {
+<pre><code class="language-java">
+public interface MessageEditorDemo extends java.rmi.Remote {
 
-    <span class="keywd">public</span> String getMessage(String messageKey)
-	    <span class="keywd">throws</span> java.rmi.RemoteException;
-    
-    <span class="keywd">public</span> String[] getMessageKeysByCategory(String categoryName) 
-	    <span class="keywd">throws</span> java.rmi.RemoteException;
+    public String getMessage(String messageKey)
+	    throws java.rmi.RemoteException;
 
-    <span class="keywd">public</span> String[] getCategoryNames()
-	    <span class="keywd">throws</span> java.rmi.RemoteException;
+    public String[] getMessageKeysByCategory(String categoryName)
+	    throws java.rmi.RemoteException;
+
+    public String[] getCategoryNames()
+	    throws java.rmi.RemoteException;
 }
-</pre>
+</code></pre>
 </p>
 <p>
 I&#8217;ve implemented three different versions of this service &#8211; a <a target="_top" href="p/web_services_part_2">Perl version</a>, an <a target="_top" href="p/web_services_part_3">Axis2 version</a>, and a <a target="_top" href="p/web_services_part_4">RESTful version</a>.
@@ -47,6 +48,7 @@ In <a target="_top" href="p/web_services_part_2"><i>part 2</i></a>, I&#8217;ll d
 </p>
 <div class="nav-next-btn" style="width:99%"><a target="_top" class="custom-nav-btn" href="p/web_services_part_2">PART 2 &#10093;</a></div>
 <p/>
-</div><!-- end #content_txt -->
+</div>
 </div>
 </article>
+<script type="text/javascript" src="assets/code/prism.js"></script>

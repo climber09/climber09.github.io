@@ -1,0 +1,101 @@
+/** Herein, mostly, are customization/overrides of prism.css rules */
+/** Applies to pages in modal popups */
+body>pre[class*=language-], body>pre>code[class*=language-]{
+/*, body code[class*=language-]*/
+  padding: 0 0 8px 8px;
+  margin: 0;
+  background: #f1f1f1;
+}
+
+/** Applies to code blocks */
+:not(body)>*[class*=language-]{
+  padding: 0 0 15px 15px;
+  margin: 20px 0 20px 0;
+}
+
+/** Applies to code blocks and inline */
+:not(body)>*[class*=language-], code{
+  background: #f3f4f5;
+}
+
+/** Appies to all */
+pre[class*=language-], code[class*=language-], code, .code{
+  /*font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;*/
+  font-family: monospace;
+  font-weight: 400;
+  font-size: 13px;
+  color: #1f1c1b;
+}
+
+/** Applies to custom code style, only, not prism classes */
+/*pre > code:not([class*=language-]){
+  padding: 0 0 15px 15px;
+  margin: 20px 0;
+  width: 95%;
+  display: block;
+  overflow: auto;
+}*/
+
+.token.important, .token.regex, .token.variable {
+  color: #a52a2a;
+}
+
+.token.function {
+  color: #00f
+}
+.token.class-name{
+  color: #800080;
+  font-weight: 700;
+}
+.token.keyword {
+  color: #000080;
+  font-weight: 700;
+}
+.token.punctuation {
+  color: #669;
+}
+.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag {
+  color: #007f7f;
+}
+.token.atrule, .token.attr-value{
+  color: #5060c0;
+}
+.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector{
+/*   color: #690 */
+  color: #800080;
+}
+
+.token.string{
+  color: #008090;
+}
+.token.annotation {
+  color: #716078;
+}
+
+.language-css .token.string,
+.style .token.string,
+.token.entity,
+.token.operator,
+.token.url {
+  color:#9a6e3a;
+  background: transparent;
+}
+
+/* code[class*=language-shell] .token.string, */
+code[class*=language-shell] .token.bash,
+code[class*=language-shell] .token.builtin,
+code[class*=language-shell] .token.function,
+code[class*=language-shell] .token.keyword,
+code[class*=language-shell] .token.class-name,
+code[class*=language-shell] .token.variable{
+  color: #1f1c1b;
+  font-weight: 400;
+}
+code[class*=language-shell] .token.shell-symbol{
+  font-weight: 900;
+}
+
+span.token.bash.language-bash{
+  padding: 0;
+  margin: 0;
+}
