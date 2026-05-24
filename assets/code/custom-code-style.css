@@ -9,13 +9,13 @@ body>pre[class*=language-], body>pre>code[class*=language-]{
 
 /** Applies to code blocks */
 :not(body)>*[class*=language-]{
-  padding: 0 0 15px 15px;
+  padding: 0 15px 15px 15px;
   margin: 20px 0 20px 0;
 }
 
 /** Applies to code blocks and inline */
 :not(body)>*[class*=language-], code{
-  background: #f3f4f5;
+  background: #f1f3f8;
 }
 
 /** Appies to all */
