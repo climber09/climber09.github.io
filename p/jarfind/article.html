@@ -9,8 +9,8 @@
 <li>Source Code: <a href="https://github.com/climber09/JarFind" target="_blank">https://github.com/climber09/JarFind</a></li>
 </ul>
 
-<p><em>JarFind</em> is a Java development tool. It’s purpose is to quickly find jar files which contain a particular Java .class file. Sooner or later as a Java developer you get stymied by the ClassNotFoundException, which is usually thrown when the jvm cannot load a particular class which has been referenced within some running thread. So, if you don’t know which jar file contains that particular class, and where that jar file is located, then you have a quest ahead of you.</p>
-<p><em>JarFind</em> will find the jar for you. You just have to point it in the right direction. <em>JarFind</em> takes at least two arguments: a directory under which to search and a Java class name to look for – not unlike the Unix/Linux <em>find</em> command.</p>
+<p><em>JarFind</em> is a Java development tool. It’s purpose is to quickly find jar files which contain a particular Java .class file. Sooner or later as a Java developer you get stymied by the <code>ClassNotFoundException</code>, which is usually thrown when the jvm cannot load a particular class which has been referenced within some running thread. So, if you don’t know which jar file contains that particular class, and where that jar file is located, then you have a quest ahead of you.</p>
+<p><em>JarFind</em> will find the jar for you. You just have to point it in the right direction. <em>JarFind</em> takes at least two arguments: a directory under which to search and a Java class name to look for – not unlike the Unix/Linux <code>find</code> command.</p>
 <p>Note: <em>JarFind</em> is completely unrelated to the <em>findjar.com</em> website. <em>JarFind</em> locates jar files accessible on your local file system only. I developed <em>JarFind</em> long before I came across <em>findjar.com</em>.</p>
 <h3 class="entry-sub-sect">Install</h3>
 <p>First, download the <em>JarFind</em> source code from GitHub: <a target="_blank" href="https://github.com/climber09/JarFind">https://github.com/climber09/JarFind</a></p>
@@ -65,7 +65,7 @@ org/w3c/dom/Document.class
 /home/jim/workspace/lib/jdom.jar
 org/jdom/Document.class
 </code></pre>
-<p>You can also customize the search by implementing your own <em>net.sourceforge.hunterj.jarfind.JarEntryMatcher</em>. You then provide the fully qualified Java class name of your custom matcher as a jvm system property using the standard “-D” option of the <em>java</em> command. The system property <em>JarFind</em> looks for is <em>“jarFind.jarEntryMatcher”</em>. So, for example if you have created an executable jar file, your command would look something like:</p>
+<p>You can also customize the search by implementing your own <code>net.sourceforge.hunterj.jarfind.JarEntryMatcher</code>. You then provide the fully qualified Java class name of your custom matcher as a jvm system property using the standard “-D” option of the <code>java</code> command. The system property <em>JarFind</em> looks for is <code>“jarFind.jarEntryMatcher”</code>. So, for example if you have created an executable jar file, your command would look something like:</p>
 <pre><code class="language-shell-session">
 $ java -DjarFind.jarEntryMatcher=my.custom.Matcher -jar ~/bin/jarfind.jar ~/workspace TestCase
 </code></pre>
