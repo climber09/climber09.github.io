@@ -59,8 +59,10 @@ export function getPosts(t){
 const headerHtml = `
 <div class="container">
 <div class="site-branding col-md-4 col-sm-6 col-xs-12">
-<p class="site-title"><a target="_top" href="." rel="home">James Hunter</a></p><p class="site-description">Computer Software &amp; Web Development</p>
+<p class="site-title"><a target="_top" href="." rel="home">James Hunter</a></p>
+<p class="site-description">Computer Software &amp; Web Development</p>
 </div>
+<div class="btn-menu col-md-8 col-sm-6 col-xs-12"><i class="fa fa-navicon"></i></div>
 <nav id="mainnav" class="main-navigation col-md-8 col-sm-6 col-xs-12" role="navigation">
 <div id="head-menu-container" class="menu-main-menu-container">
 <ul id="primary-menu" class="menu">
